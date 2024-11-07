@@ -23,3 +23,112 @@
      bottom: -5px;
      left: 0;
  }
+
+ .logo img {
+     width: 150px;
+     margin-bottom: 20px;
+     margin-top: 250px;
+ }
+
+ .tabContainer {
+     display: flex;
+     justify-content: center;
+     margin-bottom: 20px;
+     width: 100%;
+ }
+
+ .tabContainer button {
+     background: none;
+     border: none;
+     font-size: 18px;
+     padding: 10px;
+     cursor: pointer;
+     position: relative;
+     flex: 1;
+     text-align: center;
+ }
+
+
+
+ .formContainer {
+     background: white;
+     padding: 20px;
+     border-radius: 10px;
+     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+     width: 100%;
+     max-width: 400px;
+ }
+
+ .input {
+     width: 100%;
+     padding: 15px;
+     margin: 10px 0;
+     border: 1px solid #ddd;
+     border-radius: 5px;
+ }
+
+ .terms {
+     font-size: 12px;
+     margin: 10px 0;
+ }
+
+ .forgotPassword {
+     display: block;
+     text-align: right;
+     margin-bottom: 10px;
+     color: #ff6363;
+ }
+
+ .submitButton {
+     width: 100%;
+     padding: 15px;
+     background-color: red;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     font-size: 16px;
+ }
+
+ .orContainer {
+     text-align: center;
+     margin: 15px 0;
+ }
+
+ .socialButton {
+     width: 100%;
+     padding: 15px;
+     background-color: #3b5998;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     margin-bottom: 10px;
+     cursor: pointer;
+ }
+
+ .socialButton:last-of-type {
+     background-color: #db4437;
+ }
+
+ .accountOrNot {
+     text-align: center;
+     font-size: 14px;
+ }
+
+ @media (min-width: 768px) {
+     .container {
+         padding: 40px;
+     }
+
+     .input {
+         padding: 10px;
+     }
+
+     .submitButton {
+         padding: 10px;
+     }
+
+     .socialButton {
+         padding: 10px;
+     }
+ }
