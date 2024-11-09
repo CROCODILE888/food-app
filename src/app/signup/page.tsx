@@ -1,42 +1,42 @@
 // pages/signup.js
 'use client'
 import AuthForm from "@/components/AuthForm/AuthForm";
+import { Loader } from "@/components/Loader/Loader";
 import { API_ENDPOINTS } from "@/shared/apiConstants";
+import { postValidate } from "@/shared/util/apiService";
 import { Alert } from "@mui/material";
 import { useState } from "react";
 
 const Signup = () => {
     const [signupSuccess, setSignupSuccess] = useState(false);
     const [signupFail, setSignupFail] = useState(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [message, setMessage] = useState('');
 
-    const handleSignup = async (formData: never) => {
+    const handleSignup = async (formData: FormData) => {
+        setLoading(true);
         try {
-            const response = await fetch(API_ENDPOINTS.SIGNUP_URL, {
-                method: 'POST',
-                headers: { 'identifier': 'staging' },
-                body: formData,
-            });
-
-            const data = await response.json();
-            if (data.success) {
+            const result = await postValidate(API_ENDPOINTS.SIGNUP_URL, formData);
+            if (result.success) {
                 setSignupSuccess(true);
                 setSignupFail(false);
                 setMessage('');
             } else {
                 setSignupSuccess(false);
                 setSignupFail(true);
-                setMessage(data.message);
+                setMessage(result.message || '');
             }
-            console.log(data);
-            return data;
         } catch (error) {
-            console.error('Signup error:', error);
+            console.error("Error is signUp: ", error);
             setSignupSuccess(false);
             setSignupFail(true);
-            setMessage('An error occurred during sign-up. Please try again.');
+            setMessage('An error occurred during login. Please try again.');
+        } finally {
+            setLoading(false);
         }
-    };
+
+    }
+    if (loading) return <Loader />
 
     return (
         <div>

@@ -3,8 +3,9 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from './AuthForm.module.css';
+import { AuthFormProps } from '@/shared/interfaces/PropsInterfaces';
 
-const AuthForm = ({ isLogin, onSubmit, success, message }) => {
+const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
 
@@ -12,7 +13,7 @@ const AuthForm = ({ isLogin, onSubmit, success, message }) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData();
@@ -24,7 +25,7 @@ const AuthForm = ({ isLogin, onSubmit, success, message }) => {
     formData.append('phone', phone);
     formData.append('password', password);
 
-    onSubmit(formData); // Pass phone and password to onSubmit function
+    onSubmit(formData);
   };
 
   return (
@@ -77,7 +78,7 @@ const AuthForm = ({ isLogin, onSubmit, success, message }) => {
 
         {!isLogin && <p className={styles.terms}>By signing up, you agree to our Terms of Service</p>}
         {!success && <p style={{ color: 'red' }}>{message}</p>}
-        <a href="#" className={styles.forgotPassword}>{isLogin ? 'Forgot Password?' : ''}</a>
+        <Link href={"/signup"} className={styles.forgotPassword}>{isLogin ? 'Forgot Password?' : ''}</Link>
         <button type="submit" className={styles.submitButton}>{isLogin ? 'Login' : 'Sign Up'}</button>
 
         <div className={styles.orContainer}>
