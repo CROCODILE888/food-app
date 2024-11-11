@@ -1,0 +1,8 @@
+<!--
+category: Arrows
+version: "2.24"
+unicode: "faf1"
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="8 0 9 24" fill="none" stroke-linecap="round" stroke-linejoin="round" style="" stroke="red">
+  <path d="M13 20l-3 -8l3 -8" class="ODoiStNG_0"></path>
+<style data-made-with="vivus-instant">.ODoiStNG_0{stroke-dasharray:18 20;stroke-dashoffset:19;animation:ODoiStNG_draw 3000ms ease-in-out 0ms forwards;}@keyframes ODoiStNG_draw{100%{stroke-dashoffset:0;}}@keyframes ODoiStNG_fade{0%{stroke-opacity:1;}94.44444444444444%{stroke-opacity:1;}100%{stroke-opacity:0;}}</style></svg>

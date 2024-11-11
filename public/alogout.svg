@@ -1,0 +1,167 @@
+<!--
+unicode: "fdce"
+version: "3.0"
+-->
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="#F12828" stroke-width="1" stroke="none"
+>
+  <path d="M18 2a4 4 0 0 1 4 4v12a4 4 0 0 1 -4 4a1 1 0 0 1 -.117 -1.993l.117 -.007a2 2 0 0 0 2 -2v-12a2 2 0 0 0 -2 -2a1 1 0 0 1 0 -2m-8 16a4 4 0 1 1 -8 0v-12a4 4 0 1 1 8 0v5h4.585l-1.292 -1.293a1 1 0 0 1 -.083 -1.32l.083 -.094a1 1 0 0 1 1.414 0l3 3l.097 .112l.071 .11l.031 .062l.034 .081l.024 .076l.03 .148l.006 .118l-.004 .085l-.016 .116l-.03 .111l-.044 .111l-.052 .098l-.074 .104l-.073 .082l-3 3a1 1 0 0 1 -1.414 -1.414l1.292 -1.293h-4.585z" class="class1" />
+
+  <style>
+    .class1{
+
+    animation: myAnim 2s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0.3s forwards, fader 2s ease-in-out forwards;
+    stroke-width:0px;
+    transform-origin: 50% 50%;
+    }
+    .class01{
+
+animation: myAnim 3s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0s forwards, fader 2s ease-in-out forwards;
+stroke-width:0px;
+}
+
+    .class2{
+    
+    animation:movemain 4s ease-in-out infinite;
+  }
+    .class3{
+    animation: tiremain2 4s ease-in-out 3;
+    opacity: 1;
+  }
+
+  .class4{
+    animation: movemain 4s ease-in-out 4;
+    opacity: 0.2;
+  }
+ 
+    @keyframes
+    movemain{
+      0%
+      {
+        transform:translateX(-10%) skewX(0deg);
+      }
+      25%
+      {
+        transform:translateX(-5%) skewX(10deg);
+      }
+      50%
+      {
+        transform:translateX(-0%) skewX(5deg) ;
+      }
+      75%
+      {
+        transform:translateX(-5%) skewX(10deg);
+      }
+      100%
+      {
+        transform:translateX(-10%) skewX(0deg);
+      }
+    }
+      @keyframes
+    tiremain{
+      0%
+      {
+        transform:translateX(0%) skewX(0deg);
+      }
+      25%
+      {
+        transform:translateX(5%) skewX(-10deg);
+      }
+      50%
+      {
+        transform:translateX(1%) skewX(-5deg) ;
+      }
+      75%
+      {
+        transform:translateX(5%) skewX(-10deg);
+      }
+      100%
+      {
+        transform:translateX(0%) skewX(0deg);
+      }
+    }
+      @keyframes
+    tiremain2{
+      0%
+      {
+        transform:translateX(0%) skewX(0deg);
+      }
+      25%
+      {
+        transform:translateX(2%) skewX(-4deg);
+      }
+      50%
+      {
+        transform:translateX(1%) skewX(-2deg) ;
+      }
+      75%
+      {
+        transform:translateX(2%) skewX(-4deg);
+      }
+      100%
+      {
+        transform:translateX(0%) skewX(0deg);
+      }
+    }
+
+    @keyframes myAnim {
+    0% {
+    animation-timing-function: ease-in;
+    opacity: 1;
+    transform: translateY(-25px) ;
+    }
+
+    8% {
+    animation-timing-function: ease-out;
+    opacity: 1;
+    transform: translateY(0)  ;
+    
+    }
+
+    10% {
+    animation-timing-function: ease-in;
+    transform: translateY(-6.5px)  ;
+    }
+
+    22% {
+    animation-timing-function: ease-out;
+    transform: translateY(0)  ;
+    }
+
+    30% {
+    animation-timing-function: ease-in;
+    transform: translateY(-2.8px)  ;
+    }
+
+    40% {
+    animation-timing-function: ease-out;
+    transform: translateY(0)  ;
+    }
+
+    50% {
+    animation-timing-function: ease-in;
+    transform: translateY(-0.8px)  ;
+    }
+
+    60% {
+        animation-timing-function: ease-out;
+        transform: translateY(0)  ;
+        
+        }
+    100% {
+    animation-timing-function: ease-out;
+    transform: translateY(0)  ;
+    
+    }
+    }
+
+    
+    
+    @keyframes
+    fader{0%{fill-opacity:0;}50%{fill-opacity:0.3;}100%{fill-opacity:1;}}</style>
+
+
+
+</svg>

@@ -1,0 +1,76 @@
+<!--
+tags: [automatic, robot, assistant, support]
+category: Communication
+unicode: "f38a"
+version: "1.91"
+-->
+<svg xmlns="http://www.w3.org/2000/svg" class="class1" width="24" height="24" viewBox="0 0 24 24" stroke="#F12828" stroke-width="1" fill="none" stroke-linecap="round" stroke-linejoin="round" style="">
+  <path d="M18 4a3 3 0 0 1 3 3v8a3 3 0 0 1 -3 3h-5l-5 3v-3h-2a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12z" class="nPwGrpPc_0"></path>
+  <path d="M9.5 9h.01" class="nPwGrpPc_1"></path>
+  <path d="M14.5 9h.01" class="nPwGrpPc_2"></path>
+  <path d="M9.5 13a3.5 3.5 0 0 0 5 0" class="nPwGrpPc_3"></path>
+<style data-made-with="vivus-instant">
+  .class1{
+
+animation: myAnim 3.5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0.3s forwards, fader 2s ease-in-out forwards;
+/* stroke-width:0px; */
+}
+
+@keyframes myAnim {
+0% {
+animation-timing-function: ease-in;
+opacity: 1;
+transform: translateY(-25px);
+}
+
+8% {
+animation-timing-function: ease-out;
+opacity: 1;
+transform: translateY(0);
+
+}
+
+10% {
+animation-timing-function: ease-in;
+transform: translateY(-6.5px);
+}
+
+22% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+}
+
+30% {
+animation-timing-function: ease-in;
+transform: translateY(-2.8px);
+}
+
+40% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+}
+
+50% {
+animation-timing-function: ease-in;
+transform: translateY(-0.8px);
+}
+
+60% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+    
+    }
+100% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+
+}
+}
+
+
+
+@keyframes
+fader{0%{fill-opacity:0;}50%{fill-opacity:0.3;}100%{fill-opacity:1;}}
+
+
+.nPwGrpPc_0{stroke-dasharray:63 65;stroke-dashoffset:64;animation:nPwGrpPc_draw 2000ms linear 0ms forwards;}.nPwGrpPc_1{stroke-dasharray:1 3;stroke-dashoffset:2;animation:nPwGrpPc_draw 2000ms linear 333ms forwards;}.nPwGrpPc_2{stroke-dasharray:1 3;stroke-dashoffset:2;animation:nPwGrpPc_draw 2000ms linear 666ms forwards;}.nPwGrpPc_3{stroke-dasharray:6 8;stroke-dashoffset:7;animation:nPwGrpPc_draw 2000ms linear 1000ms forwards;}@keyframes nPwGrpPc_draw{100%{stroke-dashoffset:0;}}@keyframes nPwGrpPc_fade{0%{stroke-opacity:1;}94.44444444444444%{stroke-opacity:1;}100%{stroke-opacity:0;}}</style></svg>

@@ -2,22 +2,64 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import Image from 'next/image';
-import { getMenuItems } from '@/shared/util/apiService';
+import { getMenuItems, getInitialData, getAreas, getGovernorates } from '@/shared/util/apiService';
 import { MenuItems } from '@/shared/interfaces/menuItemsInterface';
 import { Loader } from '@/components/Loader/Loader';
+import Link from 'next/link';
 
 export default function HomePage() {
 
     const [menuItems, setMenuItems] = useState<MenuItems[]>([]);
+    const [initialData, setInitialData] = useState([]);
+    const [areas, setAreas] = useState([]);
+    const [governorates, setGovernorates] = useState([]);
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState('');
+    const [selectedArea, setSelectedArea] = useState<string | null>(null);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [selectedOption, setSelectedOption] = useState<'delivery' | 'pickup'>('delivery'); // Track selected option (delivery/pickup)
 
     useEffect(() => {
+        const fetchInitialData = async () => {
+            try {
+                const data = await getInitialData();
+                setInitialData(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchInitialData();
+        console.log(initialData);
+
+        const fetchAreas = async () => {
+            try {
+                const data = await getAreas();
+                setAreas(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchAreas();
+        console.log(areas);
+
+        const fetchGovernorates = async () => {
+            try {
+                const data = await getGovernorates();
+                setGovernorates(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchGovernorates();
+        console.log(governorates);
+
         const fetchMenuItems = async () => {
             try {
                 const items = await getMenuItems();
                 setMenuItems(items);
+                const typeNames = items.map((category) => category.type_name);
+                setCategories(typeNames);
             } catch (error) {
                 setError((error as Error).message);
                 console.error(error);
@@ -26,52 +68,165 @@ export default function HomePage() {
             }
         };
         fetchMenuItems();
+        console.log(menuItems)
     }, []);
 
     if (loading) return <Loader />
     if (error) return <p>Error: {error}</p>;
 
+    const handleOptionChange = (option) => {
+        setSelectedOption(option);
+        setSelectedArea(''); // Reset area selection on option change
+    };
+
+    const handleAreaSelect = (area) => {
+        setSelectedArea(area);
+        setShowDropdown(false);
+    };
+
+    const displayedCategories = categories.slice(0, 3);
     return (
-        <div className={styles.homePage}>
-            <header className={styles.header}>
-                <div className={styles.headerLeft}>
-                    <button className={styles.menuButton}>☰</button>
-                    <span className={styles.greeting}>Hey Halal, <strong>Good Afternoon!</strong></span>
+        <div className={styles.body}>
+            <div className={styles.main}>
+                <div className={styles.header}>
+                    <div className={styles.menu}>
+                        <Link href={'/account'}>
+                            <div className={styles.ico}></div>
+                        </Link>
+                        <span className={styles.lang}>عربي</span>
+                    </div>
+                    <div className={styles.logo}></div>
                 </div>
-                <div className={styles.headerRight}>
-                    <button className={styles.deliveryButton}>Delivery</button>
-                    <button className={styles.pickupButton}>Pickup</button>
+                <div className={styles.pagetitle}>
+                    <img className={styles.sysico} src="/profile.svg" />
+                    <span className={styles.title}>Hello, Shakir</span>
                 </div>
-            </header>
-            <div className={styles.addressContainer}>
-                <input type="text" placeholder="Enter Your Address" className={styles.addressInput} />
-                <button className={styles.findButton}>Find Food</button>
-            </div>
 
-            {/* Display each category */}
-            {menuItems?.map((category) => (
-                <div key={category.type_name} className={styles.categorySection}>
-                    <h2 className={styles.categoryTitle}>{category.type_name}</h2>
+                <div className={styles.topblock}>
+                    <button
+                        className={`${styles.blockitem} ${selectedOption === 'delivery' ? styles.item_selected : ''}`}
+                        onClick={() => handleOptionChange('delivery')}
+                    >
+                        <span className={styles.itemname}>Delivery</span>
+                    </button>
 
-                    <div className={styles.items}>
-                        {category.type_data.map((item) => (
-                            <div key={item.id} className={styles.itemCard}>
-                                <Image
-                                    src={item.attachment}
-                                    alt={item.name}
-                                    className={styles.itemImage}
-                                    width={150}
-                                    height={150}
-                                />
-                                <div className={styles.itemDetails}>
-                                    <h3 className={styles.itemName}>{item.name}</h3>
-                                    <span className={styles.itemPrice}>{item.price} KWD</span>
-                                </div>
-                            </div>
-                        ))}
+                    <button
+                        className={`${styles.blockitem} ${selectedOption === 'pickup' ? styles.item_selected : ''}`}
+                        onClick={() => handleOptionChange('pickup')}
+                    >
+                        <span className={styles.itemname}>PickUp</span>
+                    </button>
+
+                    <div className={styles.blockitem_big}>
+                        <span className={styles.itemname}>Find Food</span>
                     </div>
                 </div>
-            ))}
-        </div>
+
+                {/* Search Bar with Dropdown */}
+                <div className={styles.selectInfo}>
+                    <div className={styles.searchContainer}>
+                        <input
+                            type="text"
+                            className={styles.searchBar}
+                            placeholder={selectedOption === 'delivery' ? 'Select your area' : 'Select restaurant\'s location'}
+                            value={selectedArea}
+                            onFocus={() => setShowDropdown(true)}
+                            onBlur={() => setShowDropdown(false)}
+                            readOnly
+                        />
+
+                        {/* Display dropdown based on selectedOption */}
+                        {showDropdown && selectedOption === 'delivery' && (
+                            <div className={styles.dropdown}>
+                                {areas.length > 0 ? (
+                                    areas.map((area) => (
+                                        <div
+                                            key={area.id}
+                                            className={styles.dropdownItem}
+                                            onMouseDown={() => handleAreaSelect(area.title)}
+                                        >
+                                            {area.title}
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className={styles.noOptions}>No areas available</div>
+                                )}
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+
+                <div className={styles.innertitle}>
+                    <span>All Categories</span>
+                    <Link href={'/category'}>
+                        <span className={styles.small}>See All
+                            <img className={styles.sysico} src="/chevron-right.svg" /></span>
+                    </Link>
+                </div>
+                {/* Render categories dynamically */}
+                <div className={styles.foodtype}>
+                    {displayedCategories.map((category, index) => (
+                        // eslint-disable-next-line react/jsx-key
+                        <Link href={`/category/products/${category.toLowerCase().replace(/ /g, '-')}`}>
+                            <div key={index} className={styles.foodtypeitem}>
+                                <img
+                                    className={styles.foodtypeicon}
+                                    src={`/${category.toLowerCase()}.png`} // Dynamic icon based on category name
+                                    alt={category}
+                                    onError={(e) => {
+                                        // Fallback to a default icon if image not found
+                                        e.currentTarget.src = '/4.png';
+                                    }}
+                                />
+                                <span className={styles.foodtypetext}>{category}</span>
+                            </div>
+                        </Link>
+                    ))}
+                </div>
+
+
+                <div className={styles.menulist}>
+
+                    {menuItems.map((category) => (
+                        category.type_data.map((item) => (
+                            <div key={item.id} className={styles.menuitem}>
+                                <Link className={styles.menuimage} href={`/product/${item.slug}`}>
+                                    <img className={styles.menuimage} src={item.attachment} alt={item.name} />
+                                </Link>
+                                <div className={styles.boxdecor}></div>
+                                <div className={styles.menucontent}>
+                                    <span className={styles.menuname}>{item.name}</span>
+                                    <span className={styles.menucategory}>{category.type_name}</span>
+                                    <span className={styles.menuprice}>{item.price.toFixed(3)} KWD</span>
+                                </div>
+                            </div>
+                        ))
+                    ))}
+                </div>
+
+
+                <div className={styles.bottompadder}></div>
+                <div className={styles.bottom_tabcontainer}>
+                    <Link className={styles.tabico} href="/home">
+                        <img className={styles.tabico} src="/home.svg" />
+                    </Link>
+                    <Link className={styles.tabico} href="/category">
+                        <img className={styles.tabico} src="/category.svg" />
+                    </Link>
+
+                    <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
+
+                    <Link className={styles.tabico} href="/cart">
+                        <img className={styles.tabico} src="/cart.svg" />
+                    </Link>
+                    <Link className={styles.tabico} href="/account">
+                        <img className={styles.tabico} src="/user.svg" />
+                    </Link>
+                </div>
+            </div>
+        </div >
+
     );
+
 };

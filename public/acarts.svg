@@ -1,0 +1,178 @@
+<!--
+version: "2.28"
+unicode: "fb69"
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round"
+  stroke-linejoin="round" style="" stroke="#F12828" stroke-width="1" fill="none" class="class1">
+  <path d="M4 19a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" class="FrWAeWGa_0"></path>
+  <path d="M9.5 17h-3.5v-14h-2" class="FrWAeWGa_1"></path>
+  <path d="M6 5l14 1l-.615 4.302m-6.885 2.698h-6.5" class="FrWAeWGa_2"></path>
+  <path
+    d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z"
+    class="FrWAeWGa_3"></path>
+  <style data-made-with="vivus-instant">
+
+.class1{
+
+animation: myAnim 5s cubic-bezier(0.68, -0.6, 0.32, 1.6) 0.3s forwards, fader 2s ease-in-out forwards;
+/* stroke-width:0px; */
+}
+
+@keyframes myAnim {
+0% {
+animation-timing-function: ease-in;
+opacity: 1;
+transform: translateY(-25px);
+}
+
+8% {
+animation-timing-function: ease-out;
+opacity: 1;
+transform: translateY(0);
+
+}
+
+10% {
+animation-timing-function: ease-in;
+transform: translateY(-6.5px);
+}
+
+22% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+}
+
+30% {
+animation-timing-function: ease-in;
+transform: translateY(-2.8px);
+}
+
+40% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+}
+
+50% {
+animation-timing-function: ease-in;
+transform: translateY(-0.8px);
+}
+
+60% {
+    animation-timing-function: ease-out;
+    transform: translateY(0);
+    
+    }
+100% {
+animation-timing-function: ease-out;
+transform: translateY(0);
+
+}
+}
+
+
+
+@keyframes
+fader{0%{fill-opacity:0;}50%{fill-opacity:0.3;}100%{fill-opacity:1;}}
+
+    .FrWAeWGa_0 {
+      stroke-dasharray: 13 15;
+      stroke-dashoffset: 14;
+      animation: FrWAeWGa_draw_0 6420ms linear 0ms forwards, FrWAeWGa_fade 7420ms linear 0ms forwards;
+    }
+
+    .FrWAeWGa_1 {
+      stroke-dasharray: 20 22;
+      stroke-dashoffset: 21;
+      animation: FrWAeWGa_draw_1 4420ms linear 0ms forwards, FrWAeWGa_fade 4420ms linear 0ms forwards;
+    }
+
+    .FrWAeWGa_2 {
+      stroke-dasharray: 25 27;
+      stroke-dashoffset: 26;
+      animation: FrWAeWGa_draw_2 4420ms linear 0ms forwards, FrWAeWGa_fade 4420ms linear 0ms forwards;
+    }
+
+    .FrWAeWGa_3 {
+      stroke-dasharray: 29 31;
+      stroke-dashoffset: 30;
+      transform-origin: 75% 70%;
+      animation: FrWAeWGa_draw_3 4420ms linear 0ms forwards, spiny 16000ms linear 0ms infinite;
+    }
+
+    @keyframes FrWAeWGa_draw {
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes spiny {
+      0% {
+        transform: rotateY(0deg) scale(0.8);
+      }
+
+      40% {
+        transform: rotateY(360deg) scale(1);
+      }
+
+      100% {
+        transform: rotateY(0deg) scale(0.8);
+      }
+    }
+
+    @keyframes FrWAeWGa_draw_0 {
+      1.809954751131222% {
+        stroke-dashoffset: 14
+      }
+
+      6.334841628959276% {
+        stroke-dashoffset: 0;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes FrWAeWGa_draw_1 {
+      2.564102564102564% {
+        stroke-dashoffset: 21
+      }
+
+      7.088989441930618% {
+        stroke-dashoffset: 0;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes FrWAeWGa_draw_2 {
+      3.318250377073906% {
+        stroke-dashoffset: 26
+      }
+
+      7.8431372549019605% {
+        stroke-dashoffset: 0;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @keyframes FrWAeWGa_draw_3 {
+      4.072398190045249% {
+        stroke-dashoffset: 30
+      }
+
+      8.597285067873303% {
+        stroke-dashoffset: 0;
+      }
+
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</svg>

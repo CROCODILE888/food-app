@@ -81,12 +81,12 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message
         <Link href={"/signup"} className={styles.forgotPassword}>{isLogin ? 'Forgot Password?' : ''}</Link>
         <button type="submit" className={styles.submitButton}>{isLogin ? 'Login' : 'Sign Up'}</button>
 
-        <div className={styles.orContainer}>
+        {/* <div className={styles.orContainer}>
           <span>or</span>
         </div>
 
         <button className={styles.socialButton}>Sign In with Facebook</button>
-        <button className={styles.socialButton}>Sign In with Google</button>
+        <button className={styles.socialButton}>Sign In with Google</button> */}
 
         <p className={styles.accountOrNot}>{isLogin ? "Don't have an account?" : 'Already have an account?'}
           <Link style={{ color: 'red' }} href={isLogin ? "/signup" : "/login"}>{isLogin ? 'Sign Up' : 'Log in'}</Link></p>

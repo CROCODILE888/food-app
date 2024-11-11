@@ -1,0 +1,347 @@
+.body {
+    font-size: 14px;
+    width: 100%;
+    font-size: 100%;
+    margin: 0;
+    text-align: center;
+    font-family: "Open Sans", sans-serif;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottom_tabcontainer {
+    width: 100vw;
+    background: var(--secondary);
+    opacity: 1;
+    position: fixed;
+    top: 93vh;
+    height: 7vh;
+    left: 0;
+    box-shadow: var(--shadow-m);
+    overflow: visible;
+    margin: 0vw auto;
+    padding: 0vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px 20px 0px 0px;
+    z-index: 99999;
+}
+
+.main {
+    width: 100%;
+    min-height: 100vh;
+    background: rgb(246, 246, 246);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.pagetitle {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    margin: 1vw auto;
+}
+
+.sysico {
+    height: 10vw;
+    width: 5vw;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    margin: 5vw auto;
+}
+
+.logo {
+    width: 10vw;
+    height: 10vw;
+    background: url(/logo.png);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.lang {
+    font-size: 5vw;
+    margin-bottom: 16px;
+}
+
+.menu {
+    width: 80vw;
+    height: 10vw;
+    background: url(/v1_1064.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 1vw;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.ico {
+    width: 10vw;
+    height: 10vw;
+    background: url("/menu.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.inputcontainer {
+    width: 90vw;
+    height: 12vw;
+    /* background: url("/v1_1131.png"); */
+    background: rgb(255, 255, 255);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    overflow: visible;
+    contain: none;
+    box-shadow: var(--shadow-md);
+    border-radius: 20px;
+}
+
+.innerinput {
+    width: 90vw;
+    height: 12vw;
+    background: rgba(255, 255, 255, 0);
+    opacity: 1;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: var(--shadow-side);
+    overflow: visible;
+    contain: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4vw;
+    margin: 0 2vw;
+}
+
+.iconplaceholder {
+    width: 0vw;
+    height: 6vw;
+    background: var(--primary);
+    opacity: 0;
+    position: relative;
+    overflow: visible;
+    box-shadow: var(--shadow-m);
+    border-radius: 10px;
+}
+
+.inputtext {
+    /* width: 42px; */
+    color: rgb(33, 32, 32);
+    position: relative;
+    font-size: 3vw;
+    opacity: 1;
+    text-align: left;
+}
+
+.form-main {
+    display: flex;
+    flex-direction: column;
+    gap: 2vw;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottomtext {
+    font-size: 3vw;
+    width: 90vw;
+    margin: 5vw;
+    position: relative;
+    display: flex;
+    gap: 2vw;
+    align-items: center;
+    justify-content: center;
+}
+
+.line {
+    width: 69px;
+    color: rgb(57, 23, 19);
+    position: relative;
+    font-family: Sen;
+    font-weight: Regular;
+    font-size: 16px;
+    opacity: 1;
+    text-align: left;
+}
+
+.line {
+    width: 90vw;
+    background: url("/v1_1172.png");
+    opacity: 1;
+    position: relative;
+    border: 1px solid rgb(255, 215, 198);
+}
+
+.metricrow {
+    display: flex;
+    flex-direction: row;
+    width: 80vw;
+    margin: 1vw auto;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.metrictitle {
+    font-size: 16px;
+    color: rgb(49, 52, 61);
+    text-align: right;
+}
+
+.metric {
+    font-size: 20px;
+    color: rgb(57, 23, 19);
+    text-align: left;
+}
+
+.v1_1021 {
+    width: 90vw;
+    background: rgb(255, 255, 255);
+    opacity: 1;
+    position: relative;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.150000006);
+    overflow: hidden;
+    margin: 1vw auto;
+    padding: 2vw;
+}
+
+.title {
+    color: rgb(30, 29, 29);
+    position: relative;
+    font-size: 5vw;
+    opacity: 1;
+    text-align: center;
+    width: 100%;
+}
+
+.name {
+    color: #fff;
+}
+
+.locationbutton {
+    width: 25vw;
+    height: 25vw;
+    background: rgb(255, 255, 255);
+    opacity: 1;
+    position: relative;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.150000006);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: center;
+}
+
+.addname {
+    /* width: 71px; */
+    color: rgb(49, 52, 61);
+    position: relative;
+    font-size: 3vw;
+    opacity: 1;
+    text-align: center;
+}
+
+.addressico {
+    width: 20vw;
+    height: 20vw;
+    background: rgb(255, 255, 255);
+    opacity: 0.8000000119;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.addressicoinner {
+    width: 15vw;
+    height: 15vw;
+    opacity: 1;
+    position: relative;
+    /* top: 8px;
+    left: 4px; */
+}
+
+.houseico {
+    background: url("/house.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.aptico {
+    background: url("/apt.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.officeico {
+    background: url("/office.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.addbar {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+    align-items: center;
+    justify-content: center;
+    margin: 5vw auto;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15vw;
+    width: 90vw;
+    margin: 5vw auto;
+    background-color: red;
+    border-radius: 20px;
+    box-shadow: var(--shadow-m);
+}
+
+.buttontitle {
+    font-size: 16px;
+    color: #fff;
+}
