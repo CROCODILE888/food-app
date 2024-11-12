@@ -22,6 +22,7 @@ const Category = () => {
         fetchMenuItems();
         console.log(categories, menuItems)
     }, []);
+
     return (
         <div className={styles.body}>
             <div className={styles.main}>
@@ -45,6 +46,7 @@ const Category = () => {
                 </div>
 
                 <div className={styles.categorylist}>
+
                     {menuItems.map((category, index) => (
                         <div key={index} className={styles.categoryitem}>
                             <Link className={styles.categoryimage} href={`/category/products/${category.type_name.toLowerCase().replace(/ /g, '-')}`}>
@@ -54,6 +56,7 @@ const Category = () => {
                                     alt={category.type_name}
                                 />
                             </Link>
+                            <div className={styles.boxdecor}></div>
                             <span className={styles.categoryname}>{category.type_name}</span>
                         </div>
                     ))}

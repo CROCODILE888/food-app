@@ -23,6 +23,11 @@ const LoginPage = () => {
                 setLoginSuccess(true);
                 setLoginFail(false);
                 setMessage('');
+
+                localStorage.setItem('loginData', JSON.stringify(result.data.data));
+                localStorage.setItem('isLoggedIn', 'true');
+
+                handleGoBack();
             } else {
                 setLoginSuccess(false);
                 setLoginFail(true);
@@ -35,6 +40,15 @@ const LoginPage = () => {
             setMessage('An error occurred during login. Please try again.');
         } finally {
             setLoading(false); // Set loading to false once the API call completes
+        }
+    };
+
+    const handleGoBack = () => {
+        const previousPage = document.referrer; // Get the previous page URL
+        if (previousPage) {
+            window.history.back(); // Go back in history if there's a referrer
+        } else {
+            window.location.href = '/'; // Redirect to home page if no referrer
         }
     };
 

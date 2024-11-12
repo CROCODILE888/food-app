@@ -12,4 +12,6 @@ export const API_ENDPOINTS = {
 
     AREAS: `${API_BASE_URL}/areas`,
     GOVERNOR_RATES: `${API_BASE_URL}/governorates`,
+
+    POST_ORDER: `${API_BASE_URL}/order`
 }

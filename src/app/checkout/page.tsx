@@ -3,9 +3,19 @@
 
 import Link from "next/link";
 import styles from './checkout.module.css'
-// import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 const Checkout = () => {
+
+    const [cart, setCart] = useState([]);
+
+    // Fetch cart items from localStorage when the component mounts
+    useEffect(() => {
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(storedCart);
+    }, []);
+
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     return (
         <div className="body">
@@ -124,7 +134,7 @@ const Checkout = () => {
                 <div className={styles.v1_1021}>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Subtotal</span>
-                        <span className={styles.metric}>17.970 kWD</span>
+                        <span className={styles.metric}>{subtotal.toFixed(3)} kWD</span>
                     </div>
 
                     <div className={styles.line}></div>
@@ -138,15 +148,17 @@ const Checkout = () => {
 
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Total</span>
-                        <span className={styles.metric}>18.970 kWD</span>
+                        <span className={styles.metric}>{(subtotal + 1).toFixed(3)} kWD</span>
                     </div>
 
                     <div className={styles.line}></div>
                 </div>
 
-                <div className={styles.button}>
-                    <span className={styles.buttontitle}>Checkout</span>
-                </div>
+                <Link href={'/payment'}>
+                    <button className={styles.button}>
+                        <span className={styles.buttontitle}>Checkout</span>
+                    </button>
+                </Link>
                 <div className={styles.bottompadder}></div>
             </div>
         </div>

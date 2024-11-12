@@ -1,10 +1,21 @@
 // app/account/page.js
 'use client'
 
+import { useState, useEffect } from 'react';
 import styles from './account.module.css';
 import Link from 'next/link';
 
 const Account = () => {
+
+    const [linkHref, setLinkHref] = useState('/login'); useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            setLinkHref('/profile')
+            // const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
+            // setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
+        }
+    }, []);
+
     return (
         <div className={styles.body}>
             <div className={styles.main}>
@@ -25,10 +36,12 @@ const Account = () => {
                 </div>
 
                 <div className={styles.navmenulist}>
-                    <div className={styles.navmenuitem}>
-                        <img className={styles.navmenuimage} src="/profile.svg" />
-                        <span className={styles.navmenuname}>Profile</span>
-                    </div>
+                    <Link href={linkHref}>
+                        <div className={styles.navmenuitem}>
+                            <img className={styles.navmenuimage} src="/profile.svg" />
+                            <span className={styles.navmenuname}>Profile</span>
+                        </div>
+                    </Link>
 
                     <div className={styles.navmenuitem}>
                         <img className={styles.navmenuimage} src="/app-settings.svg" />
@@ -64,6 +77,7 @@ const Account = () => {
 
                     <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
 
+
                     <Link className={styles.tabico} href="/cart">
                         <img className={styles.tabico} src="/cart.svg" />
                     </Link>
@@ -73,7 +87,7 @@ const Account = () => {
                     </Link>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

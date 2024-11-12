@@ -16,9 +16,12 @@ export default function HomePage() {
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState('');
-    const [selectedArea, setSelectedArea] = useState<string | null>(null);
+
+
+    const [selectedOption, setSelectedOption] = useState(null); // Options: null, 'delivery', 'pickup'
+    const [searchQuery, setSearchQuery] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
-    const [selectedOption, setSelectedOption] = useState<'delivery' | 'pickup'>('delivery'); // Track selected option (delivery/pickup)
+    const [filteredOptions, setFilteredOptions] = useState([]);
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -71,20 +74,51 @@ export default function HomePage() {
         console.log(menuItems)
     }, []);
 
-    if (loading) return <Loader />
-    if (error) return <p>Error: {error}</p>;
+    const [userName, setUserName] = useState('');
 
-    const handleOptionChange = (option) => {
-        setSelectedOption(option);
-        setSelectedArea(''); // Reset area selection on option change
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
+            setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
+        }
+    }, []);
+
+    // Determine placeholder and options based on selection
+    const placeholderText = selectedOption ? 'Find Areas' : 'Find Food';
+
+    // Filter options based on search query and selected option
+    useEffect(() => {
+        let options;
+        if (selectedOption === 'delivery' || selectedOption === 'pickup') {
+            options = areas.filter(area =>
+                area.title.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+        } else {
+            options = menuItems.flatMap(category =>
+                category.type_data.filter(item =>
+                    item.name.toLowerCase().includes(searchQuery.toLowerCase())
+                )
+            );
+        }
+        setFilteredOptions(options);
+    }, [searchQuery, selectedOption, areas, menuItems]);
+
+    // Handle selection of Delivery/Pickup and toggle back to Find Food if deselected
+    const handleOptionClick = (option) => {
+        setSelectedOption(prevOption => (prevOption === option ? null : option));
     };
 
-    const handleAreaSelect = (area) => {
-        setSelectedArea(area);
-        setShowDropdown(false);
+    // Handle search query changes and show dropdown
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+        setShowDropdown(true);
     };
 
     const displayedCategories = categories.slice(0, 3);
+
+    if (loading) return <Loader />
+    if (error) return <p>Error: {error}</p>;
     return (
         <div className={styles.body}>
             <div className={styles.main}>
@@ -99,57 +133,54 @@ export default function HomePage() {
                 </div>
                 <div className={styles.pagetitle}>
                     <img className={styles.sysico} src="/profile.svg" />
-                    <span className={styles.title}>Hello, Shakir</span>
+                    <span className={styles.title}>Hello{userName ? `, ${userName}` : ''}!</span>
                 </div>
 
                 <div className={styles.topblock}>
-                    <button
+                    {/* Delivery Option */}
+                    <div
                         className={`${styles.blockitem} ${selectedOption === 'delivery' ? styles.item_selected : ''}`}
-                        onClick={() => handleOptionChange('delivery')}
+                        onClick={() => handleOptionClick('delivery')}
                     >
                         <span className={styles.itemname}>Delivery</span>
-                    </button>
+                        <div className={styles.itemico}>
+                            <div className={`${styles.itemicoinner} ${styles.deliveryico}`}></div>
+                        </div>
+                    </div>
 
-                    <button
+                    {/* Pickup Option */}
+                    <div
                         className={`${styles.blockitem} ${selectedOption === 'pickup' ? styles.item_selected : ''}`}
-                        onClick={() => handleOptionChange('pickup')}
+                        onClick={() => handleOptionClick('pickup')}
                     >
                         <span className={styles.itemname}>PickUp</span>
-                    </button>
-
-                    <div className={styles.blockitem_big}>
-                        <span className={styles.itemname}>Find Food</span>
+                        <div className={styles.itemico}>
+                            <div className={`${styles.itemicoinner} ${styles.pickico}`}></div>
+                        </div>
                     </div>
-                </div>
 
-                {/* Search Bar with Dropdown */}
-                <div className={styles.selectInfo}>
-                    <div className={styles.searchContainer}>
+                    {/* Search Bar */}
+                    <div className={styles.blockitem_big}>
                         <input
                             type="text"
-                            className={styles.searchBar}
-                            placeholder={selectedOption === 'delivery' ? 'Select your area' : 'Select restaurant\'s location'}
-                            value={selectedArea}
-                            onFocus={() => setShowDropdown(true)}
-                            onBlur={() => setShowDropdown(false)}
-                            readOnly
+                            className={styles.searchbar}
+                            placeholder={placeholderText}
+                            value={searchQuery}
+                            onChange={handleSearchChange}
+                            onClick={() => setShowDropdown(!showDropdown)}
                         />
 
-                        {/* Display dropdown based on selectedOption */}
-                        {showDropdown && selectedOption === 'delivery' && (
+                        {/* Dropdown for filtered options */}
+                        {showDropdown && (
                             <div className={styles.dropdown}>
-                                {areas.length > 0 ? (
-                                    areas.map((area) => (
-                                        <div
-                                            key={area.id}
-                                            className={styles.dropdownItem}
-                                            onMouseDown={() => handleAreaSelect(area.title)}
-                                        >
-                                            {area.title}
+                                {filteredOptions.length > 0 ? (
+                                    filteredOptions.map((option, index) => (
+                                        <div key={index} className={styles.dropdownOption}>
+                                            {selectedOption ? option.title : option.name}
                                         </div>
                                     ))
                                 ) : (
-                                    <div className={styles.noOptions}>No areas available</div>
+                                    <div className={styles.noOptions}>No options found</div>
                                 )}
                             </div>
                         )}
@@ -191,7 +222,7 @@ export default function HomePage() {
                     {menuItems.map((category) => (
                         category.type_data.map((item) => (
                             <div key={item.id} className={styles.menuitem}>
-                                <Link className={styles.menuimage} href={`/product/${item.slug}`}>
+                                <Link className={styles.menuimage} href={`/home/${item.slug}`}>
                                     <img className={styles.menuimage} src={item.attachment} alt={item.name} />
                                 </Link>
                                 <div className={styles.boxdecor}></div>

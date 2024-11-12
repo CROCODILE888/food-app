@@ -705,3 +705,19 @@
 .qty {
     font-size: 5vw;
 }
+
+.submitButton {
+    width: 100%;
+    padding: 15px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.submitButton:disabled {
+    cursor: not-allowed;
+    background-color: gray;
+}

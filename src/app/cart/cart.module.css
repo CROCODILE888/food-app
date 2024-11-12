@@ -490,6 +490,19 @@
     border-radius: 0px 20px 20px 0px;
 }
 
+.removebutton {
+    font-size: smaller;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 7vw;
+    width: 13vw;
+    margin: 0vw auto;
+    color: #fff;
+    background-color: var(--secondary);
+    border-radius: 10px 10px 10px 10px;
+}
+
 .coupontext {
     font-size: 16px;
     color: #000;

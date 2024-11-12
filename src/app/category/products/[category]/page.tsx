@@ -64,15 +64,20 @@ const CategoryProducts = () => {
 
                 {/* Display Products for Selected Category */}
                 <div className={styles.categorylist}>
+
                     {filteredProducts.map((product, index) => (
                         <div key={index} className={styles.categoryitem}>
-                            <img
-                                className={styles.productimage}
-                                src={product.attachment || '/placeholder.jpg'}
-                                alt={product.name}
-                            />
+                            <Link className={styles.categoryimage} href={`/home/${product.slug}`}>
+                                <img
+                                    className={styles.categoryimage}
+                                    src={product.attachment || '/placeholder.jpg'}
+                                    alt={product.name}
+                                />
+                            </Link>
+                            <div className={styles.boxdecor}></div>
+
                             <span className={styles.categoryname}>{product.name}</span>
-                            <span className={styles.productprice}>${product.price}</span>
+                            <span className={styles.productprice}>{product.price.toFixed(3)} kWD</span>
                         </div>
                     ))}
                 </div>

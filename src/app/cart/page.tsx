@@ -3,8 +3,50 @@
 
 import Link from 'next/link';
 import styles from './cart.module.css';
+import { useState, useEffect } from 'react';
 
 const Cart = () => {
+
+    const [cart, setCart] = useState([]);
+
+    // Fetch cart items from localStorage when the component mounts
+    useEffect(() => {
+        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+        setCart(storedCart);
+    }, []);
+
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    // Function to update localStorage with the latest cart data
+    const updateLocalStorage = (updatedCart) => {
+        localStorage.setItem("cart", JSON.stringify(updatedCart));
+    };
+
+    const handleAddQuantity = (itemId) => {
+        const updatedCart = cart.map(item =>
+            item.id === itemId ? { ...item, quantity: item.quantity + 1 } : item
+        );
+        setCart(updatedCart);
+        updateLocalStorage(updatedCart); // Update localStorage
+    };
+
+    const handleRemoveQuantity = (itemId) => {
+        const updatedCart = cart
+            .map(item => item.id === itemId ? { ...item, quantity: item.quantity - 1 } : item)
+            .filter(item => item.quantity > 0); // Remove items with quantity 0
+        setCart(updatedCart);
+        updateLocalStorage(updatedCart); // Update localStorage
+    };
+
+    const [linkHref, setLinkHref] = useState('/checkout'); useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+        if (isLoggedIn) {
+            setLinkHref('/payment')
+            // const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
+            // setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
+        }
+    }, []);
+
     return (
         <div className={styles.body}>
             <div className={styles.main}>
@@ -26,127 +68,41 @@ const Cart = () => {
                     </div>
                 </Link>
 
+
                 <div className={styles.cartlist}>
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/123.png" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Samosa</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>1.000 KWD</span>
-                        </div>
-                    </div>
+                    {cart.length > 0 ? (
+                        cart.map((item, index) => (
+                            <div key={index} className={styles.cartitem}>
+                                <img className={styles.cartimage} src={item.image} alt={item.name} />
+                                <div className={styles.cartcontent}>
+                                    <div className={styles.carttext}>
+                                        <span className={styles.cartname}>{item.name}</span>
+                                    </div>
+                                    <div className={styles.amount}>
+                                        <button
+                                            className={styles.qtyicon}
+                                            onClick={() => handleRemoveQuantity(item.id)}
+                                        >
+                                            <img src="/minus.svg" />
+                                        </button>
+                                        <span className={styles.qty}>{item.quantity}</span>
+                                        <button
+                                            className={styles.qtyicon}
+                                            onClick={() => handleAddQuantity(item.id)}
+                                        >
+                                            <img src="/plus.svg" />
+                                        </button>
+                                    </div>
+                                    <span className={styles.cartprice}>{item.price.toFixed(3)} KWD</span>
 
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/26.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Pakoda</span>
+                                </div>
                             </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>1.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/20.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Blueberry Cheesecake</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>13.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/27.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Chocolate Pudding</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>91.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/22.jpg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Salad</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>38.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/23.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Pie</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>12.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/24.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Cake</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>221.000 KWD</span>
-                        </div>
-                    </div>
-
-                    <div className={styles.cartitem}>
-                        <img className={styles.cartimage} src="/25.jpeg" />
-                        <div className={styles.cartcontent}>
-                            <div className={styles.carttext}>
-                                <span className={styles.cartname}>Kachori</span>
-                            </div>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                            <span className={styles.cartprice}>0.300 KWD</span>
-                        </div>
-                    </div>
+                        ))
+                    ) : (
+                        <p>Your cart is empty.</p>
+                    )}
                 </div>
+
 
                 <div className={styles.couponbox}>
                     <input className={styles.coupontext} type="text" placeholder="Code Here" />
@@ -156,22 +112,22 @@ const Cart = () => {
                 <div className={styles.billbox}>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Subtotal</span>
-                        <span className={styles.metric}>17.970 kWD</span>
+                        <span className={styles.metric}>{subtotal.toFixed(3)} kWD</span>
                     </div>
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>
-                        <span className={styles.metrictitle}>Other Charges</span>
-                        <span className={styles.metric}>1.000 KWD</span>
+                        <span className={styles.metrictitle}>Discount</span>
+                        <span className={styles.metric}>0.000 KWD</span>
                     </div>
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Total</span>
-                        <span className={styles.metric}>18.970 kWD</span>
+                        <span className={styles.metric}>{(subtotal - 0).toFixed(3)} kWD</span>
                     </div>
                     <div className={styles.line}></div>
                 </div>
 
-                <Link className={styles.button} href="/checkout">
+                <Link className={styles.button} href={linkHref}>
                     <div className={styles.button}>
                         <span className={styles.buttontitle}>Checkout</span>
                     </div>
