@@ -1,4 +1,4 @@
-// app/profile/page.js
+// app/account/profile/page.js
 'use client'
 
 import { useEffect, useState } from 'react';

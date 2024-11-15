@@ -132,3 +132,27 @@
          padding: 10px;
      }
  }
+
+ .sysico {
+     height: 5vw;
+     width: 5vw;
+ }
+
+ .pagetitle {
+     display: flex;
+     flex-direction: row;
+     width: 90vw;
+     margin: 5vw auto;
+     align-items: center;
+     justify-content: center;
+     gap: 2vw;
+ }
+
+ .title {
+     color: rgb(30, 29, 29);
+     position: relative;
+     font-size: 4.5vw;
+     opacity: 1;
+     text-align: left;
+     width: 100%;
+ }

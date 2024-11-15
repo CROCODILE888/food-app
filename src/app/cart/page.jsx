@@ -4,6 +4,8 @@
 import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
+import { makeOrder, validateCouponCode } from '@/shared/util/apiService';
+import { Alert } from '@mui/material';
 
 const Cart = () => {
 
@@ -11,11 +13,9 @@ const Cart = () => {
 
     // Fetch cart items from localStorage when the component mounts
     useEffect(() => {
-        const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-        setCart(storedCart);
+        const storedCart = localStorage.getItem("cart")
+        setCart(storedCart ? JSON.parse(storedCart) : []);
     }, []);
-
-    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
 
     // Function to update localStorage with the latest cart data
     const updateLocalStorage = (updatedCart) => {
@@ -38,14 +38,80 @@ const Cart = () => {
         updateLocalStorage(updatedCart); // Update localStorage
     };
 
-    const [linkHref, setLinkHref] = useState('/checkout'); useEffect(() => {
+    const [loginData, setLoginData] = useState({});
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
-            setLinkHref('/payment')
-            // const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
+            const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
+            setLoginData(loginData);
+            setIsLoggedIn(true)
             // setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
         }
     }, []);
+
+    const [couponCode, setCouponCode] = useState('');
+    const [discountObject, setDiscountObject] = useState({ type: null, value: 0 });
+    const [couponValidated, setCouponValidated] = useState(null);
+
+    const checkCouponCode = async () => {
+        const validationResult = await validateCouponCode(couponCode, loginData?.customer?.id, loginData?.customer?.session_token);
+
+        if (validationResult.success) {
+            setDiscountObject(validationResult.data);
+            setCouponValidated(true);
+        } else {
+            setDiscountObject({ type: null, value: 0 })
+            setCouponValidated(false);
+        }
+    }
+    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    let total = discountObject.type === 'percentage'
+        ? subtotal * (1 - discountObject.value / 100)
+        : subtotal - discountObject.value;
+
+    const discount = discountObject.type === 'percentage' ?
+        ((discountObject.value * subtotal) / 100) : discountObject.value
+
+    const handleAlertClose = () => {
+        setCouponValidated(null);
+    }
+
+    const handleCheckoutLoggedIn = async () => {
+        // Make the order API call
+
+        const menuItems = cart.flatMap(item => [
+            { menu_item_id: item.id, qty: item.quantity },
+            ...item.addOns.map(addOn => ({ menu_item_id: addOn.id, qty: addOn.quantity }))
+        ])
+        const menuItemsData = JSON.stringify(menuItems);
+        const orderData = new FormData();
+
+        orderData.append('name', loginData.customer.name);
+        orderData.append('email', loginData.customer.email);
+        orderData.append('phone', loginData.customer.phone);
+        orderData.append('menu_items', menuItemsData);
+        orderData.append('area_id', loginData.customer.id);
+        orderData.append('cost', total);
+
+        const orderResponse = await makeOrder(orderData);
+        if (!orderResponse.success) {
+            alert(orderResponse.message);
+            return;
+        }
+
+        const paymentLink = orderResponse?.data?.data?.order?.charge_url;
+        window.location.href = paymentLink;
+
+        alert("Order placed successfully! You are being redirected to payment gateway");
+    }
+
+    const handleCheckoutNotLoggedIn = () => {
+        const billingData = { subtotal, discount, total }; // Prepare the billing data
+        localStorage.setItem("billingData", JSON.stringify(billingData)); // Store billing data in localStorage
+    }
 
     return (
         <div className={styles.body}>
@@ -103,35 +169,64 @@ const Cart = () => {
                     )}
                 </div>
 
+                {/* Coupon code div */}
+                {couponValidated !== null && (
+                    <Alert
+                        severity={couponValidated ? "success" : "error"}
+                        onClose={handleAlertClose}
+                    >
+                        {couponValidated ? "Coupon code added successfully" : "Invalid Coupon code"}
+                    </Alert>
+                )}
+                {cart.length > 0 &&
+                    <div className={styles.couponbox}>
+                        <input
+                            className={styles.coupontext}
+                            type="text"
+                            placeholder="Code Here"
+                            value={couponCode}
+                            onChange={(e) => setCouponCode(e.target.value)} />
 
-                <div className={styles.couponbox}>
-                    <input className={styles.coupontext} type="text" placeholder="Code Here" />
-                    <div className={styles.couponbutton}>Enter Code</div>
-                </div>
+                        <button
+                            className={styles.couponbutton}
+                            disabled={!couponCode.trim()}
+                            onClick={checkCouponCode}>Enter Code
+                        </button>
+                    </div>
+                }
 
+                {/* Billing */}
                 <div className={styles.billbox}>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Subtotal</span>
-                        <span className={styles.metric}>{subtotal.toFixed(3)} kWD</span>
+                        <span className={styles.metric}>{subtotal.toFixed(3)} KWD</span>
                     </div>
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Discount</span>
-                        <span className={styles.metric}>0.000 KWD</span>
+                        <span className={styles.metric}>{discount} KWD</span>
                     </div>
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Total</span>
-                        <span className={styles.metric}>{(subtotal - 0).toFixed(3)} kWD</span>
+                        <span className={styles.metric}>{total.toFixed(3)} KWD</span>
                     </div>
                     <div className={styles.line}></div>
                 </div>
 
-                <Link className={styles.button} href={linkHref}>
-                    <div className={styles.button}>
-                        <span className={styles.buttontitle}>Checkout</span>
-                    </div>
-                </Link>
+                {isLoggedIn ? (
+                    // If user is logged in, show the API checkout button
+                    <button onClick={handleCheckoutLoggedIn} className={styles.button}>
+                        Checkout
+                    </button>
+                ) : (
+                    // If user is not logged in, render Link with href='/checkout'
+                    <Link className={styles.button} href='/checkout'>
+                        <div onClick={handleCheckoutNotLoggedIn} className={styles.button}>
+                            <span className={styles.buttontitle}>Checkout</span>
+                        </div>
+                    </Link>
+                )}
 
                 <div className={styles.bottompadder}></div>
 

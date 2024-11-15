@@ -1,7 +1,7 @@
 import { API_ENDPOINTS } from "../apiConstants";
 
 // Cache memory will expire every hour.
-const CACHE_EXPIRATION_TIME = 3 * 1000;
+const CACHE_EXPIRATION_TIME = 60 * 60 * 1000;
 
 export const getMenuItems = async () => {
 
@@ -81,7 +81,7 @@ export const getInitialData = async () => {
 
     const initialDataResponse = await initialData.json();
     if (initialDataResponse.success) {
-        localStorage.setItem('menuItems', JSON.stringify(initialDataResponse.data));
+        localStorage.setItem('initialData', JSON.stringify(initialDataResponse.data));
         return initialDataResponse.data;
     } else {
         throw new Error(initialDataResponse.message || 'Failed to fetch initial data');
@@ -106,5 +106,91 @@ export const postValidate = async (API: string | URL | Request, formData: FormDa
     } catch (error) {
         console.error('Error: ', error)
         return { success: false, message: 'An error occurred during validation. Please try again.' }
+    }
+}
+
+export const logout = async (customerId, sessionToken) => {
+    // const sessionToken = localStorage.getItem('sessionToken'); // retrieve session token
+
+    const formData = new FormData();
+    formData.append('customer_id', customerId); // add customer_id to form-data
+
+    try {
+        const response = await fetch(API_ENDPOINTS.LOGOUT_URL, {
+            method: 'POST',
+            headers: {
+                'Authorization': sessionToken,
+                'identifier': 'staging'
+            },
+            body: formData
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            return { success: true, data };
+        } else {
+            return { success: false, message: data.message || 'Logout failed' };
+        }
+    } catch (error) {
+        console.log('Logout error:', error);
+        return { success: false, message: 'An error occurred during logout.' };
+    }
+};
+
+export const validateCouponCode = async (couponCode, customerId, sessionToken) => {
+
+    try {
+        const url = `${API_ENDPOINTS.COUPON_CODE_VALIDATION}?customer_id=${customerId}&coupon_code=${couponCode}`;
+        const validationDataResponse = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': sessionToken,
+                'identifier': 'staging'
+            },
+
+        });
+
+        const result = await validationDataResponse.json();
+        if (result.success) {
+            // Coupon validated successfully
+            return {
+                success: true,
+                data: result.data.coupon // { type: "absolute", value: 25 } OR { type: "percentage", value: 10 } 
+            };
+        } else {
+            // Handle unsuccessful validation
+            return {
+                success: false,
+                message: result.message
+            };
+        }
+    } catch (error) {
+        console.error("Error validating coupon:", error);
+        return {
+            success: false,
+            message: "Failed to validate coupon code"
+        };
+    }
+}
+
+export const makeOrder = async (orderData: FormData) => {
+    try {
+        const response = await fetch(API_ENDPOINTS.POST_ORDER, {
+            method: 'POST',
+            headers: { 'identifier': 'staging' },
+            body: orderData,
+        })
+        const data = await response.json();
+
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to checkout.' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during checkout. Please try again.' }
     }
 }

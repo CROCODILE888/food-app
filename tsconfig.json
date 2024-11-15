@@ -8,8 +8,8 @@
     ],
     "allowJs": true,
     "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
+    "strict": false,
+    "noEmit": false,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -17,6 +17,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "noEmitOnError": false,
     "plugins": [
       {
         "name": "next"
@@ -32,7 +33,13 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/app/checkout/page.jsx",
+    "src/app/category/page.jsx",
+    "src/app/cart/page.jsx",
+    "src/app/category/products/[category]/page.js",
+    "src/app/home/[product]/page.jsx",
+    "src/app/account/page.jsx"
   ],
   "exclude": [
     "node_modules"

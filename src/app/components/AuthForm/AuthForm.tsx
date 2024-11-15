@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import styles from './AuthForm.module.css';
 import { AuthFormProps } from '@/shared/interfaces/PropsInterfaces';
+import ForgotPassword from '../Forgot Password/ForgotPassword';
 
 const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message }) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
+
+  const [forgotPassword, setForgotPassword] = useState(false);
 
   // SignUp
   const [fullName, setFullName] = useState('');
@@ -28,9 +31,25 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message
     onSubmit(formData);
   };
 
+  const handleGoBack = () => {
+    const previousPage = document.referrer; // Get the previous page URL
+    if (previousPage) {
+      window.history.back(); // Go back in history if there's a referrer
+    } else {
+      window.location.href = '/home'; // Redirect to home page if no referrer
+    }
+  };
+
   return (
     <div className={styles.container}>
 
+      <div className={styles.pagetitle}>
+        <button onClick={handleGoBack}>
+          <img className={styles.sysico} src="/chevron-left.svg" />
+        </button>
+        <span className={styles.title}>Back</span>
+
+      </div>
       <div className={styles.logo}>
         <Image
           src="/secret-oven.svg"
@@ -78,7 +97,10 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message
 
         {!isLogin && <p className={styles.terms}>By signing up, you agree to our Terms of Service</p>}
         {!success && <p style={{ color: 'red' }}>{message}</p>}
-        <Link href={"/signup"} className={styles.forgotPassword}>{isLogin ? 'Forgot Password?' : ''}</Link>
+
+        {isLogin && <div onClick={() => setForgotPassword(true)} className={styles.forgotPassword}>Forgot Password?</div>}
+
+        {forgotPassword && <ForgotPassword open={forgotPassword} onClose={() => setForgotPassword(false)} ></ForgotPassword>}
         <button type="submit" className={styles.submitButton}>{isLogin ? 'Login' : 'Sign Up'}</button>
 
         {/* <div className={styles.orContainer}>

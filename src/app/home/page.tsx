@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { getMenuItems, getInitialData, getAreas, getGovernorates } from '@/shared/util/apiService';
+import { getMenuItems, getAreas, getGovernorates } from '@/shared/util/apiService';
 import { MenuItems } from '@/shared/interfaces/menuItemsInterface';
 import { Loader } from '@/components/Loader/Loader';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import Link from 'next/link';
 export default function HomePage() {
 
     const [menuItems, setMenuItems] = useState<MenuItems[]>([]);
-    const [initialData, setInitialData] = useState([]);
     const [areas, setAreas] = useState([]);
     const [governorates, setGovernorates] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -24,16 +23,6 @@ export default function HomePage() {
     const [filteredOptions, setFilteredOptions] = useState([]);
 
     useEffect(() => {
-        const fetchInitialData = async () => {
-            try {
-                const data = await getInitialData();
-                setInitialData(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchInitialData();
-        console.log(initialData);
 
         const fetchAreas = async () => {
             try {

@@ -62,7 +62,7 @@
 .menu {
     width: 80vw;
     height: 10vw;
-    background: url(/v1_1064.png);
+    /* background: url(/v1_1064.png); */
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -242,7 +242,7 @@
 
 .line {
     width: 90vw;
-    background: url("/v1_1172.png");
+    /* background: url("/v1_1172.png"); */
     opacity: 1;
     position: relative;
     border: 1px solid rgb(255, 215, 198);

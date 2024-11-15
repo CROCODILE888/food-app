@@ -5,18 +5,19 @@ import { useState, useEffect } from 'react';
 import styles from './product.module.css';
 import Link from "next/link";
 import { usePathname } from 'next/navigation';
-import { MenuItems } from '@/shared/interfaces/menuItemsInterface';
 
 const ProductPage = () => {
 
     const pathname = usePathname(); // Get the current pathname
     const product = pathname.split('/').pop(); // Extract the category from the URL
 
-    const [menuItems, setMenuItems] = useState<MenuItems[]>([]);
-    const [filteredProduct, setFilteredProduct] = useState<any[]>([]);
-    const [quantity, setQuantity] = useState(0);
+    const [menuItems, setMenuItems] = useState([]);
+    const [filteredProduct, setFilteredProduct] = useState([]);
+    const [itemQuantity, setItemQuantity] = useState(0);
     const [isAddedToCart, setIsAddedToCart] = useState(false);
+    const [customizations, setCusomizations] = useState([]);
 
+    const [addOnQuantities, setAddOnQuantities] = useState({});
     // Fetch menu items when the component is mounted
     useEffect(() => {
         const fetchMenuItems = async () => {
@@ -33,6 +34,16 @@ const ProductPage = () => {
                 .find(item => item.slug === product); // Find product by slug in type_data
 
             setFilteredProduct(selectedProduct);
+            setCusomizations(selectedProduct?.customizations);
+
+            // Initialize addOnQuantities for each add-on with quantity 0
+            if (Object.keys(addOnQuantities).length === 0) {
+                const initialAddOnQuantities = selectedProduct?.customizations?.reduce((acc, addOn) => {
+                    acc[addOn.id] = 0; // assuming each addOn has a unique `id`
+                    return acc;
+                }, {});
+                setAddOnQuantities(initialAddOnQuantities || {});
+            }
         }
     }, [product, menuItems]);
 
@@ -45,18 +56,32 @@ const ProductPage = () => {
         }
     };
 
-    const handleAddQuantity = () => {
-        setQuantity(prevQuantity => prevQuantity + 1);
+    const handleItemAddQuantity = () => {
+        setItemQuantity(prevQuantity => prevQuantity + 1);
         setIsAddedToCart(false);
     }
 
-    const handleRemoveQuantity = () => {
-        setQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
+    const handleItemRemoveQuantity = () => {
+        setItemQuantity(prevQuantity => (prevQuantity > 0 ? prevQuantity - 1 : 0));
         setIsAddedToCart(false);
+    }
+
+    const handleAddOnAddQuantity = (addOnId) => {
+        setAddOnQuantities(prevQuantities => ({
+            ...prevQuantities,
+            [addOnId]: prevQuantities[addOnId] + 1
+        }));
+    }
+
+    const handleAddOnRemoveQuantity = (addOnId) => {
+        setAddOnQuantities(prevQuantities => ({
+            ...prevQuantities,
+            [addOnId]: Math.max(prevQuantities[addOnId] - 1, 0)
+        }));
     }
 
     const handleCartUpdate = () => {
-        if (quantity > 0) {
+        if (itemQuantity > 0) {
             // Get existing cart from localStorage or initialize an empty array
             const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -65,8 +90,13 @@ const ProductPage = () => {
                 id: filteredProduct.id,
                 name: filteredProduct.name,
                 price: filteredProduct.price,
-                quantity: quantity,
+                quantity: itemQuantity,
                 image: filteredProduct.attachment,
+                addOns: customizations.map(addOn => ({
+                    id: addOn.id,
+                    name: addOn.name,
+                    quantity: addOnQuantities[addOn.id] || 0
+                })).filter(addOn => addOn.quantity > 0),
             };
 
             // Add the new item, or update quantity if the item already exists
@@ -112,103 +142,56 @@ const ProductPage = () => {
                             <span className={styles.maindescription}>{filteredProduct.description}</span>
                         </div>
                         <div className={styles.amount}>
-                            <button onClick={handleRemoveQuantity}>
+                            <button onClick={handleItemRemoveQuantity}>
                                 <img className={styles.qtyicon} src="/minus.svg" />
                             </button>
-                            <span className={styles.qty}>{quantity}</span>
-                            <button onClick={handleAddQuantity}>
+                            <span className={styles.qty}>{itemQuantity}</span>
+                            <button onClick={handleItemAddQuantity}>
                                 <img className={styles.qtyicon} src="/plus.svg" />
                             </button>
                         </div>
                         <span className={styles.mainprice}>{filteredProduct.price} KWD</span>
                     </div>
 
-                    {quantity > 0 &&
-                        <button
-                            className={styles.submitButton}
-                            onClick={handleCartUpdate}
-                            disabled={isAddedToCart}
-                        >{isAddedToCart ? "Added to Cart" : "Add to Cart"}
-                        </button>}
+
                 </div>
 
-                {/* <div className={styles.pagetitle}>
-                    <img className={styles.sysico} src="/chevron-left.svg" />
-                    <span className={styles.title}>Available Add-ons</span>
-                </div>
-
+                {customizations.length > 0 &&
+                    <div className={styles.pagetitle}>
+                        <span className={styles.title}>Available Add-ons</span>
+                    </div>
+                }
                 <div className={styles.addons}>
-                    <div className={styles.addonitem}>
-                        <div className={styles.addoncontent}>
-                            <div className={styles.addontext}>
-                                <span className={styles.addonname}>Extra Sauce</span>
-                            </div>
-                            <span className={styles.addonprice}>1.000 KWD</span>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
+                    {customizations?.map((addOn, index) => (
+
+                        <div key={index} className={styles.addonitem}>
+                            <div className={styles.addoncontent}>
+                                <div className={styles.addontext}>
+                                    <span className={styles.addonname}>{addOn.name}</span>
+                                </div>
+                                <div className={styles.amount}>
+                                    <button onClick={() => handleAddOnRemoveQuantity(addOn.id)}>
+                                        <img className={styles.qtyicon} src="/minus.svg" />
+                                    </button>
+
+                                    <span className={styles.qty}>{addOnQuantities[addOn.id] || 0}</span>
+
+                                    <button onClick={() => handleAddOnAddQuantity(addOn.id)}>
+                                        <img className={styles.qtyicon} src="/plus.svg" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    ))}
 
-                    <div className={styles.addonitem}>
-                        <div className={styles.addoncontent}>
-                            <div className={styles.addontext}>
-                                <span className={styles.addonname}>Extra cheese</span>
-                            </div>
-                            <span className={styles.addonprice}>10.000 KWD</span>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.addonitem}>
-                        <div className={styles.addoncontent}>
-                            <div className={styles.addontext}>
-                                <span className={styles.addonname}>With tissue</span>
-                            </div>
-                            <span className={styles.addonprice}>1.500 KWD</span>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.addonitem}>
-                        <div className={styles.addoncontent}>
-                            <div className={styles.addontext}>
-                                <span className={styles.addonname}>Extra Box</span>
-                            </div>
-                            <span className={styles.addonprice}>0.000 KWD</span>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className={styles.addonitem}>
-                        <div className={styles.addoncontent}>
-                            <div className={styles.addontext}>
-                                <span className={styles.addonname}>Chilli</span>
-                            </div>
-                            <span className={styles.addonprice}>0.000 KWD</span>
-                            <div className={styles.amount}>
-                                <img className={styles.qtyicon} src="/minus.svg" />
-                                <span className={styles.qty}>1</span>
-                                <img className={styles.qtyicon} src="/plus.svg" />
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
-
+                </div>
+                {itemQuantity > 0 &&
+                    <button
+                        className={styles.submitButton}
+                        onClick={handleCartUpdate}
+                        disabled={isAddedToCart}
+                    >{isAddedToCart ? "Added to Cart" : "Add to Cart"}
+                    </button>}
                 <div className={styles.bottompadder}></div>
 
                 <div className={styles.bottom_tabcontainer}>

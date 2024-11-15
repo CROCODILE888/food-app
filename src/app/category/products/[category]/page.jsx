@@ -1,27 +1,45 @@
-// app/category/page.js
-'use client'
+// app/category/products/[category]/page.tsx
+'use client';
 
-import Link from 'next/link';
-import styles from './category.module.css';
-import { MenuItems } from '@/shared/interfaces/menuItemsInterface';
-import { getMenuItems } from '@/shared/util/apiService';
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
+import Link from 'next/link';
+import styles from '../../category.module.css';
+import { getMenuItems } from '@/shared/util/apiService';
+import { Loader } from '@/components/Loader/Loader';
 
-const Category = () => {
-    const [menuItems, setMenuItems] = useState<MenuItems[]>([]);
-    const [categories, setCategories] = useState([]);
+const CategoryProducts = () => {
+    const pathname = usePathname(); // Get the current pathname
+    const category = pathname.split('/').pop(); // Extract the category from the URL
 
+    const [menuItems, setMenuItems] = useState([]);
+    const [filteredProducts, setFilteredProducts] = useState([]);
+
+    // Fetch menu items when the component is mounted
     useEffect(() => {
-
         const fetchMenuItems = async () => {
             const items = await getMenuItems();
             setMenuItems(items);
-            const typeNames = items.map((category) => category.type_name);
-            setCategories(typeNames);
         };
         fetchMenuItems();
-        console.log(categories, menuItems)
     }, []);
+
+    // Filter products based on selected category when available
+    useEffect(() => {
+        if (category && menuItems.length > 0) {
+            const selectedCategoryData = menuItems.find(
+                (item) => item.type_name.toLowerCase().replace(/ /g, '-') === category
+            );
+            if (selectedCategoryData) {
+                setFilteredProducts(selectedCategoryData.type_data); // Set products for selected category
+            }
+        }
+    }, [category, menuItems]);
+
+    // Ensure category is loaded before rendering
+    if (!category) {
+        return <Loader></Loader>;
+    }
 
     return (
         <div className={styles.body}>
@@ -33,31 +51,32 @@ const Category = () => {
                         </Link>
                         <span className={styles.lang}>عربي</span>
                     </div>
-
                     <div className={styles.logo}></div>
                 </div>
 
                 <div className={styles.pagetitle}>
-                    <Link href={'/home'}>
+                    <Link href={'/category'}>
                         <img className={styles.sysico} src="/chevron-left.svg" />
                     </Link>
-                    <span className={styles.title}>Category</span>
-
+                    <span className={styles.title}>{category?.replace(/-/g, ' ')}</span>
                 </div>
 
+                {/* Display Products for Selected Category */}
                 <div className={styles.categorylist}>
 
-                    {menuItems.map((category, index) => (
+                    {filteredProducts.map((product, index) => (
                         <div key={index} className={styles.categoryitem}>
-                            <Link className={styles.categoryimage} href={`/category/products/${category.type_name.toLowerCase().replace(/ /g, '-')}`}>
+                            <Link className={styles.categoryimage} href={`/home/${product.slug}`}>
                                 <img
                                     className={styles.categoryimage}
-                                    src={category.type_data[0]?.attachment || '/4.jpg'} // Use first item's image or a placeholder
-                                    alt={category.type_name}
+                                    src={product.attachment || '/placeholder.jpg'}
+                                    alt={product.name}
                                 />
                             </Link>
                             <div className={styles.boxdecor}></div>
-                            <span className={styles.categoryname}>{category.type_name}</span>
+
+                            <span className={styles.categoryname}>{product.name}</span>
+                            <span className={styles.productprice}>{product.price.toFixed(3)} kWD</span>
                         </div>
                     ))}
                 </div>
@@ -86,6 +105,6 @@ const Category = () => {
             </div>
         </div>
     );
-}
+};
 
-export default Category;
+export default CategoryProducts;
