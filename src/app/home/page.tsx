@@ -16,7 +16,6 @@ export default function HomePage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState('');
 
-
     const [selectedOption, setSelectedOption] = useState(null); // Options: null, 'delivery', 'pickup'
     const [searchQuery, setSearchQuery] = useState('');
     const [showDropdown, setShowDropdown] = useState(false);
@@ -33,7 +32,6 @@ export default function HomePage() {
             }
         };
         fetchAreas();
-        console.log(areas);
 
         const fetchGovernorates = async () => {
             try {
@@ -44,7 +42,6 @@ export default function HomePage() {
             }
         };
         fetchGovernorates();
-        console.log(governorates);
 
         const fetchMenuItems = async () => {
             try {
@@ -60,7 +57,6 @@ export default function HomePage() {
             }
         };
         fetchMenuItems();
-        console.log(menuItems)
     }, []);
 
     const [userName, setUserName] = useState('');
@@ -187,17 +183,12 @@ export default function HomePage() {
                 {/* Render categories dynamically */}
                 <div className={styles.foodtype}>
                     {displayedCategories.map((category, index) => (
-                        // eslint-disable-next-line react/jsx-key
-                        <Link href={`/category/products/${category.toLowerCase().replace(/ /g, '-')}`}>
-                            <div key={index} className={styles.foodtypeitem}>
+                        <Link key={index} href={`/category/products/${category.toLowerCase().replace(/ /g, '-')}`}>
+                            <div className={styles.foodtypeitem}>
                                 <img
                                     className={styles.foodtypeicon}
-                                    src={`/${category.toLowerCase()}.png`} // Dynamic icon based on category name
+                                    src={`/4.png`}
                                     alt={category}
-                                    onError={(e) => {
-                                        // Fallback to a default icon if image not found
-                                        e.currentTarget.src = '/4.png';
-                                    }}
                                 />
                                 <span className={styles.foodtypetext}>{category}</span>
                             </div>

@@ -47,7 +47,6 @@ const Cart = () => {
             const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
             setLoginData(loginData);
             setIsLoggedIn(true)
-            // setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
         }
     }, []);
 
@@ -66,7 +65,27 @@ const Cart = () => {
             setCouponValidated(false);
         }
     }
-    const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+
+    const calculateSubtotal = () => {
+        const itemSubtotal = cart.reduce((total, item) => {
+            const itemTotal = item.price * item.quantity;
+
+            // Calculate the total for customizations
+            const customizationTotal = item.customizations.reduce((custTotal, customization) => {
+                const optionsTotal = customization.options.reduce((optTotal, option) => {
+                    return optTotal + option.price * option.quantity;
+                }, 0);
+
+                return custTotal + optionsTotal;
+            }, 0);
+
+            return total + itemTotal + customizationTotal;
+        }, 0);
+
+        return itemSubtotal;
+    };
+
+    const subtotal = calculateSubtotal();
 
     let total = discountObject.type === 'percentage'
         ? subtotal * (1 - discountObject.value / 100)
@@ -80,12 +99,34 @@ const Cart = () => {
     }
 
     const handleCheckoutLoggedIn = async () => {
-        // Make the order API call
+        // Construct menuItems for the API
+        const menuItems = cart.map(item => {
+            // Map the main item and include customizations
+            const mainItem = {
+                menu_item_id: item.id,
+                qty: item.quantity,
+                customizations: item.customizations.map(customization => ({
+                    customization_id: customization.id,
+                    name: customization.name,
+                    options: customization.options
+                        .filter(option => option.quantity > 0) // Only include options with quantity > 0
+                        .map(option => ({
+                            option_id: option.id,
+                            name: option.name,
+                            price: option.price,
+                            qty: option.quantity
+                        }))
+                }))
+            };
 
-        const menuItems = cart.flatMap(item => [
-            { menu_item_id: item.id, qty: item.quantity },
-            ...item.addOns.map(addOn => ({ menu_item_id: addOn.id, qty: addOn.quantity }))
-        ])
+            // Remove customizations if they are empty
+            if (mainItem.customizations.every(cust => cust.options.length === 0)) {
+                delete mainItem.customizations;
+            }
+
+            return mainItem;
+        });
+
         const menuItemsData = JSON.stringify(menuItems);
         const orderData = new FormData();
 

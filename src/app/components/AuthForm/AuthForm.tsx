@@ -73,12 +73,15 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message
           placeholder="Full Name"
           className={styles.input}
           value={fullName}
-          onChange={(e) => setFullName(e.target.value)} />}
+          onChange={(e) => setFullName(e.target.value)}
+          required />}
+
         {!isLogin && <input type="email"
           placeholder="Email"
           className={styles.input}
           value={email}
-          onChange={(e) => setEmail(e.target.value)} />}
+          onChange={(e) => setEmail(e.target.value)}
+          required />}
 
         <input
           type="tel"
@@ -86,14 +89,16 @@ const AuthForm: React.FC<AuthFormProps> = ({ isLogin, onSubmit, success, message
           maxLength={8}
           className={styles.input}
           value={phone}
-          onChange={(e) => setPhone(e.target.value)} />
+          onChange={(e) => setPhone(e.target.value)}
+          required />
 
         <input
           type="password"
           placeholder="Password"
           className={styles.input}
           value={password}
-          onChange={(e) => setPassword(e.target.value)} />
+          onChange={(e) => setPassword(e.target.value)}
+          required />
 
         {!isLogin && <p className={styles.terms}>By signing up, you agree to our Terms of Service</p>}
         {!success && <p style={{ color: 'red' }}>{message}</p>}

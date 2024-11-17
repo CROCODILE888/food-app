@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import styles from './account.module.css';
 import Link from 'next/link';
 import { logout } from '@/shared/util/apiService';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 
 const Account = () => {
 
@@ -57,6 +57,16 @@ const Account = () => {
         setOpen(false);
     };
 
+    const [orderHistoryAlert, setOrderHistoryAlert] = useState(false);
+
+    const handleNavigation = () => {
+        if (isLoggedIn) {
+            window.location.href = "/account/my-orders"; // Navigate to order history
+        } else {
+            setOrderHistoryAlert(true); // Show the snackbar
+        }
+    };
+
     return (
         <div className={styles.body}>
             <Dialog open={open}
@@ -73,30 +83,20 @@ const Account = () => {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <button onClick={() => window.location.href = '/login'}>Back to Login</button>
-                    <button onClick={() => window.location.href = '/'}>Back to Home</button>
+                    <Button onClick={() => window.location.href = '/login'}>Back to Login</Button>
+                    <Button onClick={() => window.location.href = '/'}>Home</Button>
                 </DialogActions>
             </Dialog>
 
             <div className={styles.main}>
-                <div className={styles.header}>
-                    <div className={styles.menu}>
-                        <Link href={'/account'}>
-                            <div className={styles.ico}></div>
-                        </Link>
-                        <span className={styles.lang}>عربي</span>
-                    </div>
+                <div className={styles.header}></div>
 
-                    <div className={styles.logo}></div>
+                <div className={styles.pagetitle}>
+                    <span className={styles.title}>Account</span>
                 </div>
 
-                <Link href={'/home'}>
-                    <div className={styles.pagetitle}>
-                        <img className={styles.sysico} src="/chevron-left.svg" />
-                        <span className={styles.title}>Account</span>
-                    </div>
-                </Link>
                 <div className={styles.navmenulist}>
+
                     <Link href={linkHref}>
                         <div className={styles.navmenuitem}>
                             <img className={styles.navmenuimage} src="/profile.svg" />
@@ -104,16 +104,24 @@ const Account = () => {
                         </div>
                     </Link>
 
-                    <div className={styles.navmenuitem}>
-                        <img className={styles.navmenuimage} src="/app-settings.svg" />
-                        <span className={styles.navmenuname}>Settings</span>
-                    </div>
+                    <Link href={'/account/settings'}>
+                        <div className={styles.navmenuitem}>
+                            <img className={styles.navmenuimage} src="/app-settings.svg" />
+                            <span className={styles.navmenuname}>Settings</span>
+                        </div>
+                    </Link>
 
-                    <div className={styles.navmenuitem}>
+                    <div className={styles.navmenuitem} onClick={handleNavigation}>
                         <img className={styles.navmenuimage} src="/acarts.svg" />
                         <span className={styles.navmenuname}>Order History</span>
                     </div>
 
+
+                    {orderHistoryAlert &&
+                        <Alert onClose={() => setOrderHistoryAlert(false)} severity="warning" variant="filled">
+                            Please log in to check your order history.
+                        </Alert>
+                    }
                     <a href={whatsAppLink}
                         title="Click to chat on WhatsApp"
                         target="_blank"

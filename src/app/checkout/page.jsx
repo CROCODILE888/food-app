@@ -48,10 +48,32 @@ const Checkout = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const menuItems = cart.flatMap(item => [
-            { menu_item_id: item.id, qty: item.quantity },
-            ...item.addOns.map(addOn => ({ menu_item_id: addOn.id, qty: addOn.quantity }))
-        ])
+        const menuItems = cart.map(item => {
+            // Map the main item and include customizations
+            const mainItem = {
+                menu_item_id: item.id,
+                qty: item.quantity,
+                customizations: item.customizations.map(customization => ({
+                    customization_id: customization.id,
+                    name: customization.name,
+                    options: customization.options
+                        .filter(option => option.quantity > 0) // Only include options with quantity > 0
+                        .map(option => ({
+                            option_id: option.id,
+                            name: option.name,
+                            price: option.price,
+                            qty: option.quantity
+                        }))
+                }))
+            };
+
+            // Remove customizations if they are empty
+            if (mainItem.customizations.every(cust => cust.options.length === 0)) {
+                delete mainItem.customizations;
+            }
+
+            return mainItem;
+        });
 
         const menuItemsData = JSON.stringify(menuItems);
 
@@ -147,7 +169,6 @@ const Checkout = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Full Name"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -162,7 +183,6 @@ const Checkout = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="Email Address"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -178,7 +198,6 @@ const Checkout = () => {
                                 value={formData.phone}
                                 onChange={handleChange}
                                 placeholder="Phone Number"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -193,7 +212,6 @@ const Checkout = () => {
                                 value={formData.areaId}
                                 onChange={handleChange}
                                 placeholder="Area ID"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -208,7 +226,6 @@ const Checkout = () => {
                                 value={formData.block}
                                 onChange={handleChange}
                                 placeholder="Block"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -223,7 +240,6 @@ const Checkout = () => {
                                 value={formData.street}
                                 onChange={handleChange}
                                 placeholder="Street"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -238,7 +254,6 @@ const Checkout = () => {
                                 value={formData.apartmentNo}
                                 onChange={handleChange}
                                 placeholder="House/Apartment No"
-                                className={styles.inputField}
                                 required
                             />
                         </div>
@@ -254,7 +269,6 @@ const Checkout = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="Password"
-                                    className={styles.inputField}
                                     required
                                 />
                             </div>

@@ -38,8 +38,10 @@ const ProductPage = () => {
 
             // Initialize addOnQuantities for each add-on with quantity 0
             if (Object.keys(addOnQuantities).length === 0) {
-                const initialAddOnQuantities = selectedProduct?.customizations?.reduce((acc, addOn) => {
-                    acc[addOn.id] = 0; // assuming each addOn has a unique `id`
+                const initialAddOnQuantities = selectedProduct?.customizations?.reduce((acc, customization) => {
+                    customization?.options.forEach(option => {
+                        acc[option.option_id] = 0;
+                    });
                     return acc;
                 }, {});
                 setAddOnQuantities(initialAddOnQuantities || {});
@@ -92,11 +94,18 @@ const ProductPage = () => {
                 price: filteredProduct.price,
                 quantity: itemQuantity,
                 image: filteredProduct.attachment,
-                addOns: customizations.map(addOn => ({
-                    id: addOn.id,
-                    name: addOn.name,
-                    quantity: addOnQuantities[addOn.id] || 0
-                })).filter(addOn => addOn.quantity > 0),
+                customizations: customizations.map(customization => ({
+                    customization_id: customization.customization_id,
+                    name: customization.name,
+                    options: customization.options
+                        .filter(option => addOnQuantities[option.option_id] > 0)
+                        .map(option => ({
+                            id: option.option_id,
+                            name: option.name,
+                            quantity: addOnQuantities[option.option_id] || 0,
+                            price: option.price
+                        }))
+                })),
             };
 
             // Add the new item, or update quantity if the item already exists
@@ -162,29 +171,40 @@ const ProductPage = () => {
                     </div>
                 }
                 <div className={styles.addons}>
-                    {customizations?.map((addOn, index) => (
-
-                        <div key={index} className={styles.addonitem}>
-                            <div className={styles.addoncontent}>
-                                <div className={styles.addontext}>
-                                    <span className={styles.addonname}>{addOn.name}</span>
-                                </div>
-                                <div className={styles.amount}>
-                                    <button onClick={() => handleAddOnRemoveQuantity(addOn.id)}>
-                                        <img className={styles.qtyicon} src="/minus.svg" />
-                                    </button>
-
-                                    <span className={styles.qty}>{addOnQuantities[addOn.id] || 0}</span>
-
-                                    <button onClick={() => handleAddOnAddQuantity(addOn.id)}>
-                                        <img className={styles.qtyicon} src="/plus.svg" />
-                                    </button>
-                                </div>
+                    {customizations?.map((customization) => (
+                        <div key={customization.customization_id} className={styles.customizationBlock}>
+                            {/* Display the name of the customization */}
+                            <div className={styles.customizationName}>
+                                <strong>{customization.name}</strong>
                             </div>
+
+                            {customization.options.map((option, index) => (
+                                <div key={index} className={styles.addonitem}>
+                                    <div className={styles.addoncontent}>
+                                        <div className={styles.addontext}>
+                                            <span className={styles.addonname}>{option.name}</span>
+                                        </div>
+                                        <span className={styles.addonprice}>{option.price}</span>
+
+                                        <div className={styles.amount}>
+                                            <button onClick={() => handleAddOnRemoveQuantity(option.option_id)}>
+                                                <img className={styles.qtyicon} src="/minus.svg" />
+                                            </button>
+
+                                            <span className={styles.qty}>{addOnQuantities[option.option_id] || 0}</span>
+
+                                            <button onClick={() => handleAddOnAddQuantity(option.option_id)}>
+                                                <img className={styles.qtyicon} src="/plus.svg" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+
                         </div>
                     ))}
-
                 </div>
+
                 {itemQuantity > 0 &&
                     <button
                         className={styles.submitButton}

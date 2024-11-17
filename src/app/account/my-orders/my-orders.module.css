@@ -1,0 +1,142 @@
+.orderCard {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgb(34, 34, 34);
+}
+
+.menuItems ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menuItems li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.menuItems img {
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.bottom_tabcontainer {
+    width: 100vw;
+    background: var(--secondary);
+    opacity: 1;
+    position: fixed;
+    top: 93vh;
+    height: 7vh;
+    left: 0;
+    box-shadow: var(--shadow-m);
+    overflow: visible;
+    margin: 0vw auto;
+    padding: 0vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 20px 20px 0px 0px;
+    z-index: 99999;
+}
+
+.tabico {
+    height: 3vh;
+    width: 100%;
+}
+
+.tabitem {
+    height: 10vw;
+    width: 10vw;
+}
+
+.bottompadder {
+    height: 10vh;
+    position: relative;
+}
+
+.centertab {
+    border: 1px solid #fff;
+    background: var(--secondary);
+    border-radius: 35px;
+    box-shadow: var(--shadow-h);
+    height: 15vw;
+    width: 15vw;
+    -o-object-fit: scale-down;
+    object-fit: scale-down;
+    transform: translateY(-5vw);
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    margin: 5vw auto;
+}
+
+.logo {
+    width: 10vw;
+    height: 10vw;
+    background: url(/logo.png);
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.lang {
+    font-size: 5vw;
+    margin-bottom: 16px;
+}
+
+.menu {
+    width: 80vw;
+    height: 10vw;
+    /* background: url(/v1_1064.png); */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    opacity: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    gap: 1vw;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+.ico {
+    width: 10vw;
+    height: 10vw;
+    background: url("/menu.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+.pagetitle {
+    display: flex;
+    flex-direction: row;
+    width: 90vw;
+    margin: 1vw auto;
+    align-items: center;
+    justify-content: center;
+    gap: 2vw;
+}
+
+.sysico {
+    height: 5vw;
+    width: 5vw;
+}
+
+.title {
+    color: rgb(30, 29, 29);
+    position: relative;
+    font-size: 4.5vw;
+    opacity: 1;
+    text-align: left;
+    width: 100%;
+}

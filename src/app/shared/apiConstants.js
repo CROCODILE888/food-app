@@ -16,5 +16,9 @@ export const API_ENDPOINTS = {
 
     COUPON_CODE_VALIDATION: `${API_BASE_URL}/coupons/validate`,
 
-    POST_ORDER: `${API_BASE_URL}/order`
+    POST_ORDER: `${API_BASE_URL}/order`,
+    GET_ORDERS: `${API_BASE_URL}/orders`,
+
+    RESET_PASSWORD: `${API_BASE_URL}/password/reset`,
+    UPDATE_PASSWORD: `${API_BASE_URL}/password/update`,
 }
