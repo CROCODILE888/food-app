@@ -5,12 +5,11 @@ import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
 import { makeOrder, validateCouponCode } from '@/shared/util/apiService';
-import { Alert } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 
 const Cart = () => {
 
     const [cart, setCart] = useState([]);
-
     // Fetch cart items from localStorage when the component mounts
     useEffect(() => {
         const storedCart = localStorage.getItem("cart")
@@ -99,6 +98,12 @@ const Cart = () => {
     }
 
     const handleCheckoutLoggedIn = async () => {
+
+        if (cart.length === 0) {
+            alert("Your cart is empty. Add items before placing an order.");
+            return;
+        }
+
         // Construct menuItems for the API
         const menuItems = cart.map(item => {
             // Map the main item and include customizations
@@ -144,15 +149,35 @@ const Cart = () => {
         }
 
         const paymentLink = orderResponse?.data?.data?.order?.charge_url;
-        window.location.href = paymentLink;
+        if (!paymentLink) {
+            alert("Payment link not received. Please contact support.");
+            return;
+        }
+
+        setCart([]); // Clear the cart state
+        localStorage.removeItem("cart"); // Remove cart from localStorage
 
         alert("Order placed successfully! You are being redirected to payment gateway");
+        window.location.href = paymentLink;
     }
 
     const handleCheckoutNotLoggedIn = () => {
         const billingData = { subtotal, discount, total }; // Prepare the billing data
         localStorage.setItem("billingData", JSON.stringify(billingData)); // Store billing data in localStorage
     }
+
+    const [selectedItem, setSelectedItem] = useState(null);
+    const [customizationPopup, setCustomizationPopup] = useState(false);
+
+    const handleOpenPopup = (item) => {
+        setCustomizationPopup(true);
+        setSelectedItem(item);
+    };
+
+    const handleClosePopup = () => {
+        setCustomizationPopup(false);
+        setSelectedItem(null);
+    };
 
     return (
         <div className={styles.body}>
@@ -175,11 +200,10 @@ const Cart = () => {
                     </div>
                 </Link>
 
-
                 <div className={styles.cartlist}>
                     {cart.length > 0 ? (
                         cart.map((item, index) => (
-                            <div key={index} className={styles.cartitem}>
+                            <div key={index} className={styles.cartitem} onClick={() => handleOpenPopup(item)}>
                                 <img className={styles.cartimage} src={item.image} alt={item.name} />
                                 <div className={styles.cartcontent}>
                                     <div className={styles.carttext}>
@@ -188,14 +212,20 @@ const Cart = () => {
                                     <div className={styles.amount}>
                                         <button
                                             className={styles.qtyicon}
-                                            onClick={() => handleRemoveQuantity(item.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleRemoveQuantity(item.id);
+                                            }}
                                         >
                                             <img src="/minus.svg" />
                                         </button>
                                         <span className={styles.qty}>{item.quantity}</span>
                                         <button
                                             className={styles.qtyicon}
-                                            onClick={() => handleAddQuantity(item.id)}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleAddQuantity(item.id);
+                                            }}
                                         >
                                             <img src="/plus.svg" />
                                         </button>
@@ -209,6 +239,32 @@ const Cart = () => {
                         <p>Your cart is empty.</p>
                     )}
                 </div>
+
+                {/* Popup Dialog for customizations */}
+                <Dialog open={customizationPopup} onClose={handleClosePopup}>
+                    <DialogTitle style={{ fontWeight: 'bolder' }}>Customizations selected for {selectedItem?.name}</DialogTitle>
+                    <DialogContent>
+                        {selectedItem?.customizations?.length > 0 ? (
+                            selectedItem.customizations.map((customization) => (
+                                <div key={customization.customization_id} style={{ marginTop: 10 }}>
+                                    <h4 style={{ fontSize: 18, fontWeight: 'bold' }}>{customization.name}: </h4>
+                                    <ul>
+                                        {customization.options.map((option) => (
+                                            <li key={option.id}>
+                                                {option.name} - {option?.price} KWD (Qty: {option.quantity})
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No customizations selected.</p>
+                        )}
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClosePopup}>Close</Button>
+                    </DialogActions>
+                </Dialog>
 
                 {/* Coupon code div */}
                 {couponValidated !== null && (

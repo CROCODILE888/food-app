@@ -108,9 +108,12 @@ const Checkout = () => {
         }
 
         const paymentLink = orderResponse?.data?.data?.order?.charge_url;
-        window.location.href = paymentLink;
+
+        setCart([]); // Clear the cart state
+        localStorage.removeItem("cart"); // Remove cart from localStorage
 
         alert("Order placed successfully! You are being redirected to payment gateway");
+        window.location.href = paymentLink;
     };
 
     return (
