@@ -22,7 +22,7 @@ export const getMenuItems = async () => {
 
     const response = await fetch(API_ENDPOINTS.GET_MENU_ITEMS, {
         method: 'GET',
-        headers: { 'identifier': 'staging' },
+        headers: { 'identifier': 'secret-oven' },
     });
 
     const data = await response.json();
@@ -39,7 +39,7 @@ export const getAreas = async () => {
 
     const areasData = await fetch(API_ENDPOINTS.AREAS, {
         method: 'GET',
-        headers: { 'identifier': 'staging' },
+        headers: { 'identifier': 'secret-oven' },
     });
 
     const areasDataResponse = await areasData.json();
@@ -54,7 +54,7 @@ export const getGovernorates = async () => {
 
     const governoratesData = await fetch(API_ENDPOINTS.GOVERNOR_RATES, {
         method: 'GET',
-        headers: { 'identifier': 'staging' },
+        headers: { 'identifier': 'secret-oven' },
     });
 
     const governoratesDataResponse = await governoratesData.json();
@@ -77,7 +77,7 @@ export const getInitialData = async () => {
 
     const initialData = await fetch(API_ENDPOINTS.INITIAL, {
         method: 'GET',
-        headers: { 'identifier': 'staging' },
+        headers: { 'identifier': 'secret-oven' },
     });
 
     const initialDataResponse = await initialData.json();
@@ -97,7 +97,7 @@ export const validateCouponCode = async (couponCode, customerId, sessionToken) =
             method: 'GET',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'staging'
+                'identifier': 'secret-oven'
             },
 
         });
@@ -131,7 +131,7 @@ export const getOrderDetailsByCustomerId = async (customerId) => {
         const url = `${API_ENDPOINTS.GET_ORDERS}?customer_id=${customerId}`;
         const response = await fetch(url, {
             method: 'GET',
-            headers: { 'identifier': 'staging' },
+            headers: { 'identifier': 'secret-oven' },
         });
 
         const result = await response.json();
@@ -162,7 +162,7 @@ export const postValidate = async (API: string | URL | Request, formData: FormDa
     try {
         const response = await fetch(API, {
             method: 'POST',
-            headers: { 'identifier': 'staging' },
+            headers: { 'identifier': 'secret-oven' },
             body: formData,
         })
         const data = await response.json();
@@ -190,7 +190,7 @@ export const logout = async (customerId, sessionToken) => {
             method: 'POST',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'staging'
+                'identifier': 'secret-oven'
             },
             body: formData
         });
@@ -212,7 +212,7 @@ export const makeOrder = async (orderData: FormData) => {
     try {
         const response = await fetch(API_ENDPOINTS.POST_ORDER, {
             method: 'POST',
-            headers: { 'identifier': 'staging' },
+            headers: { 'identifier': 'secret-oven' },
             body: orderData,
         })
         const data = await response.json();
@@ -233,7 +233,7 @@ export const resetPassword = async (resetPasswordData: FormData) => {
     try {
         const response = await fetch(API_ENDPOINTS.RESET_PASSWORD, {
             method: 'POST',
-            headers: { 'identifier': 'staging' },
+            headers: { 'identifier': 'secret-oven' },
             body: resetPasswordData,
         })
         const data = await response.json();
@@ -254,7 +254,7 @@ export const updatePassword = async (updatePasswordData: FormData) => {
     try {
         const response = await fetch(API_ENDPOINTS.UPDATE_PASSWORD, {
             method: 'POST',
-            headers: { 'identifier': 'staging' },
+            headers: { 'identifier': 'secret-oven' },
             body: updatePasswordData,
         })
         const data = await response.json();

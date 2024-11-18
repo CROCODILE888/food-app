@@ -1,6 +1,6 @@
 // apiConstants.js
 
-export const API_BASE_URL = "https://staging.dietmaster.fit/api/customer";
+export const API_BASE_URL = "https://console.dietmaster.fit/api/customer";
 
 // Define endpoints using the base URL
 export const API_ENDPOINTS = {
