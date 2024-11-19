@@ -97,12 +97,17 @@ const Cart = () => {
         setCouponValidated(null);
     }
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleCheckoutLoggedIn = async () => {
 
         if (cart.length === 0) {
             alert("Your cart is empty. Add items before placing an order.");
             return;
         }
+
+        if (isSubmitting) return;
+        setIsSubmitting(true);
 
         // Construct menuItems for the API
         const menuItems = cart.map(item => {
@@ -145,6 +150,7 @@ const Cart = () => {
         const orderResponse = await makeOrder(orderData);
         if (!orderResponse.success) {
             alert(orderResponse.message);
+            setIsSubmitting(false);
             return;
         }
 
@@ -313,7 +319,7 @@ const Cart = () => {
 
                 {isLoggedIn ? (
                     // If user is logged in, show the API checkout button
-                    <button onClick={handleCheckoutLoggedIn} className={styles.button}>
+                    <button onClick={handleCheckoutLoggedIn} className={styles.button} disabled={isSubmitting}>
                         Checkout
                     </button>
                 ) : (

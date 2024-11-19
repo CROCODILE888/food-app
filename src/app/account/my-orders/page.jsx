@@ -43,10 +43,6 @@ const MyOrders = () => {
         return <Loader></Loader>; // Optionally, show a loading message while fetching
     }
 
-    if (orderDetails.length === 0) {
-        return <Alert>No orders found.</Alert>; // Display a message if no orders are found
-    }
-
     return (
         <div>
             <div className={styles.header}>
@@ -64,6 +60,7 @@ const MyOrders = () => {
                 </div>
             </Link>
 
+            {orderDetails.length === 0 && <Alert severity="warning">No orders found</Alert>}
             {orderDetails.map(order => (
                 <div key={order.id} className={styles.orderCard}>
                     <p><strong>Order Id:</strong> {order.id}</p>
@@ -71,7 +68,12 @@ const MyOrders = () => {
                     <p><strong>Area:</strong> {order.area}</p>
                     <p><strong>Status:</strong> {order.status}</p>
                     <p><strong>Total Cost:</strong> {order.cost.toFixed(3)} KWD</p>
-                    <a href={order.charge_url} style={{ color: 'red' }} target="_blank" rel="noopener noreferrer">View Payment</a>
+                    {order.payment_status == 'captured' ?
+                        <p>Payment done on {order.payment_captured_at}</p>
+                        : <a href={order.charge_url} style={{ color: 'red' }}
+                            target="_blank" rel="noopener noreferrer">Complete Payment
+                        </a>
+                    }
 
                     <div className={styles.menuItems}>
                         <p>Menu Items:</p>

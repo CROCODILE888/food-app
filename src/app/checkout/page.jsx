@@ -10,6 +10,7 @@ import { API_ENDPOINTS } from "@/shared/apiConstants";
 const Checkout = () => {
 
     const [billingData, setBillingData] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
         // Retrieve the billing data from localStorage
@@ -45,10 +46,8 @@ const Checkout = () => {
             [name]: type === 'checkbox' ? checked : value,
         });
     };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const menuItems = cart.map(item => {
+    const menuItemsGenerator = () => {
+        cart.map(item => {
             // Map the main item and include customizations
             const mainItem = {
                 menu_item_id: item.id,
@@ -74,6 +73,18 @@ const Checkout = () => {
 
             return mainItem;
         });
+    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (cart.length === 0) {
+            alert("Your cart is empty. Add items before placing an order.");
+            return;
+        }
+
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+        const menuItems = menuItemsGenerator();
 
         const menuItemsData = JSON.stringify(menuItems);
 
@@ -96,7 +107,9 @@ const Checkout = () => {
             const signupResponse = await postValidate(API_ENDPOINTS.SIGNUP_URL, signUpData);
 
             if (!signupResponse.success) {
-                alert(signupResponse.message)
+                alert(signupResponse.message);
+                setIsSubmitting(false);
+                return;
             }
         }
 
@@ -104,6 +117,7 @@ const Checkout = () => {
         const orderResponse = await makeOrder(orderData);
         if (!orderResponse.success) {
             alert(orderResponse.message);
+            setIsSubmitting(false);
             return;
         }
 
@@ -310,7 +324,7 @@ const Checkout = () => {
 
                         <div className={styles.line}></div>
                     </div>
-                    <button className={styles.button} type="submit">
+                    <button className={styles.button} type="submit" disabled={isSubmitting}>
                         <span className={styles.buttontitle}>Checkout</span>
                     </button>
                     <div className={styles.bottompadder}></div>
