@@ -157,6 +157,39 @@ export const getOrderDetailsByCustomerId = async (customerId) => {
     }
 }
 
+export const getUserAreas = async (customerId, sessionToken) => {
+
+    try {
+        const url = `${API_ENDPOINTS.ADDRESSES}?customer_id=${customerId}&customer_subscription_id=1`;
+        const userAreasResponse = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': sessionToken,
+                'identifier': 'secret-oven'
+            },
+        });
+
+        const result = await userAreasResponse.json();
+        if (result.success) {
+            return {
+                success: true,
+                data: result.data
+            };
+        } else {
+            return {
+                success: false,
+                message: result.message
+            };
+        }
+    } catch (error) {
+        console.error("Error fetching user areas:", error);
+        return {
+            success: false,
+            message: "Failed to fetch user areas"
+        };
+    }
+}
+
 // POST calls
 export const postValidate = async (API: string | URL | Request, formData: FormData) => {
     try {
@@ -268,5 +301,29 @@ export const updatePassword = async (updatePasswordData: FormData) => {
     } catch (error) {
         console.error('Error: ', error)
         return { success: false, message: 'An error occurred during password update. Please try again.' }
+    }
+}
+
+export const addAddress = async (addAddressData: FormData, sessionToken) => {
+    try {
+        const response = await fetch(API_ENDPOINTS.ADDRESSES, {
+            method: 'POST',
+            headers: {
+                'Authorization': sessionToken,
+                'identifier': 'secret-oven'
+            },
+            body: addAddressData,
+        })
+        const data = await response.json();
+
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to add address' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during adding address. Please try again.' }
     }
 }

@@ -4,12 +4,14 @@
 import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
-import { makeOrder, validateCouponCode } from '@/shared/util/apiService';
+import { getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import DeliveryFormPopup from "@/components/Delivery Form Popup/DeliveryFormPopup";
 
 const Cart = () => {
 
     const [cart, setCart] = useState([]);
+    const [deliveryPopup, setDeliveryPopup] = useState(false);
     // Fetch cart items from localStorage when the component mounts
     useEffect(() => {
         const storedCart = localStorage.getItem("cart")
@@ -40,12 +42,24 @@ const Cart = () => {
     const [loginData, setLoginData] = useState({});
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const [userAreas, setUserAreas] = useState([]);
+
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
             const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
             setLoginData(loginData);
-            setIsLoggedIn(true)
+            setIsLoggedIn(true);
+
+            const fetchAreas = async () => {
+                try {
+                    const data = await getUserAreas(loginData?.customer?.id, loginData?.customer?.session_token);
+                    setUserAreas(data?.data?.addresses);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            fetchAreas();
         }
     }, []);
 
@@ -106,6 +120,11 @@ const Cart = () => {
             return;
         }
 
+        if (selectedArea === null) {
+            alert("Please select an address or create one");
+            return;
+        }
+
         if (isSubmitting) return;
         setIsSubmitting(true);
 
@@ -144,7 +163,8 @@ const Cart = () => {
         orderData.append('email', loginData.customer.email);
         orderData.append('phone', loginData.customer.phone);
         orderData.append('menu_items', menuItemsData);
-        orderData.append('area_id', loginData.customer.id);
+        orderData.append('area_id', selectedArea.area_id);
+        orderData.append('address_id', selectedArea.id);
         orderData.append('cost', total);
 
         const orderResponse = await makeOrder(orderData);
@@ -183,6 +203,16 @@ const Cart = () => {
     const handleClosePopup = () => {
         setCustomizationPopup(false);
         setSelectedItem(null);
+    };
+
+    const handlePopupClose = () => {
+        setDeliveryPopup(false);
+    }
+
+    const [selectedArea, setSelectedArea] = useState(null);
+    const handleAreaSelect = (area) => {
+        setSelectedArea(area);
+        setDeliveryPopup(false); // Close popup after selection
     };
 
     return (
@@ -317,11 +347,24 @@ const Cart = () => {
                     <div className={styles.line}></div>
                 </div>
 
+                {deliveryPopup &&
+                    <DeliveryFormPopup
+                        userAreas={userAreas}
+                        open={deliveryPopup}
+                        handlePopupClose={handlePopupClose}
+                        onAreaSelect={handleAreaSelect}
+                    ></DeliveryFormPopup>
+                }
+
                 {isLoggedIn ? (
-                    // If user is logged in, show the API checkout button
-                    <button onClick={handleCheckoutLoggedIn} className={styles.button} disabled={isSubmitting}>
-                        Checkout
-                    </button>
+                    <>
+                        <Button color='red' onClick={() => setDeliveryPopup(true)}>Select delivery address</Button>
+                        {selectedArea && <p><strong>Selected address: </strong><u>{selectedArea.name}</u></p>}
+
+                        <button onClick={handleCheckoutLoggedIn} className={styles.button} disabled={isSubmitting}>
+                            Checkout
+                        </button>
+                    </>
                 ) : (
                     // If user is not logged in, render Link with href='/checkout'
                     <Link className={styles.button} href='/checkout'>

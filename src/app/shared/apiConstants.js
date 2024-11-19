@@ -2,6 +2,9 @@
 
 export const API_BASE_URL = "https://console.dietmaster.fit/api/customer";
 
+// Base url for staging
+// export const API_BASE_URL = "https://staging.dietmaster.fit/api/customer";
+
 // Define endpoints using the base URL
 export const API_ENDPOINTS = {
     INITIAL: `${API_BASE_URL}/initial`,
@@ -13,6 +16,7 @@ export const API_ENDPOINTS = {
 
     AREAS: `${API_BASE_URL}/areas`,
     GOVERNOR_RATES: `${API_BASE_URL}/governorates`,
+    ADDRESSES: `${API_BASE_URL}/addresses`,
 
     COUPON_CODE_VALIDATION: `${API_BASE_URL}/coupons/validate`,
 

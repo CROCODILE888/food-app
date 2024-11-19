@@ -4,18 +4,31 @@
 import Link from "next/link";
 import styles from './checkout.module.css'
 import { useState, useEffect } from "react";
-import { makeOrder, postValidate } from "@/shared/util/apiService";
+import { addAddress, getAreas, makeOrder, postValidate } from "@/shared/util/apiService";
 import { API_ENDPOINTS } from "@/shared/apiConstants";
+import { FormControl, MenuItem, Select } from "@mui/material";
 
 const Checkout = () => {
 
     const [billingData, setBillingData] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [areas, setAreas] = useState([]);
+
     useEffect(() => {
         // Retrieve the billing data from localStorage
         const storedBillingData = JSON.parse(localStorage.getItem("billingData") || '{}');
         setBillingData(storedBillingData); // Update the state with the data
+
+        const fetchAreas = async () => {
+            try {
+                const data = await getAreas();
+                setAreas(data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchAreas();
     }, []);
 
     const { subtotal, discount, total } = billingData;
@@ -26,12 +39,13 @@ const Checkout = () => {
         name: '',
         phone: '',
         email: '',
-        areaId: '',
+        area: '',
         block: '',
         street: '',
         apartmentNo: '',
         password: '',
         createAccount: false,
+        houseName: '',
     });
 
     useEffect(() => {
@@ -41,13 +55,22 @@ const Checkout = () => {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        setFormData({
-            ...formData,
-            [name]: type === 'checkbox' ? checked : value,
-        });
+        if (name === "area") {
+            const selectedArea = areas.find(area => area.title === value);
+            setFormData({
+                ...formData,
+                area: selectedArea, // Store the entire area object
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: type === 'checkbox' ? checked : value,
+            });
+        }
     };
+
     const menuItemsGenerator = () => {
-        cart.map(item => {
+        return cart.map(item => {
             // Map the main item and include customizations
             const mainItem = {
                 menu_item_id: item.id,
@@ -93,27 +116,47 @@ const Checkout = () => {
         signUpData.append('email', formData.email);
         signUpData.append('phone', formData.phone);
         signUpData.append('password', formData.password);
+        signUpData.append('is_active', formData.createAccount ? 1 : 0);
 
+        const signupResponse = await postValidate(API_ENDPOINTS.SIGNUP_URL, signUpData);
+
+        if (!signupResponse.success) {
+            alert(signupResponse.message);
+            setIsSubmitting(false);
+            return;
+        }
+
+        const customerId = signupResponse.data.data.customer.id;
+
+        const addressData = new FormData();
+
+        addressData.append('customer_id', customerId);
+        addressData.append('governorate_id', formData.area.governorate_id);
+        addressData.append('area_id', formData.area.id);
+        addressData.append('slot_id', 0);
+        addressData.append('name', formData.houseName);
+        addressData.append('phone', formData.phone)
+        addressData.append('block', formData.block)
+        addressData.append('street', formData.street)
+        addressData.append('flat', formData.apartmentNo)
+
+        const addAddressResponse = await addAddress(addressData, signupResponse.data.data.customer.session_token);
+        if (!addAddressResponse.success) {
+            alert(addAddressResponse.message);
+            setIsSubmitting(false);
+            return;
+        }
+        // Data for making the order
         const orderData = new FormData();
         orderData.append('name', formData.name);
         orderData.append('email', formData.email);
         orderData.append('phone', formData.phone);
         orderData.append('menu_items', menuItemsData);
-        orderData.append('area_id', formData.areaId);
+        orderData.append('area_id', formData.area.id);
         orderData.append('cost', total);
+        orderData.append('address_id', addAddressResponse.data.data.address_id);
 
-        if (formData.createAccount) {
-            // Make the signup API call
-            const signupResponse = await postValidate(API_ENDPOINTS.SIGNUP_URL, signUpData);
-
-            if (!signupResponse.success) {
-                alert(signupResponse.message);
-                setIsSubmitting(false);
-                return;
-            }
-        }
-
-        // Make the order API call
+        // // Make the order API call
         const orderResponse = await makeOrder(orderData);
         if (!orderResponse.success) {
             alert(orderResponse.message);
@@ -128,6 +171,7 @@ const Checkout = () => {
 
         alert("Order placed successfully! You are being redirected to payment gateway");
         window.location.href = paymentLink;
+        setIsSubmitting(false);
     };
 
     return (
@@ -221,17 +265,28 @@ const Checkout = () => {
                     </div>
 
                     <div className={styles.inputcontainer}>
-                        <div className={styles.innerinput}>
-                            <div className={styles.iconplaceholder}></div>
-                            <input
-                                type="number"
-                                name="areaId"
-                                value={formData.areaId}
-                                onChange={handleChange}
-                                placeholder="Area ID"
-                                required
-                            />
-                        </div>
+                        <FormControl variant="standard">
+                            <div className={styles.innerinput}>
+                                <div className={styles.iconplaceholder}></div>
+                                <Select
+                                    name="area"
+                                    value={formData.area ? formData.area.title : ''}
+                                    onChange={handleChange}
+                                    displayEmpty
+                                    required
+                                    style={{ width: '100%' }} // Adjust as needed for your layout
+                                >
+                                    <MenuItem value="" disabled>
+                                        Select Area
+                                    </MenuItem>
+                                    {areas.map((area) => (
+                                        <MenuItem key={area.id} value={area.title}>
+                                            {area.title}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </div>
+                        </FormControl>
                     </div>
 
                     <div className={styles.inputcontainer}>
@@ -267,6 +322,20 @@ const Checkout = () => {
                             <div className={styles.iconplaceholder}></div>
                             <input
                                 type="text"
+                                name="houseName"
+                                value={formData.houseName}
+                                onChange={handleChange}
+                                placeholder="House Name"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className={styles.inputcontainer}>
+                        <div className={styles.innerinput}>
+                            <div className={styles.iconplaceholder}></div>
+                            <input
+                                type="text"
                                 name="apartmentNo"
                                 value={formData.apartmentNo}
                                 onChange={handleChange}
@@ -276,21 +345,19 @@ const Checkout = () => {
                         </div>
                     </div>
 
-                    {formData.createAccount &&
-                        <div className={styles.inputcontainer}>
-                            <div className={styles.innerinput}>
-                                <div className={styles.iconplaceholder}></div>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Password"
-                                    required
-                                />
-                            </div>
+                    <div className={styles.inputcontainer}>
+                        <div className={styles.innerinput}>
+                            <div className={styles.iconplaceholder}></div>
+                            <input
+                                type="password"
+                                name="password"
+                                value={formData.password}
+                                onChange={handleChange}
+                                placeholder="Password"
+                                required
+                            />
                         </div>
-                    }
+                    </div>
 
                     <label className={styles.bottomtext}>
                         <input
