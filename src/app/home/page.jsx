@@ -2,27 +2,22 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { getMenuItems, getAreas, getGovernorates } from '@/shared/util/apiService';
-import { MenuItems } from '@/shared/interfaces/menuItemsInterface';
+import { getMenuItems, getAreas } from '@/shared/util/apiService';
 import { Loader } from '@/components/Loader/Loader';
 import Link from 'next/link';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 export default function HomePage() {
 
-    const [menuItems, setMenuItems] = useState<MenuItems[]>([]);
+    const [menuItems, setMenuItems] = useState([]);
     const [areas, setAreas] = useState([]);
-    const [governorates, setGovernorates] = useState([]);
     const [categories, setCategories] = useState([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
 
     const [selectedOption, setSelectedOption] = useState(null); // Options: null, 'delivery', 'pickup'
-    const [searchQuery, setSearchQuery] = useState('');
-    const [showDropdown, setShowDropdown] = useState(false);
-    const [filteredOptions, setFilteredOptions] = useState([]);
 
     useEffect(() => {
-
         const fetchAreas = async () => {
             try {
                 const data = await getAreas();
@@ -33,16 +28,6 @@ export default function HomePage() {
         };
         fetchAreas();
 
-        const fetchGovernorates = async () => {
-            try {
-                const data = await getGovernorates();
-                setGovernorates(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchGovernorates();
-
         const fetchMenuItems = async () => {
             try {
                 const items = await getMenuItems();
@@ -50,7 +35,7 @@ export default function HomePage() {
                 const typeNames = items.map((category) => category.type_name);
                 setCategories(typeNames);
             } catch (error) {
-                setError((error as Error).message);
+                setError((error).message);
                 console.error(error);
             } finally {
                 setLoading(false);
@@ -65,45 +50,48 @@ export default function HomePage() {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
             const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
-            setUserName(loginData.customer.name || ''); // Assuming 'name' is the key in your login response
+            setUserName(loginData.customer.name || '');
         }
     }, []);
-
-    // Determine placeholder and options based on selection
-    const placeholderText = selectedOption ? 'Find Areas' : 'Find Food';
-
-    // Filter options based on search query and selected option
-    useEffect(() => {
-        let options;
-        if (selectedOption === 'delivery' || selectedOption === 'pickup') {
-            options = areas.filter(area =>
-                area.title.toLowerCase().includes(searchQuery.toLowerCase())
-            );
-        } else {
-            options = menuItems.flatMap(category =>
-                category.type_data.filter(item =>
-                    item.name.toLowerCase().includes(searchQuery.toLowerCase())
-                )
-            );
-        }
-        setFilteredOptions(options);
-    }, [searchQuery, selectedOption, areas, menuItems]);
 
     // Handle selection of Delivery/Pickup and toggle back to Find Food if deselected
     const handleOptionClick = (option) => {
         setSelectedOption(prevOption => (prevOption === option ? null : option));
     };
 
-    // Handle search query changes and show dropdown
-    const handleSearchChange = (event) => {
-        setSearchQuery(event.target.value);
-        setShowDropdown(true);
+    const displayedCategories = categories.slice(0, 3);
+
+    const [area, setArea] = useState({});
+    const handleChange = (e) => {
+        const value = e.target;
+        const selectedArea = areas.find(area => area.title === value);
+        setArea(selectedArea);
     };
 
-    const displayedCategories = categories.slice(0, 3);
+    const MenuProps = {
+        PaperProps: {
+            style: {
+                maxHeight: 300,
+                width: 250,
+            },
+        },
+    };
+
+    const pickupAreas = [
+        { id: 1, title: 'The Secret Oven - Pickup 01' },
+        { id: 2, title: 'The Secret Oven - Pickup 02' },
+        { id: 3, title: 'The Secret Oven - Pickup 03' },
+        { id: 4, title: 'The Secret Oven - Pickup 04' },
+        { id: 5, title: 'The Secret Oven - Pickup 05' },
+        { id: 6, title: 'The Secret Oven - Pickup 06' },
+        { id: 7, title: 'The Secret Oven - Pickup 07' },
+        { id: 8, title: 'The Secret Oven - Pickup 08' },
+        { id: 9, title: 'The Secret Oven - Pickup 09' },
+    ];
 
     if (loading) return <Loader />
     if (error) return <p>Error: {error}</p>;
+
     return (
         <div className={styles.body}>
             <div className={styles.main}>
@@ -145,33 +133,36 @@ export default function HomePage() {
                     </div>
 
                     {/* Search Bar */}
-                    <div className={styles.blockitem_big}>
-                        <input
-                            type="text"
-                            className={styles.searchbar}
-                            placeholder={placeholderText}
-                            value={searchQuery}
-                            onChange={handleSearchChange}
-                            onClick={() => setShowDropdown(!showDropdown)}
-                        />
+                    {
+                        selectedOption !== null &&
+                        <div className={styles.blockitem_big}>
+                            <FormControl variant="standard" fullWidth>
+                                <InputLabel id="area-select-label">
+                                    {selectedOption === 'pickup' ? 'Select Pickup Areas' : 'Select Delivery Areas'}
+                                </InputLabel>
 
-                        {/* Dropdown for filtered options */}
-                        {showDropdown && (
-                            <div className={styles.dropdown}>
-                                {filteredOptions.length > 0 ? (
-                                    filteredOptions.map((option, index) => (
-                                        <div key={index} className={styles.dropdownOption}>
-                                            {selectedOption ? option.title : option.name}
-                                        </div>
-                                    ))
-                                ) : (
-                                    <div className={styles.noOptions}>No options found</div>
-                                )}
-                            </div>
-                        )}
-                    </div>
+                                <Select
+                                    name="area"
+                                    value={area ? area.title : ''}
+                                    onChange={handleChange}
+                                    displayEmpty
+                                    required
+                                    placeholder='Find Areas'
+                                    MenuProps={MenuProps}
+                                >
+                                    <MenuItem value="" disabled>
+                                        {`Select ${selectedOption === 'pickup' ? 'Pickup Area' : 'Delivery Area'}`}
+                                    </MenuItem>
+                                    {(selectedOption === 'pickup' ? pickupAreas : areas).map((area) => (
+                                        <MenuItem key={area.id} value={area.title}>
+                                            {area.title}
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                    }
                 </div>
-
 
                 <div className={styles.innertitle}>
                     <span>All Categories</span>
@@ -236,8 +227,7 @@ export default function HomePage() {
                     </Link>
                 </div>
             </div>
-        </div >
-
+        </div>
     );
 
 };

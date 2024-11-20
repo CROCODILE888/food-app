@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
-import { getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
+import { getAreas, getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
 import DeliveryFormPopup from "@/components/Delivery Form Popup/DeliveryFormPopup";
 
@@ -43,6 +43,25 @@ const Cart = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [userAreas, setUserAreas] = useState([]);
+    const [areas, setAreas] = useState([]);
+
+    const fetchUserAreas = async (customerId, sessionToken) => {
+        try {
+            const data = await getUserAreas(customerId, sessionToken);
+            setUserAreas(data?.data?.addresses);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const fetchAreas = async () => {
+        try {
+            const data = await getAreas();
+            setAreas(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -50,15 +69,7 @@ const Cart = () => {
             const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
             setLoginData(loginData);
             setIsLoggedIn(true);
-
-            const fetchAreas = async () => {
-                try {
-                    const data = await getUserAreas(loginData?.customer?.id, loginData?.customer?.session_token);
-                    setUserAreas(data?.data?.addresses);
-                } catch (error) {
-                    console.error(error);
-                }
-            };
+            fetchUserAreas(loginData?.customer?.id, loginData?.customer?.session_token);
             fetchAreas();
         }
     }, []);
@@ -353,6 +364,10 @@ const Cart = () => {
                         open={deliveryPopup}
                         handlePopupClose={handlePopupClose}
                         onAreaSelect={handleAreaSelect}
+                        fullScreen={false}
+                        areas={areas}
+                        refreshAddresses={() => fetchUserAreas(loginData.customer.id, loginData.customer.session_token)}
+                        edit={true}
                     ></DeliveryFormPopup>
                 }
 

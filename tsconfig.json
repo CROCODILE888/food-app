@@ -39,7 +39,9 @@
     "src/app/cart/page.jsx",
     "src/app/category/products/[category]/page.js",
     "src/app/home/[product]/page.jsx",
-    "src/app/account/page.jsx"
+    "src/app/account/page.jsx",
+    "src/app/account/profile/page.jsx",
+    "src/app/home/page.jsx"
   ],
   "exclude": [
     "node_modules"
