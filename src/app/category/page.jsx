@@ -72,7 +72,8 @@ const Category = () => {
                         <img className={styles.tabico} src="/category.svg" />
                     </Link>
 
-                    <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
+                    <Link href="/home" legacyBehavior><img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" /></Link>
+
 
                     <Link className={styles.tabico} href="/cart">
                         <img className={styles.tabico} src="/cart.svg" />

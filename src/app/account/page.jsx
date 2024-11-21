@@ -44,6 +44,7 @@ const Account = () => {
         if (result.success) {
             localStorage.removeItem('loginData');
             localStorage.setItem('isLoggedIn', 'false');
+            localStorage.removeItem('selectedAreaWithOption');
 
             setOpen(true);
 
@@ -151,7 +152,8 @@ const Account = () => {
                         <img className={styles.tabico} src="/category.svg" />
                     </Link>
 
-                    <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
+                    <Link href="/home" legacyBehavior><img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" /></Link>
+
 
 
                     <Link className={styles.tabico} href="/cart">

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
 import { getAreas, getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
-import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import DeliveryFormPopup from "@/components/Delivery Form Popup/DeliveryFormPopup";
 
 const Cart = () => {
@@ -62,6 +62,13 @@ const Cart = () => {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const savedArea = JSON.parse(localStorage.getItem('selectedAreaWithOption'));
+        if (savedArea) {
+            setSelectedArea(savedArea.area);
+        }
+    }, []);
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
@@ -177,6 +184,7 @@ const Cart = () => {
         orderData.append('area_id', selectedArea.area_id);
         orderData.append('address_id', selectedArea.id);
         orderData.append('cost', total);
+        orderData.append('payment_mode', paymentOption);
 
         const orderResponse = await makeOrder(orderData);
         if (!orderResponse.success) {
@@ -224,6 +232,11 @@ const Cart = () => {
     const handleAreaSelect = (area) => {
         setSelectedArea(area);
         setDeliveryPopup(false); // Close popup after selection
+    };
+
+    const [paymentOption, setPaymentOption] = useState('online');
+    const handlePaymentOptionSelection = (event) => {
+        setPaymentOption(event.target.value);
     };
 
     return (
@@ -371,9 +384,38 @@ const Cart = () => {
                     ></DeliveryFormPopup>
                 }
 
+                <FormControl style={{ marginTop: '10px' }}>
+                    <FormLabel sx={{
+                        color: 'red', '&.Mui-focused': { color: 'red' }
+                    }} id="payment-options-row-radio-buttons-group-label">Payment Option</FormLabel>
+                    <RadioGroup
+                        row
+                        aria-labelledby="payment-options-row-radio-buttons-group-label"
+                        name="payment-options"
+                        value={paymentOption}
+                        onChange={handlePaymentOptionSelection}
+                    >
+                        <FormControlLabel
+                            value="online"
+                            control={<Radio sx={{ color: 'red', '&.Mui-checked': { color: 'red' } }} />}
+                            label="Online" />
+
+                        <FormControlLabel
+                            value="cod"
+                            control={<Radio sx={{ color: 'red', '&.Mui-checked': { color: 'red' } }} />}
+                            label="Cash on delivery" />
+
+                    </RadioGroup>
+                </FormControl>
+
                 {isLoggedIn ? (
                     <>
-                        <Button color='red' onClick={() => setDeliveryPopup(true)}>Select delivery address</Button>
+                        <Button
+                            sx={{ backgroundColor: '#F12828', color: 'black', borderRadius: '20px', marginTop: '10px' }}
+                            variant='contained'
+                            onClick={() => setDeliveryPopup(true)}>
+                            Select delivery address
+                        </Button>
                         {selectedArea && <p><strong>Selected address: </strong><u>{selectedArea.name}</u></p>}
 
                         <button onClick={handleCheckoutLoggedIn} className={styles.button} disabled={isSubmitting}>
@@ -400,7 +442,7 @@ const Cart = () => {
                         <img className={styles.tabico} src="/category.svg" />
                     </Link>
 
-                    <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
+                    <Link href="/home" legacyBehavior><img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" /></Link>
 
                     <Link className={styles.tabico} href="/cart">
                         <img className={styles.tabico} src="/cart.svg" />

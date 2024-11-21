@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { getMenuItems, getAreas } from '@/shared/util/apiService';
+import { getMenuItems, getAreas, getUserAreas } from '@/shared/util/apiService';
 import { Loader } from '@/components/Loader/Loader';
 import Link from 'next/link';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
@@ -17,17 +17,33 @@ export default function HomePage() {
 
     const [selectedOption, setSelectedOption] = useState(null); // Options: null, 'delivery', 'pickup'
 
-    useEffect(() => {
-        const fetchAreas = async () => {
-            try {
-                const data = await getAreas();
-                setAreas(data);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchAreas();
+    const fetchAreas = async () => {
+        try {
+            const data = await getAreas();
+            setAreas(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
+    useEffect(() => {
+        const savedArea = JSON.parse(localStorage.getItem('selectedAreaWithOption'));
+        if (savedArea) {
+            if (savedArea.area.area) {
+                const area = {
+                    id: savedArea.area.id,
+                    title: `${savedArea.area.name}, ${savedArea.area.area}`, // Normalize data
+                }
+                setArea(area);
+                setSelectedOption(savedArea.option);
+                return;
+            }
+            setArea(savedArea.area);
+            setSelectedOption(savedArea.option);
+        }
+    }, []);
+
+    useEffect(() => {
         const fetchMenuItems = async () => {
             try {
                 const items = await getMenuItems();
@@ -45,14 +61,36 @@ export default function HomePage() {
     }, []);
 
     const [userName, setUserName] = useState('');
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
         const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
         if (isLoggedIn) {
+            setIsLoggedIn(true)
             const loginData = JSON.parse(localStorage.getItem('loginData') || '{}');
             setUserName(loginData.customer.name || '');
+            fetchUserAreas(loginData?.customer?.id, loginData?.customer?.session_token);
+        } else {
+            fetchAreas();
         }
     }, []);
+
+    const [userAreas, setUserAreas] = useState([]);
+    const [userOGAreas, setOGUserAreas] = useState([]);
+
+
+    const fetchUserAreas = async (customerId, sessionToken) => {
+        try {
+            const data = await getUserAreas(customerId, sessionToken);
+            setOGUserAreas(data?.data?.addresses);
+            setUserAreas(data?.data?.addresses.map(addr => ({
+                id: addr.id,
+                title: `${addr.name}, ${addr.area}`, // Normalize data
+            })));
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // Handle selection of Delivery/Pickup and toggle back to Find Food if deselected
     const handleOptionClick = (option) => {
@@ -62,10 +100,21 @@ export default function HomePage() {
     const displayedCategories = categories.slice(0, 3);
 
     const [area, setArea] = useState({});
+
     const handleChange = (e) => {
-        const value = e.target;
-        const selectedArea = areas.find(area => area.title === value);
-        setArea(selectedArea);
+        const selectedTitle = e.target.value;
+        const selectedArea = (selectedOption === 'pickup' ? pickupAreas : isLoggedIn ? userAreas : areas)
+            .find(area => area.title === selectedTitle);
+        setArea(selectedArea); // Store the selected area object
+
+        if (isLoggedIn) {
+            const area = userOGAreas.find(area => area.id === selectedArea.id);
+            const areaObject = { area: area, option: selectedOption }
+            localStorage.setItem('selectedAreaWithOption', JSON.stringify(areaObject)); // Persist to localStorage            
+            return;
+        }
+        const areaObject = { area: selectedArea, option: selectedOption }
+        localStorage.setItem('selectedAreaWithOption', JSON.stringify(areaObject)); // Persist to localStorage
     };
 
     const MenuProps = {
@@ -147,13 +196,13 @@ export default function HomePage() {
                                     onChange={handleChange}
                                     displayEmpty
                                     required
-                                    placeholder='Find Areas'
+                                    placeholder={`Find ${selectedOption === 'pickup' ? 'Pickup Areas' : 'Delivery Areas'}`}
                                     MenuProps={MenuProps}
                                 >
                                     <MenuItem value="" disabled>
                                         {`Select ${selectedOption === 'pickup' ? 'Pickup Area' : 'Delivery Area'}`}
                                     </MenuItem>
-                                    {(selectedOption === 'pickup' ? pickupAreas : areas).map((area) => (
+                                    {(selectedOption === 'pickup' ? pickupAreas : isLoggedIn ? userAreas : areas).map((area) => (
                                         <MenuItem key={area.id} value={area.title}>
                                             {area.title}
                                         </MenuItem>
@@ -192,17 +241,18 @@ export default function HomePage() {
 
                     {menuItems.map((category) => (
                         category.type_data.map((item) => (
-                            <div key={item.id} className={styles.menuitem}>
-                                <Link className={styles.menuimage} href={`/home/${item.slug}`}>
+                            <Link key={item.id} className={styles.menuitem} href={`/home/${item.slug}`}>
+                                <div className={styles.menuitem}>
                                     <img className={styles.menuimage} src={item.attachment} alt={item.name} />
-                                </Link>
-                                <div className={styles.boxdecor}></div>
-                                <div className={styles.menucontent}>
-                                    <span className={styles.menuname}>{item.name}</span>
-                                    <span className={styles.menucategory}>{category.type_name}</span>
-                                    <span className={styles.menuprice}>{item.price.toFixed(3)} KWD</span>
+                                    <div className={styles.boxdecor}></div>
+                                    <div className={styles.menucontent}>
+                                        <span className={styles.menuname}>{item.name}</span>
+                                        <span className={styles.menucategory}>{category.type_name}</span>
+                                        <span className={styles.menuprice}>{item.price.toFixed(3)} KWD</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
+
                         ))
                     ))}
                 </div>
@@ -217,7 +267,8 @@ export default function HomePage() {
                         <img className={styles.tabico} src="/category.svg" />
                     </Link>
 
-                    <img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" />
+                    <Link href="/home" legacyBehavior><img className={`${styles.tabico} ${styles.centertab}`} src="/search.svg" /></Link>
+
 
                     <Link className={styles.tabico} href="/cart">
                         <img className={styles.tabico} src="/cart.svg" />

@@ -1,5 +1,5 @@
 import { addAddress } from "@/shared/util/apiService";
-import { Button, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import { Box, Button, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 
 const CreateAddress = ({ onClose, areas, refreshAddresses }) => {
@@ -73,86 +73,88 @@ const CreateAddress = ({ onClose, areas, refreshAddresses }) => {
             <DialogTitle>Add a new address</DialogTitle>
             <DialogContent>
 
-                <h3 style={{ marginBottom: '10px' }}>Please fill the following address fields</h3>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                    <h3 style={{ marginBottom: '10px' }}>Please fill the following address fields</h3>
 
-                <TextField
-                    label="Contact number"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                    type="number"
-                />
-
-                <FormControl fullWidth>
-                    <InputLabel id="area-select-label">Select Area</InputLabel>
-                    <Select
-                        labelId="area-select-label"
-                        name="area"
-                        value={formData.area ? formData.area.title : ''}
+                    <TextField
+                        label="Contact number"
+                        name="phone"
+                        value={formData.phone}
                         onChange={handleChange}
+                        fullWidth
                         required
-                    >
-                        <MenuItem value="" disabled>
-                            Select Area
-                        </MenuItem>
-                        {areas.map((area) => (
-                            <MenuItem key={area.id} value={area.title}>
-                                {area.title}
+                        type="number"
+                    />
+
+                    <FormControl fullWidth>
+                        <InputLabel id="area-select-label">Select Area</InputLabel>
+                        <Select
+                            labelId="area-select-label"
+                            name="area"
+                            value={formData.area ? formData.area.title : ''}
+                            onChange={handleChange}
+                            required
+                        >
+                            <MenuItem value="" disabled>
+                                Select Area
                             </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
+                            {areas.map((area) => (
+                                <MenuItem key={area.id} value={area.title}>
+                                    {area.title}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-                <TextField
-                    label="Block"
-                    name="block"
-                    value={formData.block}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                />
+                    <TextField
+                        label="Block"
+                        name="block"
+                        value={formData.block}
+                        onChange={handleChange}
+                        fullWidth
+                        required
+                    />
 
-                <TextField
-                    label="Street"
-                    name="street"
-                    value={formData.street}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                />
+                    <TextField
+                        label="Street"
+                        name="street"
+                        value={formData.street}
+                        onChange={handleChange}
+                        fullWidth
+                        required
+                    />
 
-                <TextField
-                    label="House Name"
-                    name="houseName"
-                    value={formData.houseName}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                />
+                    <TextField
+                        label="House Name"
+                        name="houseName"
+                        value={formData.houseName}
+                        onChange={handleChange}
+                        fullWidth
+                        required
+                    />
 
-                <TextField
-                    label="Apartment No"
-                    name="apartmentNo"
-                    value={formData.apartmentNo}
-                    onChange={handleChange}
-                    fullWidth
-                    required
-                />
+                    <TextField
+                        label="Apartment No"
+                        name="apartmentNo"
+                        value={formData.apartmentNo}
+                        onChange={handleChange}
+                        fullWidth
+                        required
+                    />
 
-                <DialogActions>
-                    <Button onClick={onClose}>Cancel</Button>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color={isSubmitting ? 'warning' : 'primary'}
-                        disabled={isSubmitting}
-                    >
-                        Submit
-                    </Button>
-                </DialogActions>
+                    <DialogActions>
+                        <Button onClick={onClose}>Cancel</Button>
+                        <Button
+                            type="submit"
+                            variant="contained"
+                            color={isSubmitting ? 'warning' : 'primary'}
+                            disabled={isSubmitting}
+                        >
+                            Submit
+                        </Button>
+                    </DialogActions>
 
+                </Box>
             </DialogContent>
         </form>
     )

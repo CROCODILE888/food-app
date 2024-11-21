@@ -53,6 +53,16 @@ const Checkout = () => {
         setCart(storedCart);
     }, []);
 
+    useEffect(() => {
+        const savedArea = JSON.parse(localStorage.getItem('selectedAreaWithOption'));
+        if (savedArea) {
+            setFormData({
+                ...formData,
+                area: savedArea.area
+            });
+        }
+    }, []);
+
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         if (name === "area") {

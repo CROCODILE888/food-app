@@ -26,6 +26,7 @@ const LoginPage = () => {
 
                 localStorage.setItem('loginData', JSON.stringify(result.data.data));
                 localStorage.setItem('isLoggedIn', 'true');
+                localStorage.removeItem('selectedAreaWithOption');
 
                 handleGoBack();
             } else {
