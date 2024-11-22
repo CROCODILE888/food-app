@@ -185,8 +185,9 @@ const Cart = () => {
         orderData.append('address_id', selectedArea.id);
         orderData.append('cost', total);
         orderData.append('payment_mode', paymentOption);
+        orderData.append('coupon_code', couponValidated ? couponCode : '');
 
-        const orderResponse = await makeOrder(orderData);
+        const orderResponse = await makeOrder(orderData, loginData.customer.id);
         if (!orderResponse.success) {
             alert(orderResponse.message);
             setIsSubmitting(false);
@@ -194,8 +195,9 @@ const Cart = () => {
         }
 
         const paymentLink = orderResponse?.data?.data?.order?.charge_url;
-        if (!paymentLink) {
-            alert("Payment link not received. Please contact support.");
+        if (paymentLink.trim() === '' || !paymentLink) {
+            alert("Order placed successfully for cash on delivery");
+            window.location.href = '/account/my-orders';
             return;
         }
 
@@ -361,7 +363,7 @@ const Cart = () => {
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>
                         <span className={styles.metrictitle}>Discount</span>
-                        <span className={styles.metric}>{discount} KWD</span>
+                        <span className={styles.metric}>{discount.toFixed(3)} KWD</span>
                     </div>
                     <div className={styles.line}></div>
                     <div className={styles.metricrow}>

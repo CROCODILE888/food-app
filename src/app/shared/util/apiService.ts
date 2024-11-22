@@ -213,7 +213,6 @@ export const postValidate = async (API: string | URL | Request, formData: FormDa
 }
 
 export const logout = async (customerId, sessionToken) => {
-    // const sessionToken = localStorage.getItem('sessionToken'); // retrieve session token
 
     const formData = new FormData();
     formData.append('customer_id', customerId); // add customer_id to form-data
@@ -241,9 +240,11 @@ export const logout = async (customerId, sessionToken) => {
     }
 };
 
-export const makeOrder = async (orderData: FormData) => {
+export const makeOrder = async (orderData: FormData, customerId) => {
+    const url = customerId > 0 ? `${API_ENDPOINTS.POST_ORDER}?customer_id=${customerId}` : API_ENDPOINTS.POST_ORDER;
+
     try {
-        const response = await fetch(API_ENDPOINTS.POST_ORDER, {
+        const response = await fetch(url, {
             method: 'POST',
             headers: { 'identifier': 'secret-oven' },
             body: orderData,

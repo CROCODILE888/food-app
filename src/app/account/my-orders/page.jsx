@@ -68,9 +68,10 @@ const MyOrders = () => {
                     <p><strong>Area:</strong> {order.area}</p>
                     <p><strong>Status:</strong> {order.status}</p>
                     <p><strong>Total Cost:</strong> {order.cost.toFixed(3)} KWD</p>
+                    <p><strong>Payment mode:</strong> {order.charge_url ? 'Online' : 'Cash on delivery'}</p>
                     {order.payment_status == 'captured' ?
                         <p>Payment done on {order.payment_captured_at}</p>
-                        : <a href={order.charge_url} style={{ color: 'red' }}
+                        : order.charge_url && <a href={order.charge_url} style={{ color: 'red' }}
                             target="_blank" rel="noopener noreferrer">Complete Payment
                         </a>
                     }

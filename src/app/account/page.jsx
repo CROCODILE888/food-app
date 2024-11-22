@@ -45,9 +45,9 @@ const Account = () => {
             localStorage.removeItem('loginData');
             localStorage.setItem('isLoggedIn', 'false');
             localStorage.removeItem('selectedAreaWithOption');
-
+            localStorage.removeItem('billingData');
+            localStorage.removeItem('cart')
             setOpen(true);
-
         } else {
             console.log(result.message);
         }

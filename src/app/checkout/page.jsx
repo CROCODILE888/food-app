@@ -167,7 +167,7 @@ const Checkout = () => {
         orderData.append('address_id', addAddressResponse.data.data.address_id);
 
         // // Make the order API call
-        const orderResponse = await makeOrder(orderData);
+        const orderResponse = await makeOrder(orderData, 0);
         if (!orderResponse.success) {
             alert(orderResponse.message);
             setIsSubmitting(false);
