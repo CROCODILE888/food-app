@@ -53,13 +53,18 @@ const Checkout = () => {
         setCart(storedCart);
     }, []);
 
+    const [selectedAreaWithOption, setSelectedAreaWithOption] = useState(null);
     useEffect(() => {
         const savedArea = JSON.parse(localStorage.getItem('selectedAreaWithOption'));
         if (savedArea) {
+            if (savedArea.option == 'pickup') {
+                return;
+            }
             setFormData({
                 ...formData,
                 area: savedArea.area
             });
+            setSelectedAreaWithOption(savedArea);
         }
     }, []);
 
@@ -162,9 +167,10 @@ const Checkout = () => {
         orderData.append('email', formData.email);
         orderData.append('phone', formData.phone);
         orderData.append('menu_items', menuItemsData);
-        orderData.append('area_id', formData.area.id);
         orderData.append('cost', total);
-        orderData.append('address_id', addAddressResponse.data.data.address_id);
+        orderData.append('area_id', selectedAreaWithOption.option == 'pickup' ? 0 : formData.area.id);
+        orderData.append('address_id', selectedAreaWithOption.option == 'pickup' ? 0 : addAddressResponse.data.data.address_id);
+        orderData.append('pickup_address', selectedAreaWithOption.option == 'pickup' ? selectedAreaWithOption.area : '');
 
         // // Make the order API call
         const orderResponse = await makeOrder(orderData, 0);

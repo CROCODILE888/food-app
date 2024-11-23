@@ -2,7 +2,7 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import styles from './home.module.css';
-import { getMenuItems, getAreas, getUserAreas } from '@/shared/util/apiService';
+import { getMenuItems, getAreas, getUserAreas, getInitialData } from '@/shared/util/apiService';
 import { Loader } from '@/components/Loader/Loader';
 import Link from 'next/link';
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
@@ -107,6 +107,11 @@ export default function HomePage() {
             .find(area => area.title === selectedTitle);
         setArea(selectedArea); // Store the selected area object
 
+        if (selectedOption === 'pickup') {
+            const areaObject = { area: selectedArea, option: selectedOption };
+            localStorage.setItem('selectedAreaWithOption', JSON.stringify(areaObject));
+            return;
+        }
         if (isLoggedIn) {
             const area = userOGAreas.find(area => area.id === selectedArea.id);
             const areaObject = { area: area, option: selectedOption }
@@ -126,17 +131,43 @@ export default function HomePage() {
         },
     };
 
-    const pickupAreas = [
-        { id: 1, title: 'The Secret Oven - Pickup 01' },
-        { id: 2, title: 'The Secret Oven - Pickup 02' },
-        { id: 3, title: 'The Secret Oven - Pickup 03' },
-        { id: 4, title: 'The Secret Oven - Pickup 04' },
-        { id: 5, title: 'The Secret Oven - Pickup 05' },
-        { id: 6, title: 'The Secret Oven - Pickup 06' },
-        { id: 7, title: 'The Secret Oven - Pickup 07' },
-        { id: 8, title: 'The Secret Oven - Pickup 08' },
-        { id: 9, title: 'The Secret Oven - Pickup 09' },
-    ];
+    const [pickupAreas, setPickupAreas] = useState([]);
+
+    // const [initialData, setInitialData] = useState([]);
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            try {
+                const data = await getInitialData();
+                // setInitialData(data);
+                const addresses = Array.isArray(data.organization.configurations.general.address)
+                    ? data.organization.configurations.general.address
+                    : [data.organization.configurations.general.address];
+
+                const normalizedAddresses = addresses.map((address, index) => ({
+                    id: index + 1, // Generate a unique id for each address
+                    title: address  // Use the address string as the title
+                }));
+
+                setPickupAreas(normalizedAddresses);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchInitialData();
+    }, []);
+
+    // const pickupAreas = [
+    //     { id: 1, title: 'The Secret Oven - Pickup 01' },
+    //     { id: 2, title: 'The Secret Oven - Pickup 02' },
+    //     { id: 3, title: 'The Secret Oven - Pickup 03' },
+    //     { id: 4, title: 'The Secret Oven - Pickup 04' },
+    //     { id: 5, title: 'The Secret Oven - Pickup 05' },
+    //     { id: 6, title: 'The Secret Oven - Pickup 06' },
+    //     { id: 7, title: 'The Secret Oven - Pickup 07' },
+    //     { id: 8, title: 'The Secret Oven - Pickup 08' },
+    //     { id: 9, title: 'The Secret Oven - Pickup 09' },
+    // ];
 
     if (loading) return <Loader />
     if (error) return <p>Error: {error}</p>;

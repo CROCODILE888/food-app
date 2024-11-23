@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import styles from './cart.module.css';
 import { useState, useEffect } from 'react';
-import { getAreas, getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
+import { getAreas, getInitialData, getUserAreas, makeOrder, validateCouponCode } from '@/shared/util/apiService';
 import { Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormControlLabel, FormLabel, Radio, RadioGroup } from '@mui/material';
 import DeliveryFormPopup from "@/components/Delivery Form Popup/DeliveryFormPopup";
 
@@ -181,8 +181,9 @@ const Cart = () => {
         orderData.append('email', loginData.customer.email);
         orderData.append('phone', loginData.customer.phone);
         orderData.append('menu_items', menuItemsData);
-        orderData.append('area_id', selectedArea.area_id);
-        orderData.append('address_id', selectedArea.id);
+        orderData.append('area_id', selectedArea.area_id || 0);
+        orderData.append('address_id', selectedArea.title == '' || !selectedArea.title ? selectedArea.id : 0);
+        orderData.append('pickup_address', selectedArea.title || '');
         orderData.append('cost', total);
         orderData.append('payment_mode', paymentOption);
         orderData.append('coupon_code', couponValidated ? couponCode : '');
@@ -232,6 +233,7 @@ const Cart = () => {
 
     const [selectedArea, setSelectedArea] = useState(null);
     const handleAreaSelect = (area) => {
+        console.log(area)
         setSelectedArea(area);
         setDeliveryPopup(false); // Close popup after selection
     };
@@ -240,6 +242,32 @@ const Cart = () => {
     const handlePaymentOptionSelection = (event) => {
         setPaymentOption(event.target.value);
     };
+
+    const [pickupAreas, setPickupAreas] = useState([]);
+
+    // const [initialData, setInitialData] = useState([]);
+
+    useEffect(() => {
+        const fetchInitialData = async () => {
+            try {
+                const data = await getInitialData();
+                // setInitialData(data);
+                const addresses = Array.isArray(data.organization.configurations.general.address)
+                    ? data.organization.configurations.general.address
+                    : [data.organization.configurations.general.address];
+
+                const normalizedAddresses = addresses.map((address, index) => ({
+                    id: index + 1, // Generate a unique id for each address
+                    title: address  // Use the address string as the title
+                }));
+
+                setPickupAreas(normalizedAddresses);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchInitialData();
+    }, []);
 
     return (
         <div className={styles.body}>
@@ -376,6 +404,8 @@ const Cart = () => {
                 {deliveryPopup &&
                     <DeliveryFormPopup
                         userAreas={userAreas}
+                        showPickup={true}
+                        pickupAreas={pickupAreas}
                         open={deliveryPopup}
                         handlePopupClose={handlePopupClose}
                         onAreaSelect={handleAreaSelect}
@@ -416,9 +446,9 @@ const Cart = () => {
                             sx={{ backgroundColor: '#F12828', color: 'black', borderRadius: '20px', marginTop: '10px' }}
                             variant='contained'
                             onClick={() => setDeliveryPopup(true)}>
-                            Select delivery address
+                            Select address
                         </Button>
-                        {selectedArea && <p><strong>Selected address: </strong><u>{selectedArea.name}</u></p>}
+                        {selectedArea && <p style={{ marginTop: '10px' }}><strong>Selected address: </strong><u>{selectedArea.name || selectedArea.title}</u></p>}
 
                         <button onClick={handleCheckoutLoggedIn} className={styles.button} disabled={isSubmitting}>
                             Checkout
