@@ -68,12 +68,54 @@ const ProductPage = () => {
         setIsAddedToCart(false);
     }
 
-    const handleAddOnAddQuantity = (addOnId) => {
-        setAddOnQuantities(prevQuantities => ({
-            ...prevQuantities,
-            [addOnId]: prevQuantities[addOnId] + 1
-        }));
-    }
+    // const handleAddOnAddQuantity = (addOnId) => {
+    //     setAddOnQuantities(prevQuantities => ({
+    //         ...prevQuantities,
+    //         [addOnId]: prevQuantities[addOnId] + 1
+    //     }));
+    // }
+
+    const handleAddOnAddQuantity = (customizationId, addOnId) => {
+        setAddOnQuantities((prevQuantities) => {
+            const currentCustomization = customizations.find(
+                (customization) => customization.customization_id === customizationId
+            );
+
+            if (currentCustomization.selection_type === 'single') {
+                // Reset other quantities for this customization
+                return {
+                    ...prevQuantities,
+                    ...Object.fromEntries(
+                        currentCustomization.options.map((option) => [option.option_id, 0])
+                    ),
+                    [addOnId]: (prevQuantities[addOnId] || 0) + 1,
+                };
+            }
+
+            if (currentCustomization.selection_type === 'multiple') {
+                const maxLimit = currentCustomization.maximum_selection_limit;
+
+                // Count how many options currently have quantity > 0, excluding the current option
+                const selectedCount = currentCustomization.options.reduce((count, option) => {
+                    if (option.option_id !== addOnId && (prevQuantities[option.option_id] || 0) > 0) {
+                        return count + 1;
+                    }
+                    return count;
+                }, 0);
+
+                if (maxLimit > 0 && selectedCount >= maxLimit) {
+                    // Limit reached for the number of options selected
+                    return prevQuantities;
+                }
+            }
+
+            // No constraints or limit not reached
+            return {
+                ...prevQuantities,
+                [addOnId]: (prevQuantities[addOnId] || 0) + 1,
+            };
+        });
+    };
 
     const handleAddOnRemoveQuantity = (addOnId) => {
         setAddOnQuantities(prevQuantities => ({
@@ -175,8 +217,9 @@ const ProductPage = () => {
                         <div key={customization.customization_id} className={styles.customizationBlock}>
                             {/* Display the name of the customization */}
                             <div className={styles.customizationName}>
-                                <strong>{customization.name}</strong>
+                                <strong>{customization.name}</strong><i className="fa-thin fa-circle-info"></i>
                             </div>
+                            <p>Maximum options that can be selected: <strong>{customization.maximum_selection_limit}</strong></p>
 
                             {customization.options.map((option, index) => (
                                 <div key={index} className={styles.addonitem}>
@@ -193,7 +236,7 @@ const ProductPage = () => {
 
                                             <span className={styles.qty}>{addOnQuantities[option.option_id] || 0}</span>
 
-                                            <button onClick={() => handleAddOnAddQuantity(option.option_id)}>
+                                            <button onClick={() => handleAddOnAddQuantity(customization.customization_id, option.option_id)}>
                                                 <img className={styles.qtyicon} src="/plus.svg" />
                                             </button>
                                         </div>

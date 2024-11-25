@@ -336,17 +336,18 @@ const Cart = () => {
                     <DialogContent>
                         {selectedItem?.customizations?.length > 0 ? (
                             selectedItem.customizations.map((customization) => (
-                                <div key={customization.customization_id} style={{ marginTop: 10 }}>
-                                    <h4 style={{ fontSize: 18, fontWeight: 'bold' }}>{customization.name}: </h4>
-                                    <ul>
-                                        {customization.options.map((option) => (
-                                            <li key={option.id}>
-                                                {option.name} - {option?.price} KWD (Qty: {option.quantity})
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            ))
+                                (customization.options.length > 0 &&
+                                    <div key={customization.customization_id} style={{ marginTop: 10 }}>
+                                        <h4 style={{ fontSize: 18, fontWeight: 'bold' }}>{customization.name}: </h4>
+                                        <ul>
+                                            {customization.options.map((option) => (
+                                                <li key={option.id}>
+                                                    {option.name} - {option?.price} KWD (Qty: {option.quantity})
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )))
                         ) : (
                             <p>No customizations selected.</p>
                         )}
