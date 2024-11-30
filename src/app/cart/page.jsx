@@ -241,17 +241,15 @@ const Cart = () => {
     const [paymentOption, setPaymentOption] = useState('online');
     const handlePaymentOptionSelection = (event) => {
         setPaymentOption(event.target.value);
+        localStorage.setItem('paymentOption', event.target.value);
     };
 
     const [pickupAreas, setPickupAreas] = useState([]);
-
-    // const [initialData, setInitialData] = useState([]);
 
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
                 const data = await getInitialData();
-                // setInitialData(data);
                 const addresses = Array.isArray(data.organization.configurations.general.address)
                     ? data.organization.configurations.general.address
                     : [data.organization.configurations.general.address];

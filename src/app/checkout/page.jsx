@@ -15,11 +15,16 @@ const Checkout = () => {
 
     const [areas, setAreas] = useState([]);
 
+    const [paymentOption, setPaymentOption] = useState('online');
+
     useEffect(() => {
         // Retrieve the billing data from localStorage
-        const storedBillingData = JSON.parse(localStorage.getItem("billingData") || '{}');
+        const storedBillingData = JSON.parse(localStorage.getItem("billingData"));
+        if (!storedBillingData) {
+            window.location.href = '/home';
+        }
         setBillingData(storedBillingData); // Update the state with the data
-
+        setPaymentOption(localStorage.getItem('paymentOption'));
         const fetchAreas = async () => {
             try {
                 const data = await getAreas();
@@ -168,9 +173,10 @@ const Checkout = () => {
         orderData.append('phone', formData.phone);
         orderData.append('menu_items', menuItemsData);
         orderData.append('cost', total);
-        orderData.append('area_id', selectedAreaWithOption.option == 'pickup' ? 0 : formData.area.id);
-        orderData.append('address_id', selectedAreaWithOption.option == 'pickup' ? 0 : addAddressResponse.data.data.address_id);
-        orderData.append('pickup_address', selectedAreaWithOption.option == 'pickup' ? selectedAreaWithOption.area : '');
+        orderData.append('area_id', selectedAreaWithOption && selectedAreaWithOption.option == 'pickup' ? 0 : formData.area.id);
+        orderData.append('address_id', selectedAreaWithOption && selectedAreaWithOption.option == 'pickup' ? 0 : addAddressResponse.data.data.address_id);
+        orderData.append('pickup_address', selectedAreaWithOption && selectedAreaWithOption.option == 'pickup' ? selectedAreaWithOption.area : '');
+        orderData.append('payment_mode', paymentOption);
 
         // // Make the order API call
         const orderResponse = await makeOrder(orderData, 0);
@@ -182,12 +188,20 @@ const Checkout = () => {
 
         const paymentLink = orderResponse?.data?.data?.order?.charge_url;
 
+        if (paymentLink.trim() === '' || !paymentLink) {
+            alert("Order placed successfully for cash on delivery");
+            window.location.href = '/home';
+            return;
+        }
+
         setCart([]); // Clear the cart state
         localStorage.removeItem("cart"); // Remove cart from localStorage
 
         alert("Order placed successfully! You are being redirected to payment gateway");
         window.location.href = paymentLink;
         setIsSubmitting(false);
+        setBillingData({});
+        localStorage.removeItem('billingData');
     };
 
     return (
