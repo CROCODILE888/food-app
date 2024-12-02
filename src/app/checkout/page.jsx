@@ -24,7 +24,13 @@ const Checkout = () => {
             window.location.href = '/home';
         }
         setBillingData(storedBillingData); // Update the state with the data
-        setPaymentOption(localStorage.getItem('paymentOption'));
+
+        const paymentOption = localStorage.getItem('paymentOption');
+
+        if (paymentOption) {
+            setPaymentOption(paymentOption);
+        }
+
         const fetchAreas = async () => {
             try {
                 const data = await getAreas();
