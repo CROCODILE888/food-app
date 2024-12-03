@@ -197,16 +197,21 @@ const Checkout = () => {
         if (paymentLink.trim() === '' || !paymentLink) {
             alert("Order placed successfully for cash on delivery");
             window.location.href = '/home';
+            setBillingData({});
+            localStorage.removeItem('billingData');
+            localStorage.removeItem('cart');
+            localStorage.removeItem('paymentOption');
             return;
         }
-
-        setCart([]); // Clear the cart state
-        localStorage.removeItem("cart"); // Remove cart from localStorage
 
         alert("Order placed successfully! You are being redirected to payment gateway");
         window.location.href = paymentLink;
         setIsSubmitting(false);
         setBillingData({});
+        setCart([]); // Clear the cart state
+
+        localStorage.removeItem('paymentOption');
+        localStorage.removeItem("cart"); // Remove cart from localStorage
         localStorage.removeItem('billingData');
     };
 
