@@ -3,6 +3,8 @@ import { API_ENDPOINTS } from "../apiConstants";
 // Cache memory will expire every hour.
 const CACHE_EXPIRATION_TIME = 60 * 60 * 1000;
 
+const IDENTIFIER = 'secret-oven';
+// const IDENTIFIER = 'staging';
 // GET calls
 export const getMenuItems = async () => {
 
@@ -22,7 +24,7 @@ export const getMenuItems = async () => {
 
     const response = await fetch(API_ENDPOINTS.GET_MENU_ITEMS, {
         method: 'GET',
-        headers: { 'identifier': 'secret-oven' },
+        headers: { 'identifier': IDENTIFIER },
     });
 
     const data = await response.json();
@@ -39,7 +41,7 @@ export const getAreas = async () => {
 
     const areasData = await fetch(API_ENDPOINTS.AREAS, {
         method: 'GET',
-        headers: { 'identifier': 'secret-oven' },
+        headers: { 'identifier': IDENTIFIER },
     });
 
     const areasDataResponse = await areasData.json();
@@ -54,7 +56,7 @@ export const getGovernorates = async () => {
 
     const governoratesData = await fetch(API_ENDPOINTS.GOVERNOR_RATES, {
         method: 'GET',
-        headers: { 'identifier': 'secret-oven' },
+        headers: { 'identifier': IDENTIFIER },
     });
 
     const governoratesDataResponse = await governoratesData.json();
@@ -77,7 +79,7 @@ export const getInitialData = async () => {
 
     const initialData = await fetch(API_ENDPOINTS.INITIAL, {
         method: 'GET',
-        headers: { 'identifier': 'secret-oven' },
+        headers: { 'identifier': IDENTIFIER },
     });
 
     const initialDataResponse = await initialData.json();
@@ -97,7 +99,7 @@ export const validateCouponCode = async (couponCode, customerId, sessionToken) =
             method: 'GET',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'secret-oven'
+                'identifier': IDENTIFIER
             },
 
         });
@@ -131,7 +133,7 @@ export const getOrderDetailsByCustomerId = async (customerId) => {
         const url = `${API_ENDPOINTS.GET_ORDERS}?customer_id=${customerId}`;
         const response = await fetch(url, {
             method: 'GET',
-            headers: { 'identifier': 'secret-oven' },
+            headers: { 'identifier': IDENTIFIER },
         });
 
         const result = await response.json();
@@ -165,7 +167,7 @@ export const getUserAreas = async (customerId, sessionToken) => {
             method: 'GET',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'secret-oven'
+                'identifier': IDENTIFIER
             },
         });
 
@@ -195,7 +197,7 @@ export const postValidate = async (API: string | URL | Request, formData: FormDa
     try {
         const response = await fetch(API, {
             method: 'POST',
-            headers: { 'identifier': 'secret-oven' },
+            headers: { 'identifier': IDENTIFIER },
             body: formData,
         })
         const data = await response.json();
@@ -222,7 +224,7 @@ export const logout = async (customerId, sessionToken) => {
             method: 'POST',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'secret-oven'
+                'identifier': IDENTIFIER
             },
             body: formData
         });
@@ -246,7 +248,7 @@ export const makeOrder = async (orderData: FormData, customerId) => {
     try {
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'identifier': 'secret-oven' },
+            headers: { 'identifier': IDENTIFIER },
             body: orderData,
         })
         const data = await response.json();
@@ -267,7 +269,7 @@ export const resetPassword = async (resetPasswordData: FormData) => {
     try {
         const response = await fetch(API_ENDPOINTS.RESET_PASSWORD, {
             method: 'POST',
-            headers: { 'identifier': 'secret-oven' },
+            headers: { 'identifier': IDENTIFIER },
             body: resetPasswordData,
         })
         const data = await response.json();
@@ -288,7 +290,7 @@ export const updatePassword = async (updatePasswordData: FormData) => {
     try {
         const response = await fetch(API_ENDPOINTS.UPDATE_PASSWORD, {
             method: 'POST',
-            headers: { 'identifier': 'secret-oven' },
+            headers: { 'identifier': IDENTIFIER },
             body: updatePasswordData,
         })
         const data = await response.json();
@@ -311,7 +313,7 @@ export const addAddress = async (addAddressData: FormData, sessionToken) => {
             method: 'POST',
             headers: {
                 'Authorization': sessionToken,
-                'identifier': 'secret-oven'
+                'identifier': IDENTIFIER
             },
             body: addAddressData,
         })

@@ -157,18 +157,6 @@ export default function HomePage() {
         fetchInitialData();
     }, []);
 
-    // const pickupAreas = [
-    //     { id: 1, title: 'The Secret Oven - Pickup 01' },
-    //     { id: 2, title: 'The Secret Oven - Pickup 02' },
-    //     { id: 3, title: 'The Secret Oven - Pickup 03' },
-    //     { id: 4, title: 'The Secret Oven - Pickup 04' },
-    //     { id: 5, title: 'The Secret Oven - Pickup 05' },
-    //     { id: 6, title: 'The Secret Oven - Pickup 06' },
-    //     { id: 7, title: 'The Secret Oven - Pickup 07' },
-    //     { id: 8, title: 'The Secret Oven - Pickup 08' },
-    //     { id: 9, title: 'The Secret Oven - Pickup 09' },
-    // ];
-
     if (loading) return <Loader />
     if (error) return <p>Error: {error}</p>;
 
@@ -235,7 +223,21 @@ export default function HomePage() {
                                     </MenuItem>
                                     {(selectedOption === 'pickup' ? pickupAreas : isLoggedIn ? userAreas : areas).map((area) => (
                                         <MenuItem key={area.id} value={area.title}>
-                                            {area.title}
+                                            {selectedOption === 'pickup' ?
+                                                <a
+                                                    target='_blank'
+                                                    // className='aTag'
+                                                    style={{
+                                                        color: 'rgb(36, 98, 145)',
+                                                        textDecoration: 'underline',
+                                                        textDecorationColor: 'blue',
+                                                        cursor: 'pointer',
+                                                    }}
+                                                    href={area.title}
+                                                    rel='noopener noreferrer'
+                                                >Open maps for location
+                                                </a>
+                                                : area.title}
                                         </MenuItem>
                                     ))}
                                 </Select>
