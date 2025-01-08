@@ -1,0 +1,1299 @@
+{
+    "menu_items_response": {
+        "success": true,
+        "code": 200,
+        "message": "Menu items have been retrieved.",
+        "data": {
+            "configurations": {
+                "delivery_cost": 10,
+                "minimum_order_cost": 0
+            },
+            "menu_items": [
+                {
+                    "type_name": "Sport",
+                    "type_data": [
+                        {
+                            "id": 2,
+                            "slug": "72C75",
+                            "name": "Rice with Chicken",
+                            "a_name": "شاي اخضر",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/f2c2bb7859badaee2d1a1ea103864c15f0308dda.jpg",
+                            "price": 12,
+                            "is_active": 1,
+                            "description": "Coffee is a beverage prepared from roasted coffee beans.",
+                            "a_description": "Coffee is a beverage prepared from roasted coffee beans.",
+                            "calories": 100,
+                            "protein": 100,
+                            "fats": 90,
+                            "carbs": 10,
+                            "fiber": 10,
+                            "recipe_text": "rice oil",
+                            "recipes": [
+                                {
+                                    "id": 2,
+                                    "title": "Bread",
+                                    "a_title": "asc",
+                                    "measure_unit": "piece",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                },
+                                {
+                                    "id": 4,
+                                    "title": "Coffee",
+                                    "a_title": "kh",
+                                    "measure_unit": "gram",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                },
+                                {
+                                    "id": 3,
+                                    "title": "Butter",
+                                    "a_title": "kj",
+                                    "measure_unit": "gram",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                },
+                                {
+                                    "id": 1,
+                                    "title": "Milk",
+                                    "a_title": "milk",
+                                    "measure_unit": "litre",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                },
+                                {
+                                    "id": 29,
+                                    "title": "CC Testing",
+                                    "a_title": "CC Testing",
+                                    "measure_unit": "kilogram",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                }
+                            ],
+                            "customizations": [
+                                {
+                                    "customization_id": 41,
+                                    "name": "Cold Drincks",
+                                    "selection_type": "single",
+                                    "maximum_selection_limit": 1,
+                                    "options": [
+                                        {
+                                            "option_id": 91,
+                                            "name": "Davat",
+                                            "price": "10"
+                                        },
+                                        {
+                                            "option_id": 92,
+                                            "name": "Big Cola",
+                                            "price": "5"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "customization_id": 42,
+                                    "name": "Water Bottole",
+                                    "selection_type": "multiple",
+                                    "maximum_selection_limit": 2,
+                                    "options": [
+                                        {
+                                            "option_id": 93,
+                                            "name": "Bisleri",
+                                            "price": "20"
+                                        },
+                                        {
+                                            "option_id": 94,
+                                            "name": "Irani",
+                                            "price": "40"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "type_name": "Dinner",
+                    "type_data": [
+                        {
+                            "id": 3,
+                            "slug": "35768",
+                            "name": "Aloo Paratha",
+                            "a_name": "Aloo Paratha",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/c5c6b0eb95a93c6822f15e484e3eaf741ada4144.webp",
+                            "price": 10,
+                            "is_active": 1,
+                            "description": "Aloo paratha is a paratha stuffed with potato filling native to the Indian subcontinent. It is traditionally eaten for breakfast.",
+                            "a_description": "Aloo paratha is a paratha stuffed with potato filling native to the Indian subcontinent. It is traditionally eaten for breakfast.",
+                            "calories": 540,
+                            "protein": 45.9,
+                            "fats": 12,
+                            "carbs": 60.45,
+                            "fiber": 10,
+                            "recipe_text": "",
+                            "recipes": [
+                                {
+                                    "id": 7,
+                                    "title": "Rice",
+                                    "a_title": "",
+                                    "measure_unit": "kilogram",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 1
+                                },
+                                {
+                                    "id": 11,
+                                    "title": "Oil",
+                                    "a_title": "",
+                                    "measure_unit": "litre",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 1
+                                },
+                                {
+                                    "id": 2,
+                                    "title": "Bread",
+                                    "a_title": "asc",
+                                    "measure_unit": "piece",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 1
+                                }
+                            ],
+                            "customizations": []
+                        },
+                        {
+                            "id": 19,
+                            "slug": "C6E5C",
+                            "name": "Milk Shake",
+                            "a_name": "Milk Shake",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/021df73165b70b4719a7a00d10c3f949f151de8a.png",
+                            "price": 5,
+                            "is_active": 1,
+                            "description": "salmon a tasty toast & hit of omega-3 acids.",
+                            "a_description": "سمك السلمون نخب لذيذ وضربة من أحماض أوميغا 3.",
+                            "calories": 10,
+                            "protein": 10,
+                            "fats": 10,
+                            "carbs": 10,
+                            "fiber": 0,
+                            "recipe_text": "",
+                            "recipes": [
+                                {
+                                    "id": 1,
+                                    "title": "Milk",
+                                    "a_title": "milk",
+                                    "measure_unit": "litre",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 1
+                                },
+                                {
+                                    "id": 15,
+                                    "title": "Apple",
+                                    "a_title": "",
+                                    "measure_unit": "kilogram",
+                                    "quantity": 1,
+                                    "is_mandatory_for_menu_item": 0
+                                }
+                            ],
+                            "customizations": []
+                        }
+                    ]
+                },
+                {
+                    "type_name": "unnamed",
+                    "type_data": [
+                        {
+                            "id": 23,
+                            "slug": "A4EFB",
+                            "name": "tuna salad",
+                            "a_name": "sss",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/a24cdbdfadc78552430f3ab4dc7ced7e37c72f43.jpg",
+                            "price": 9,
+                            "is_active": 1,
+                            "description": "test",
+                            "a_description": "ttttt",
+                            "calories": 9,
+                            "protein": 999,
+                            "fats": 999,
+                            "carbs": 9,
+                            "fiber": 0,
+                            "recipe_text": "",
+                            "recipes": [],
+                            "customizations": []
+                        }
+                    ]
+                },
+                {
+                    "type_name": "Lunch",
+                    "type_data": [
+                        {
+                            "id": 24,
+                            "slug": "FCE76",
+                            "name": "ss",
+                            "a_name": "sss",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/c9faad0568ae60b53486e88810621acd7ec269eb.jpg",
+                            "price": 90,
+                            "is_active": 1,
+                            "description": "ss",
+                            "a_description": "ss",
+                            "calories": 2,
+                            "protein": 222,
+                            "fats": 22,
+                            "carbs": 222,
+                            "fiber": 0,
+                            "recipe_text": "",
+                            "recipes": [],
+                            "customizations": []
+                        }
+                    ]
+                },
+                {
+                    "type_name": "Consultation",
+                    "type_data": [
+                        {
+                            "id": 25,
+                            "slug": "8B5FB",
+                            "name": "Mustafa9",
+                            "a_name": "89",
+                            "attachment": "https://assets.dietmaster.fit/uploads/menu_items/a188274302f5af45685e35d2cce0dcacd459fb94.jpg",
+                            "price": 1,
+                            "is_active": 1,
+                            "description": "9",
+                            "a_description": "9",
+                            "calories": 0,
+                            "protein": 0,
+                            "fats": 0,
+                            "carbs": 0,
+                            "fiber": 0,
+                            "recipe_text": "",
+                            "recipes": [],
+                            "customizations": []
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "areas_response": {
+        "success": true,
+        "code": 200,
+        "message": "Areas have been retrieved",
+        "data": {
+            "areas": [
+                {
+                    "id": 1,
+                    "governorate_id": 1,
+                    "slug": "5E4C0",
+                    "title": "Kuwait City",
+                    "a_title": "مدينة الكويت",
+                    "description": "Kuwait City ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 2,
+                    "governorate_id": 1,
+                    "slug": "CF333",
+                    "title": "Abdullah as-Salim",
+                    "a_title": "Abdullah as-Salim",
+                    "description": "Abdullah as-Salim ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 3,
+                    "governorate_id": 1,
+                    "slug": "140B9",
+                    "title": "Adiliya",
+                    "a_title": "Adiliya",
+                    "description": "Adiliya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 4,
+                    "governorate_id": 1,
+                    "slug": "FFA59",
+                    "title": "Bneid il-Gār",
+                    "a_title": "Bneid il-Gār",
+                    "description": "Bneid il-Gār ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 5,
+                    "governorate_id": 1,
+                    "slug": "4C8B0",
+                    "title": "Da'iya",
+                    "a_title": "Da'iya",
+                    "description": "Da'iya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 6,
+                    "governorate_id": 1,
+                    "slug": "FFFC5",
+                    "title": "Dasma",
+                    "a_title": "Dasma",
+                    "description": "Dasma ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 7,
+                    "governorate_id": 1,
+                    "slug": "DB3A8",
+                    "title": "Dasmān",
+                    "a_title": "Dasmān",
+                    "description": "Dasmān ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 8,
+                    "governorate_id": 1,
+                    "slug": "14395",
+                    "title": "Doha",
+                    "a_title": "Doha",
+                    "description": "Doha ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 9,
+                    "governorate_id": 1,
+                    "slug": "FC109",
+                    "title": "Doha Port",
+                    "a_title": "Doha Port",
+                    "description": "Doha Port ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 10,
+                    "governorate_id": 1,
+                    "slug": "8DD83",
+                    "title": "Faiha'",
+                    "a_title": "Faiha'",
+                    "description": "Faiha' ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 11,
+                    "governorate_id": 1,
+                    "slug": "629F8",
+                    "title": "Granada",
+                    "a_title": "Granada",
+                    "description": "Granada ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 12,
+                    "governorate_id": 1,
+                    "slug": "22712",
+                    "title": "Jaber Al-Ahmad City",
+                    "a_title": "Jaber Al-Ahmad City",
+                    "description": "Jaber Al-Ahmad City ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 13,
+                    "governorate_id": 1,
+                    "slug": "B5462",
+                    "title": "Jibla",
+                    "a_title": "Jibla",
+                    "description": "Jibla ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 14,
+                    "governorate_id": 1,
+                    "slug": "786E2",
+                    "title": "Kaifan",
+                    "a_title": "Kaifan",
+                    "description": "Kaifan ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 15,
+                    "governorate_id": 1,
+                    "slug": "2AEC5",
+                    "title": "Khaldiya",
+                    "a_title": "Khaldiya",
+                    "description": "Khaldiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 16,
+                    "governorate_id": 1,
+                    "slug": "7C9AA",
+                    "title": "Mansūriya",
+                    "a_title": "Mansūriya",
+                    "description": "Mansūriya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 17,
+                    "governorate_id": 1,
+                    "slug": "B9E99",
+                    "title": "Mirgab",
+                    "a_title": "Mirgab",
+                    "description": "Mirgab ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 18,
+                    "governorate_id": 1,
+                    "slug": "C39EF",
+                    "title": "Nahdha",
+                    "a_title": "Nahdha",
+                    "description": "Nahdha ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 19,
+                    "governorate_id": 1,
+                    "slug": "DF215",
+                    "title": "Nuzha",
+                    "a_title": "Nuzha",
+                    "description": "Nuzha ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 20,
+                    "governorate_id": 1,
+                    "slug": "41165",
+                    "title": "Qadsiya",
+                    "a_title": "Qadsiya",
+                    "description": "Qadsiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 21,
+                    "governorate_id": 1,
+                    "slug": "A2B10",
+                    "title": "Qurtuba",
+                    "a_title": "Qurtuba",
+                    "description": "Qurtuba ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 22,
+                    "governorate_id": 1,
+                    "slug": "F746D",
+                    "title": "Rawda",
+                    "a_title": "Rawda",
+                    "description": "Rawda ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 23,
+                    "governorate_id": 1,
+                    "slug": "574B0",
+                    "title": "Salhiya",
+                    "a_title": "Salhiya",
+                    "description": "Salhiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 24,
+                    "governorate_id": 1,
+                    "slug": "449EB",
+                    "title": "Sawābir",
+                    "a_title": "Sawābir",
+                    "description": "Sawābir ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 25,
+                    "governorate_id": 1,
+                    "slug": "9A130",
+                    "title": "Shamiya",
+                    "a_title": "Shamiya",
+                    "description": "Shamiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 26,
+                    "governorate_id": 1,
+                    "slug": "985F4",
+                    "title": "Sharq",
+                    "a_title": "Sharq",
+                    "description": "Sharq ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 27,
+                    "governorate_id": 1,
+                    "slug": "04AFF",
+                    "title": "Shuwaikh",
+                    "a_title": "Shuwaikh",
+                    "description": "Shuwaikh ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 28,
+                    "governorate_id": 1,
+                    "slug": "38AB4",
+                    "title": "Shuwaikh Industrial Area",
+                    "a_title": "Shuwaikh Industrial Area",
+                    "description": "Shuwaikh Industrial Area ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 29,
+                    "governorate_id": 1,
+                    "slug": "F43F1",
+                    "title": "Shuwaikh Port",
+                    "a_title": "Shuwaikh Port",
+                    "description": "Shuwaikh Port ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 30,
+                    "governorate_id": 1,
+                    "slug": "4A3F2",
+                    "title": "Sulaibikhat",
+                    "a_title": "Sulaibikhat",
+                    "description": "Sulaibikhat ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 31,
+                    "governorate_id": 1,
+                    "slug": "B2E92",
+                    "title": "Surra",
+                    "a_title": "Surra",
+                    "description": "Surra ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 32,
+                    "governorate_id": 1,
+                    "slug": "30FCD",
+                    "title": "Yarmūk",
+                    "a_title": "Yarmūk",
+                    "description": "Yarmūk ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 33,
+                    "governorate_id": 1,
+                    "slug": "FDF82",
+                    "title": "North West Sulaibikhat",
+                    "a_title": "North West Sulaibikhat",
+                    "description": "North West Sulaibikhat ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 34,
+                    "governorate_id": 2,
+                    "slug": "92888",
+                    "title": "Anjafa",
+                    "a_title": "Anjafa",
+                    "description": "Anjafa ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 35,
+                    "governorate_id": 2,
+                    "slug": "23587",
+                    "title": "Bayān",
+                    "a_title": "Bayān",
+                    "description": "Bayān ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 36,
+                    "governorate_id": 2,
+                    "slug": "90EC9",
+                    "title": "Bi'da",
+                    "a_title": "Bi'da",
+                    "description": "Bi'da ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 37,
+                    "governorate_id": 2,
+                    "slug": "ACB95",
+                    "title": "Hawally",
+                    "a_title": "Hawally",
+                    "description": "Hawally ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 38,
+                    "governorate_id": 2,
+                    "slug": "8EA51",
+                    "title": "Hittin",
+                    "a_title": "Hittin",
+                    "description": "Hittin ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 39,
+                    "governorate_id": 2,
+                    "slug": "10F52",
+                    "title": "Jabriya",
+                    "a_title": "Jabriya",
+                    "description": "Jabriya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 40,
+                    "governorate_id": 2,
+                    "slug": "94E58",
+                    "title": "Maidan Hawalli",
+                    "a_title": "Maidan Hawalli",
+                    "description": "Maidan Hawalli ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 41,
+                    "governorate_id": 2,
+                    "slug": "2B478",
+                    "title": "Mishrif",
+                    "a_title": "Mishrif",
+                    "description": "Mishrif ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 42,
+                    "governorate_id": 2,
+                    "slug": "CE25F",
+                    "title": "Mubarak Al-Jabir",
+                    "a_title": "Mubarak Al-Jabir",
+                    "description": "Mubarak Al-Jabir ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 43,
+                    "governorate_id": 2,
+                    "slug": "E92E6",
+                    "title": "Nigra",
+                    "a_title": "Nigra",
+                    "description": "Nigra ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 44,
+                    "governorate_id": 2,
+                    "slug": "91DE9",
+                    "title": "Rumaithiya",
+                    "a_title": "Rumaithiya",
+                    "description": "Rumaithiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 45,
+                    "governorate_id": 2,
+                    "slug": "DCDF7",
+                    "title": "Salam",
+                    "a_title": "Salam",
+                    "description": "Salam ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 46,
+                    "governorate_id": 2,
+                    "slug": "6372E",
+                    "title": "Salmiya",
+                    "a_title": "Salmiya",
+                    "description": "Salmiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 47,
+                    "governorate_id": 2,
+                    "slug": "8DAFE",
+                    "title": "Salwa",
+                    "a_title": "Salwa",
+                    "description": "Salwa ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 48,
+                    "governorate_id": 2,
+                    "slug": "E671A",
+                    "title": "Sha'ab",
+                    "a_title": "Sha'ab",
+                    "description": "Sha'ab ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 49,
+                    "governorate_id": 2,
+                    "slug": "52AE4",
+                    "title": "Shuhada",
+                    "a_title": "Shuhada",
+                    "description": "Shuhada ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 50,
+                    "governorate_id": 2,
+                    "slug": "0A604",
+                    "title": "Siddiq",
+                    "a_title": "Siddiq",
+                    "description": "Siddiq ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 51,
+                    "governorate_id": 2,
+                    "slug": "71823",
+                    "title": "South Surra",
+                    "a_title": "South Surra",
+                    "description": "South Surra ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 52,
+                    "governorate_id": 2,
+                    "slug": "5BD30",
+                    "title": "Zahra",
+                    "a_title": "Zahra",
+                    "description": "Zahra ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 53,
+                    "governorate_id": 3,
+                    "slug": "3A9BE",
+                    "title": "Abu Al Hasaniya",
+                    "a_title": "Abu Al Hasaniya",
+                    "description": "Abu Al Hasaniya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 54,
+                    "governorate_id": 3,
+                    "slug": "3521D",
+                    "title": "Abu Futaira",
+                    "a_title": "Abu Futaira",
+                    "description": "Abu Futaira ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 55,
+                    "governorate_id": 3,
+                    "slug": "A6E66",
+                    "title": "Adān",
+                    "a_title": "Adān",
+                    "description": "Adān ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 56,
+                    "governorate_id": 3,
+                    "slug": "FF157",
+                    "title": "Al Qurain",
+                    "a_title": "Al Qurain",
+                    "description": "Al Qurain ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 57,
+                    "governorate_id": 3,
+                    "slug": "C8AEA",
+                    "title": "Al-Qusour",
+                    "a_title": "Al-Qusour",
+                    "description": "Al-Qusour ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 58,
+                    "governorate_id": 3,
+                    "slug": "ECC76",
+                    "title": "Fintās",
+                    "a_title": "Fintās",
+                    "description": "Fintās ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 59,
+                    "governorate_id": 3,
+                    "slug": "DCB3E",
+                    "title": "Funaitīs",
+                    "a_title": "Funaitīs",
+                    "description": "Funaitīs ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 60,
+                    "governorate_id": 3,
+                    "slug": "AA8B9",
+                    "title": "Misīla",
+                    "a_title": "Misīla",
+                    "description": "Misīla ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 61,
+                    "governorate_id": 3,
+                    "slug": "2701B",
+                    "title": "Mubarak Al-Kabeer",
+                    "a_title": "Mubarak Al-Kabeer",
+                    "description": "Mubarak Al-Kabeer ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 62,
+                    "governorate_id": 3,
+                    "slug": "1A182",
+                    "title": "Sabah Al-Salem",
+                    "a_title": "Sabah Al-Salem",
+                    "description": "Sabah Al-Salem ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 63,
+                    "governorate_id": 3,
+                    "slug": "24070",
+                    "title": "Sabhān",
+                    "a_title": "Sabhān",
+                    "description": "Sabhān ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 64,
+                    "governorate_id": 3,
+                    "slug": "69536",
+                    "title": "South Wista",
+                    "a_title": "South Wista",
+                    "description": "South Wista ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 65,
+                    "governorate_id": 3,
+                    "slug": "3578F",
+                    "title": "Wista",
+                    "a_title": "Wista",
+                    "description": "Wista ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 66,
+                    "governorate_id": 4,
+                    "slug": "6D3D9",
+                    "title": "Abdullah Al-Mubarak",
+                    "a_title": "Abdullah Al-Mubarak",
+                    "description": "Abdullah Al-Mubarak ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 67,
+                    "governorate_id": 4,
+                    "slug": "8B1E9",
+                    "title": "Airport District",
+                    "a_title": "Airport District",
+                    "description": "Airport District ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 68,
+                    "governorate_id": 4,
+                    "slug": "36FF3",
+                    "title": "Andalous",
+                    "a_title": "Andalous",
+                    "description": "Andalous ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 69,
+                    "governorate_id": 4,
+                    "slug": "4AF5A",
+                    "title": "Ardiya",
+                    "a_title": "Ardiya",
+                    "description": "Ardiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 70,
+                    "governorate_id": 4,
+                    "slug": "C5F8D",
+                    "title": "Ardiya Herafiya",
+                    "a_title": "Ardiya Herafiya",
+                    "description": "Ardiya Herafiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 71,
+                    "governorate_id": 4,
+                    "slug": "1E01A",
+                    "title": "Ardiya Industrial Area",
+                    "a_title": "Ardiya Industrial Area",
+                    "description": "Ardiya Industrial Area ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 72,
+                    "governorate_id": 4,
+                    "slug": "117BF",
+                    "title": "Ashbelya",
+                    "a_title": "Ashbelya",
+                    "description": "Ashbelya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 73,
+                    "governorate_id": 4,
+                    "slug": "8739A",
+                    "title": "Dhajeej",
+                    "a_title": "Dhajeej",
+                    "description": "Dhajeej ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 74,
+                    "governorate_id": 4,
+                    "slug": "B7D51",
+                    "title": "Farwaniya",
+                    "a_title": "Farwaniya",
+                    "description": "Farwaniya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 75,
+                    "governorate_id": 4,
+                    "slug": "EA4C4",
+                    "title": "Fordous",
+                    "a_title": "Fordous",
+                    "description": "Fordous ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 76,
+                    "governorate_id": 4,
+                    "slug": "10F36",
+                    "title": "Jleeb Al-Shuyoukh",
+                    "a_title": "Jleeb Al-Shuyoukh",
+                    "description": "Jleeb Al-Shuyoukh ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 77,
+                    "governorate_id": 4,
+                    "slug": "4F7A9",
+                    "title": "Khaitan",
+                    "a_title": "Khaitan",
+                    "description": "Khaitan ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 78,
+                    "governorate_id": 4,
+                    "slug": "853FD",
+                    "title": "Omariya",
+                    "a_title": "Omariya",
+                    "description": "Omariya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 79,
+                    "governorate_id": 4,
+                    "slug": "DE06F",
+                    "title": "Rabiya",
+                    "a_title": "Rabiya",
+                    "description": "Rabiya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 80,
+                    "governorate_id": 4,
+                    "slug": "8F4F7",
+                    "title": "Rai",
+                    "a_title": "Rai",
+                    "description": "Rai ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 81,
+                    "governorate_id": 4,
+                    "slug": "8EE50",
+                    "title": "Riggae",
+                    "a_title": "Riggae",
+                    "description": "Riggae ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 82,
+                    "governorate_id": 4,
+                    "slug": "B01B4",
+                    "title": "Rihab",
+                    "a_title": "Rihab",
+                    "description": "Rihab ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 83,
+                    "governorate_id": 4,
+                    "slug": "5C833",
+                    "title": "Sabah Al-Nasser",
+                    "a_title": "Sabah Al-Nasser",
+                    "description": "Sabah Al-Nasser ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 84,
+                    "governorate_id": 5,
+                    "slug": "A4147",
+                    "title": "Al Nahda / East Sulaibikhat",
+                    "a_title": "Al Nahda / East Sulaibikhat",
+                    "description": "Al Nahda / East Sulaibikhat ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 169,
+                    "governorate_id": 2,
+                    "slug": "58634",
+                    "title": "SALMIA",
+                    "a_title": "SS",
+                    "description": "SS",
+                    "is_active": true
+                }
+            ]
+        }
+    },
+    "governorates_response": {
+        "success": true,
+        "code": 200,
+        "message": "Governorates have been retrieved",
+        "data": {
+            "governorates": [
+                {
+                    "id": 1,
+                    "slug": "32D70",
+                    "title": "Capital",
+                    "a_title": "",
+                    "description": "Capital ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 2,
+                    "slug": "3CCCE",
+                    "title": "Hawalli",
+                    "a_title": "",
+                    "description": "Hawalli ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 3,
+                    "slug": "B8978",
+                    "title": "Mubarak Al-Kabeer",
+                    "a_title": "",
+                    "description": "Mubarak Al-Kabeer ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 4,
+                    "slug": "B9C88",
+                    "title": "Farwaniya",
+                    "a_title": "",
+                    "description": "Farwaniya ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 5,
+                    "slug": "688FC",
+                    "title": "Jahra",
+                    "a_title": "",
+                    "description": "Jahra ... description",
+                    "is_active": true
+                },
+                {
+                    "id": 11,
+                    "slug": "30C43",
+                    "title": "Salam",
+                    "a_title": "aa",
+                    "description": "aa",
+                    "is_active": true
+                },
+                {
+                    "id": 12,
+                    "slug": "7D104",
+                    "title": "test",
+                    "a_title": "---",
+                    "description": "ss",
+                    "is_active": true
+                },
+                {
+                    "id": 13,
+                    "slug": "A2D32",
+                    "title": "tt",
+                    "a_title": "ss",
+                    "description": "s",
+                    "is_active": true
+                },
+                {
+                    "id": 14,
+                    "slug": "8C2AE",
+                    "title": "ssssss",
+                    "a_title": "sssss",
+                    "description": "sss",
+                    "is_active": true
+                },
+                {
+                    "id": 15,
+                    "slug": "01904",
+                    "title": "qqqq",
+                    "a_title": "qqqq",
+                    "description": "qq",
+                    "is_active": true
+                },
+                {
+                    "id": 16,
+                    "slug": "F56CD",
+                    "title": "jamil test",
+                    "a_title": "--",
+                    "description": "--",
+                    "is_active": true
+                }
+            ]
+        }
+    },
+    "initial_response": {
+        "success": true,
+        "code": 200,
+        "message": "Your initial data have been retrieved",
+        "data": {
+            "quote": "Eat breakfast like a king, lunch like a prince, and dinner like a pauper.",
+            "organization": {
+                "id": 1,
+                "slug": "42D08",
+                "identifier": "staging",
+                "name": "Almerak ( Root )",
+                "description": "",
+                "start_date": "2023-11-25",
+                "end_date": "",
+                "is_organization_expired": true,
+                "contact_person": "Hakim",
+                "email": "hakim@almerak.com",
+                "phone": "0067685242",
+                "currency": "KWD",
+                "a_currency": "د.ك",
+                "dialing_code": "965",
+                "allowed_digit_for_phone": 8,
+                "is_celebrity_feature_enabled": 0,
+                "is_loyalty_enabled": 1,
+                "is_referral_enabled": 1,
+                "is_calories_restricted": 0,
+                "is_customer_flow_enabled": 1,
+                "is_driver_flow_enabled": 1,
+                "is_owner_flow_enabled": 1,
+                "is_app_testing_mode": 0,
+                "is_menu_date_wise": 1,
+                "attachment": "",
+                "is_active": true,
+                "payment_gateway": [
+                    {
+                        "name": "fatoorah",
+                        "display_name": "Fatoorah"
+                    }
+                ],
+                "payment_mode": "online",
+                "show_subscriptions": "Button",
+                "show_menu_items": "Button",
+                "show_online_orders": "Button",
+                "show_actual_recipes": 0,
+                "address_fields": [
+                    "address_name",
+                    "phone",
+                    "PACI_number",
+                    "block",
+                    "street",
+                    "house_name",
+                    "avenue",
+                    "floor",
+                    "flat",
+                    "landmark",
+                    "zip_code",
+                    "notes"
+                ],
+                "configurations": {
+                    "general": {
+                        "name": "Staging",
+                        "website": "https://www.google.com/",
+                        "email": "murtaza.vhora@hotmail.com",
+                        "phone": "9426616652",
+                        "whatsapp_number": "9426616652",
+                        "address": "5151 Irvine Boulevard, Irvine, CA, USA",
+                        "sender_email": "sender@gmail.com",
+                        "receiver_email": "receiver@gmail.com"
+                    },
+                    "assets": {
+                        "logo": "https://assets.dietmaster.fit/uploads/configurations/logo.png",
+                        "actual_logo": "https://assets.dietmaster.fit/uploads/configurations/dietfit.png",
+                        "favicon": "https://assets.dietmaster.fit/uploads/configurations/favicon.ico"
+                    },
+                    "social_media": {
+                        "facebook_URL": "https://www.facebook.com/",
+                        "instagram_URL": "https://www.instagram.com/",
+                        "twitter_URL": "https://twitter.com/",
+                        "LinkedIn_URL": "https://www.linkedin.com/"
+                    },
+                    "settings": {
+                        "package_start_after": "2",
+                        "menu_selection_before": "2",
+                        "made_on_before": "0",
+                        "delivery_cost": "10",
+                        "minimum_order_cost": "0",
+                        "expiration_notification_before_days": "1",
+                        "maximum_allergy_selection": "5",
+                        "maximum_dislike_selection": "5",
+                        "maximum_subscribers": "1",
+                        "low_nutrition_highlight": "#9fe508",
+                        "average_nutrition_highlight": "#ff9300",
+                        "high_nutrition_highlight": "#ff2600",
+                        "week_day_off": "5",
+                        "meal_double_box": "Yes",
+                        "calculated_macros_for_mobile": "Yes",
+                        "show_macros_for_mobile": "Yes",
+                        "delivery_image_required": "Yes",
+                        "maximum_addresses_allowed": "3"
+                    },
+                    "theme": {
+                        "primary": "#5f97b9",
+                        "on_primary": "#d3d303",
+                        "primary_container": "#adeeb4",
+                        "on_primary_container": "#051f0a",
+                        "secondary": "#ffffff",
+                        "on_secondary": "#7f2515",
+                        "secondary_container": "#adeeb4",
+                        "on_secondary_container": "#051f0a",
+                        "tertiary": "#a1def2",
+                        "on_tertiary": "#7f7f6c",
+                        "tertiary_container": "#fadacc",
+                        "on_tertiary_container": "#360e04",
+                        "error": "#d6f3ff",
+                        "on_error": "#28c893",
+                        "error_container": "#fadacc",
+                        "on_error_container": "#360e04",
+                        "background": "#cc810f",
+                        "on_background": "#1e1b1c",
+                        "surface": "#fefaf4",
+                        "on_surface": "#1a1a14",
+                        "surface_variant": "#d5ebd6",
+                        "on_surface_variant": "#484843",
+                        "outline": "#757672"
+                    },
+                    "loyalty": {
+                        "menu_loyalty": "1",
+                        "subscription_loyalty": "1",
+                        "single_point_redeem_value": "1",
+                        "minimum_invoice_value_to_redeem_loyalty": "60"
+                    }
+                },
+                "force_update": {
+                    "ios": {
+                        "current_version": "",
+                        "latest_version": "",
+                        "application_url": "",
+                        "type": "maintenance"
+                    },
+                    "android": {
+                        "current_version": "",
+                        "latest_version": "",
+                        "application_url": "",
+                        "type": "maintenance"
+                    },
+                    "alerts": {
+                        "title": "",
+                        "description": "",
+                        "button_text": ""
+                    }
+                }
+            }
+        }
+    }
+}
