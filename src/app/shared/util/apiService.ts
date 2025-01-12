@@ -29,6 +29,7 @@ export const getMenuItems = async () => {
 
     // const data = await response.json();
     const data = responses.menu_items_response;
+    console.log('data from hard coding', data);
     if (data.success) {
         localStorage.setItem('menuItems', JSON.stringify(data.data.menu_items));
         localStorage.setItem('menuItemsTimestamp', Date.now().toString());
