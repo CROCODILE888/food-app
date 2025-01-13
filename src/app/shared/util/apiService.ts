@@ -198,140 +198,153 @@ export const getUserAreas = async (customerId, sessionToken) => {
 }
 
 // POST calls
-// export const postValidate = async (API: string | URL | Request, formData: FormData) => {
-//     try {
-//         const response = await fetch(API, {
-//             method: 'POST',
-//             headers: { 'identifier': IDENTIFIER },
-//             body: formData,
-//         })
-//         const data = await response.json();
+export const postValidate = async (API: string | URL | Request, formData: FormData) => {
+    try {
+        // const response = await fetch(API, {
+        //     method: 'POST',
+        //     headers: { 'identifier': IDENTIFIER },
+        //     body: formData,
+        // })
+        // const data = await response.json();
+        console.log(API, formData);
+        const data = { success: false, message: 'POST API calls are commented', data: {} };
 
-//         if (data.success) {
-//             return { success: true, data }
-//         }
-//         else {
-//             return { success: false, message: data.message || 'Failed to validate' }
-//         }
-//     } catch (error) {
-//         console.error('Error: ', error)
-//         return { success: false, message: 'An error occurred during validation. Please try again.' }
-//     }
-// }
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to validate' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during validation. Please try again.' }
+    }
+}
 
-// export const logout = async (customerId, sessionToken) => {
+export const logout = async (customerId, sessionToken) => {
 
-//     const formData = new FormData();
-//     formData.append('customer_id', customerId); // add customer_id to form-data
+    const formData = new FormData();
+    formData.append('customer_id', customerId); // add customer_id to form-data
 
-//     try {
-//         const response = await fetch(API_ENDPOINTS.LOGOUT_URL, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': sessionToken,
-//                 'identifier': IDENTIFIER
-//             },
-//             body: formData
-//         });
+    try {
+        // const response = await fetch(API_ENDPOINTS.LOGOUT_URL, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': sessionToken,
+        //         'identifier': IDENTIFIER
+        //     },
+        //     body: formData
+        // });
 
-//         const data = await response.json();
+        // const data = await response.json();
+        console.log(customerId, sessionToken);
+        const data = { success: false, message: 'POST API calls are commented' };
 
-//         if (response.ok) {
-//             return { success: true, data };
-//         } else {
-//             return { success: false, message: data.message || 'Logout failed' };
-//         }
-//     } catch (error) {
-//         console.log('Logout error:', error);
-//         return { success: false, message: 'An error occurred during logout.' };
-//     }
-// };
+        // if (response.ok) {
+        if (data.success) {
+            return { success: true, data };
+        } else {
+            return { success: false, message: data.message || 'Logout failed' };
+        }
+    } catch (error) {
+        console.log('Logout error:', error);
+        return { success: false, message: 'An error occurred during logout.' };
+    }
+};
 
-// export const makeOrder = async (orderData: FormData, customerId) => {
-//     const url = customerId > 0 ? `${API_ENDPOINTS.POST_ORDER}?customer_id=${customerId}` : API_ENDPOINTS.POST_ORDER;
+export const makeOrder = async (orderData: FormData, customerId) => {
+    const url = customerId > 0 ? `${API_ENDPOINTS.POST_ORDER}?customer_id=${customerId}` : API_ENDPOINTS.POST_ORDER;
 
-//     try {
-//         const response = await fetch(url, {
-//             method: 'POST',
-//             headers: { 'identifier': IDENTIFIER },
-//             body: orderData,
-//         })
-//         const data = await response.json();
+    try {
+        // const response = await fetch(url, {
+        //     method: 'POST',
+        //     headers: { 'identifier': IDENTIFIER },
+        //     body: orderData,
+        // })
+        // const data = await response.json();
+        console.log(orderData, customerId, url);
+        const data = { success: false, message: 'POST API calls are commented' };
 
-//         if (data.success) {
-//             return { success: true, data }
-//         }
-//         else {
-//             return { success: false, message: data.message || 'Failed to checkout.' }
-//         }
-//     } catch (error) {
-//         console.error('Error: ', error)
-//         return { success: false, message: 'An error occurred during checkout. Please try again.' }
-//     }
-// }
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to checkout.' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during checkout. Please try again.' }
+    }
+}
 
-// export const resetPassword = async (resetPasswordData: FormData) => {
-//     try {
-//         const response = await fetch(API_ENDPOINTS.RESET_PASSWORD, {
-//             method: 'POST',
-//             headers: { 'identifier': IDENTIFIER },
-//             body: resetPasswordData,
-//         })
-//         const data = await response.json();
+export const resetPassword = async (resetPasswordData: FormData) => {
+    try {
+        // const response = await fetch(API_ENDPOINTS.RESET_PASSWORD, {
+        //     method: 'POST',
+        //     headers: { 'identifier': IDENTIFIER },
+        //     body: resetPasswordData,
+        // })
+        // const data = await response.json();
+        console.log(resetPasswordData);
+        const data = { success: false, message: 'POST API calls are commented' };
 
-//         if (data.success) {
-//             return { success: true, data }
-//         }
-//         else {
-//             return { success: false, message: data.message || 'Failed to reset password.' }
-//         }
-//     } catch (error) {
-//         console.error('Error: ', error)
-//         return { success: false, message: 'An error occurred during fetching reset password token. Please try again.' }
-//     }
-// }
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to reset password.' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during fetching reset password token. Please try again.' }
+    }
+}
 
-// export const updatePassword = async (updatePasswordData: FormData) => {
-//     try {
-//         const response = await fetch(API_ENDPOINTS.UPDATE_PASSWORD, {
-//             method: 'POST',
-//             headers: { 'identifier': IDENTIFIER },
-//             body: updatePasswordData,
-//         })
-//         const data = await response.json();
+export const updatePassword = async (updatePasswordData: FormData) => {
+    try {
+        // const response = await fetch(API_ENDPOINTS.UPDATE_PASSWORD, {
+        //     method: 'POST',
+        //     headers: { 'identifier': IDENTIFIER },
+        //     body: updatePasswordData,
+        // })
+        // const data = await response.json();
+        console.log(updatePasswordData);
+        const data = { success: false, message: 'POST API calls are commented' };
 
-//         if (data.success) {
-//             return { success: true, data }
-//         }
-//         else {
-//             return { success: false, message: data.message || 'Failed to update password.' }
-//         }
-//     } catch (error) {
-//         console.error('Error: ', error)
-//         return { success: false, message: 'An error occurred during password update. Please try again.' }
-//     }
-// }
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to update password.' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during password update. Please try again.' }
+    }
+}
 
-// export const addAddress = async (addAddressData: FormData, sessionToken) => {
-//     try {
-//         const response = await fetch(API_ENDPOINTS.ADDRESSES, {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': sessionToken,
-//                 'identifier': IDENTIFIER
-//             },
-//             body: addAddressData,
-//         })
-//         const data = await response.json();
+export const addAddress = async (addAddressData: FormData, sessionToken) => {
+    try {
+        // const response = await fetch(API_ENDPOINTS.ADDRESSES, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': sessionToken,
+        //         'identifier': IDENTIFIER
+        //     },
+        //     body: addAddressData,
+        // })
+        // const data = await response.json();
+        console.log(addAddressData, sessionToken);
+        const data = { success: false, message: 'POST API calls are commented' };
 
-//         if (data.success) {
-//             return { success: true, data }
-//         }
-//         else {
-//             return { success: false, message: data.message || 'Failed to add address' }
-//         }
-//     } catch (error) {
-//         console.error('Error: ', error)
-//         return { success: false, message: 'An error occurred during adding address. Please try again.' }
-//     }
-// }
+        if (data.success) {
+            return { success: true, data }
+        }
+        else {
+            return { success: false, message: data.message || 'Failed to add address' }
+        }
+    } catch (error) {
+        console.error('Error: ', error)
+        return { success: false, message: 'An error occurred during adding address. Please try again.' }
+    }
+}
