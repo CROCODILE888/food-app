@@ -3,6 +3,8 @@
 A modern Progressive Web App (PWA) for food ordering, built using **React** and **Next.js**.  
 This demo showcases a responsive frontend interface with dummy hardcoded data to simulate a real-world food delivery experience.
 
+💡 For best experience (since it's a PWA), if you're using a laptop or desktop, open DevTools and toggle between devices to simulate mobile views.
+
 🔗 **[View Live Demo](https://taha-the-food-ordererer.netlify.app/home)**
 
 ---
